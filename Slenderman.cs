@@ -48,8 +48,6 @@ public class Slenderman : MonoBehaviour
       return;
     }
     if (!this.is_seen) { //When not looking at Slender
-      if (this.jumpscare_meter < this.jumpscare_limit) {this.jumpscare_meter += 1 * Time.deltaTime;}
-      else {this.jumpscare_meter = this.jumpscare_limit;}
       this.transform.LookAt(player_pos);
       this.controller.Move(transform.forward * speed * Time.deltaTime);
       decreaseStatic();
