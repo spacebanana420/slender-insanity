@@ -17,8 +17,8 @@ public class Slenderman : MonoBehaviour
   public float teleport_limit = 60; //How many seconds until Slender can teleport
   public float look_meter = 0;
   public float look_limit = 5; //How many seconds until staring at Slender kills you
-  public float jumpscare_meter = 18;
-  public float jumpscare_limit = 18; //After 20 seconds of not staring at him, a jumpscare can happen again
+  public float jumpscare_meter = 15;
+  public float jumpscare_limit = 15; //After 20 seconds of not staring at him, a jumpscare can happen again
   public bool can_be_invisible = true;
   public float invisible_meter = 0;
   public float invisible_limit = 120; //How many seconds until Slender can turn invisible and become idle
@@ -153,7 +153,7 @@ public class Slenderman : MonoBehaviour
     slender_pos.y = this.player_camera.position.y+0.6f; //Make the camera look slightly up
     this.player_camera.LookAt(slender_pos);
 
-    this.kill_script.enabled = true; //Rapidly intensifies static and handles the game over event
+    this.kill_script.enabled = true; //Initiates the game over event
     this.enabled = false;
   }
 }
