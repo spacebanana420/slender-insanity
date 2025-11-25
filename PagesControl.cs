@@ -5,7 +5,7 @@ public class PagesControl : MonoBehaviour
 {
   public GameObject slenderman;
   public Slenderman slender_script;
-  public byte pages_collected = 0;
+  private byte pages_collected = 0;
   private bool first_page = true;
 
   //Slenderman's stats, difficulty adjustment
