@@ -85,11 +85,12 @@ public class Slenderman : MonoBehaviour
 
   //Teleportation logic, count the timer or teleport
   void teleport(float distance, Vector3 player_pos) {
-    //Slender can teleport if the player looks at him as long as he is decently far
     if (this.is_seen && distance <= 18) {return;}
 
     if (this.teleport_meter < this.teleport_limit) {
-      this.teleport_meter += 1 * Time.deltaTime;
+      //Slender should teleport earlier if the player looks at him from afar, for balancing
+      int increment_speed = this.is_seen ? 2 : 1;
+      this.teleport_meter += increment_speed * Time.deltaTime;
       return;
     }
     this.teleport_meter = 0; //Clamp
