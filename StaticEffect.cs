@@ -17,6 +17,11 @@ public class StaticEffect : MonoBehaviour
     StartCoroutine(moveStatic());
   }
 
+  public void stop() {
+    this.static_material.color = new Color(1f, 1f, 1f, 0);
+    this.static_sound.Stop();
+  }
+
   //Sets static transparency and volume
   public void setStatic(float percentage) {
     float transparency = 0.5f * percentage; //Max transparency should be 0.5

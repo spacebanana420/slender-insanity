@@ -20,9 +20,9 @@ public class StaticKill : MonoBehaviour
       bool no = Keyboard.current.nKey.wasPressedThisFrame;
       return;
     }
-    if (this.intensity < 0.8f) {
-      this.static_script.setStatic_death(0.8f * this.intensity);
-      this.intensity += 0.4f * Time.deltaTime;
+    if (this.intensity < 1) {
+      this.static_script.setStatic_death(this.intensity);
+      this.intensity += 0.5f * Time.deltaTime;
     }
     else {
       StartCoroutine(gameOver());
@@ -31,6 +31,7 @@ public class StaticKill : MonoBehaviour
   }
 
   IEnumerator gameOver() {
+    this.static_script.stop();
     this.static_script.enabled = false;
     this.black_screen.active = true;
     yield return new WaitForSeconds(2f);
