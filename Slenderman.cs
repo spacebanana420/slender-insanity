@@ -79,7 +79,7 @@ public class Slenderman : MonoBehaviour
 
   //Jumpscare sound logic, trigger the scare
   void jumpscare(float distance) {
-    if (this.jumpscare_meter < this.jumpscare_limit || distance < 7f) {return;}
+    if (this.jumpscare_meter < this.jumpscare_limit || distance > 7f) {return;}
     this.jumpscare_meter = 0;
     this.jumpscare_sound.Play();
     return;
