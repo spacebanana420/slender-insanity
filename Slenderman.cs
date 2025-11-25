@@ -53,7 +53,7 @@ public class Slenderman : MonoBehaviour
       this.transform.LookAt(player_pos);
       this.controller.Move(transform.forward * speed * Time.deltaTime);
       decreaseStatic();
-      jumpscare(false, distance);
+      jumpscare_count();
     }
     else { //When looking at Slender
       bool dead = distance > 18 ? false : increaseStatic();
@@ -63,22 +63,26 @@ public class Slenderman : MonoBehaviour
         kill(player_pos);
         return;
       }
-      jumpscare(true, distance);
+      jumpscare(distance);
     }
-    this.static_script.setStaticIntensity(this.look_meter/10);
+    //Sets both static transparency and volume
+    this.static_script.setStaticIntensity(this.look_meter/this.look_limit);
   }
 
-  //Jumpscare sound logic, count the timer or trigger the scare
-  void jumpscare(bool play, float distance) {
-    bool jumpscare_ready = this.jumpscare_meter == this.jumpscare_limit && distance < 7f;
-    if (play) {
-      if (!jumpscare_ready) {return;}
-      this.jumpscare_meter = 0;
-      this.jumpscare_sound.Play();
+  void jumpscare_count() {
+    if (this.jumpscare_meter < this.jumpscare_limit) {
+      this.jumpscare_meter += 1 * Time.deltaTime;
       return;
     }
-    if (this.jumpscare_meter < this.jumpscare_limit) {this.jumpscare_meter += 1 * Time.deltaTime;}
-    else {this.jumpscare_meter = this.jumpscare_limit;}
+    this.jumpscare_meter = this.jumpscare_limit; //Clamp
+  }
+
+  //Jumpscare sound logic, trigger the scare
+  void jumpscare(float distance) {
+    if (this.jumpscare_meter < this.jumpscare_limit || distance < 7f) {return;}
+    this.jumpscare_meter = 0;
+    this.jumpscare_sound.Play();
+    return;
   }
 
   //Teleportation logic, count the timer or teleport
@@ -142,8 +146,6 @@ public class Slenderman : MonoBehaviour
     }
     this.look_meter = 0;
   }
-
-  void setStaticTransparency(float intensity) {static_script.setStaticIntensity(intensity);}
 
   void kill(Vector3 player_pos) {
     this.jumpscare_sound.Play();

@@ -2,19 +2,27 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections;
 
-//Change the tiling value of the Slender static image to make it look nice
+//Animates the static effect and defines its transparency and volume
 public class StaticEffect : MonoBehaviour
 {
   public Material static_material;
-  
+  public AudioSource static_sound;
+
+  //Pseudo-random offsets for the animation
   private float[] offsets_x = new float[]{0.3f, 1.2f, 0.75f, 1.7f};
   private float[] offsets_y = new float[]{0.2f, 1.45f, 1.1f, 0.3f};
   
-  void Start() {StartCoroutine(moveStatic());}
+  void Start() {
+    this.static_sound.Play();
+    StartCoroutine(moveStatic());
+  }
 
-  //Intensity is a value between 0 and 1, modifies alpha channel
-  public void setStaticIntensity(float intensity) {
-    this.static_material.color = new Color(1f, 1f, 1f, intensity);
+  //Sets static transparency and volume
+  public void setStaticIntensity(float percentage) {
+    float transparency = 0.5f * percentage; //Max transparency should be 0.5
+    float volume = 0.3f * percentage; //Max volume should be 0.3
+    this.static_material.color = new Color(1f, 1f, 1f, transparency);
+    this.static_sound.volume = volume;
   }
 
   //Pseudo-random static animation
