@@ -64,7 +64,7 @@ public class Slenderman : MonoBehaviour
       jumpscare(distance);
     }
     //Sets both static transparency and volume
-    this.static_script.setStaticIntensity(this.look_meter/this.look_limit);
+    this.static_script.setStatic(this.look_meter/this.look_limit);
   }
 
   void jumpscare_count() {
