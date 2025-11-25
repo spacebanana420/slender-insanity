@@ -25,9 +25,13 @@ public class PagesControl : MonoBehaviour
     this.slender_script.teleport_limit = this.teleport_limits[i];
     this.slender_script.invisible_limit = this.invisible_limits[i];
     this.slender_script.can_be_invisible = this.can_be_invisible[i];
+    
     if (first_page) {
       this.slenderman.active = true;
       this.first_page = false;
-    }    
+    }
+    //Adjust static intensity according to the changes done to look_limit
+    //Prevents the player from dying for collecting a page (e.g look_limit decreases from 5 to 4 when the meter is at 4.5)
+    else {this.slender_script.look_meter -=1;}
   }
 }
