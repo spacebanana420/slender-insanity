@@ -1,5 +1,4 @@
 using UnityEngine;
-using TMPro;
 using System.Collections;
 using UnityEngine.InputSystem;
 
@@ -8,8 +7,7 @@ public class StaticKill : MonoBehaviour
 {
   public StaticEffect static_script;
   public GameObject black_screen;
-  public GameObject text_obj;
-  public TextMeshProUGUI text;
+  public TextControl text;
   
   float intensity = 0.1f;
   bool await_user_input = false;
@@ -35,8 +33,7 @@ public class StaticKill : MonoBehaviour
     this.static_script.enabled = false;
     this.black_screen.active = true;
     yield return new WaitForSeconds(2f);
-    text.text = "X/8 pages collected\nContinue? (y/n)";
-    text_obj.active = true;
+    this.text.displayText("X/8 pages collected\nContinue? (y/n)");
     this.await_user_input = true;
   }
 }

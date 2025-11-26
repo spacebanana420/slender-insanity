@@ -1,10 +1,12 @@
 using UnityEngine;
+using System.Collections;
 
 //Controls difficulty according to the number of collected pages
 public class PagesControl : MonoBehaviour
 {
   public GameObject slenderman;
   public Slenderman slender_script;
+  public TextControl text;
   private byte pages_collected = 0;
   private bool first_page = true;
 
@@ -20,6 +22,7 @@ public class PagesControl : MonoBehaviour
   public void collectPage() {
     int i = this.pages_collected;
     this.pages_collected += 1;
+    StartCoroutine(displayText(this.pages_collected));
     if (this.pages_collected == 8) {
       victory();
       return;
@@ -42,5 +45,11 @@ public class PagesControl : MonoBehaviour
 
   void victory() {//Unfinished of course
     this.slenderman.active = false;
+  }
+
+  IEnumerator displayText(byte page_count) {
+    this.text.displayText(page_count+"/8 pages collected");
+    yield return new WaitForSeconds(4);
+    this.text.close();
   }
 }
