@@ -33,7 +33,7 @@ public class StaticKill : MonoBehaviour
     this.static_script.enabled = false;
     this.black_screen.active = true;
     yield return new WaitForSeconds(2f);
-    this.text.displayText("X/8 pages collected\nContinue? (y/n)");
+    this.text.displayText("X/8 pages collected\nTry again? (y/n)"); //Placeholder
     this.await_user_input = true;
   }
 }
