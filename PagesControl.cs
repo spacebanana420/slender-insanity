@@ -20,6 +20,11 @@ public class PagesControl : MonoBehaviour
   public void collectPage() {
     int i = this.pages_collected;
     this.pages_collected += 1;
+    if (this.pages_collected == 8) {
+      victory();
+      return;
+    }
+    
     this.slender_script.speed = this.speeds[i];
     this.slender_script.look_limit = this.look_limits[i];
     this.slender_script.teleport_limit = this.teleport_limits[i];
@@ -33,5 +38,9 @@ public class PagesControl : MonoBehaviour
     //Adjust static intensity according to the changes done to look_limit
     //Prevents the player from dying for collecting a page (e.g look_limit decreases from 5 to 4 when the meter is at 4.5)
     else {this.slender_script.look_meter -=1;}
+  }
+
+  void victory() {//Unfinished of course
+    this.slenderman.active = false;
   }
 }

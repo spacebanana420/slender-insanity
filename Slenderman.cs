@@ -32,10 +32,10 @@ public class Slenderman : MonoBehaviour
   void Start() {this.static_object.active = true;}
   
   void Update() {
-    Vector3 player_pos = player.position;
-    player_pos.y = transform.position.y;
-    float distance = Vector3.Distance(transform.position, player_pos);
-    this.is_seen = model.isVisible;
+    Vector3 player_pos = this.player.position;
+    player_pos.y = this.transform.position.y;
+    float distance = Vector3.Distance(this.transform.position, player_pos);
+    this.is_seen = this.model.isVisible;
     this.debug_distance = distance;
 
     if (is_invisible()) {
