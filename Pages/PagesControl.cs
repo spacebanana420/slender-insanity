@@ -55,7 +55,7 @@ public class PagesControl : MonoBehaviour
     switch (this.pages_collected) {
       case 1:
         this.slenderman.active = true;
-        this.music[0].Play();
+        StartCoroutine(firstMusic(this.music[0]));
         return;
       case 3:
         this.music[1].Play();
@@ -70,6 +70,14 @@ public class PagesControl : MonoBehaviour
     //Adjust static intensity according to the changes done to look_limit
     //Prevents the player from dying for collecting a page (e.g look_limit decreases from 5 to 4 when the meter is at 4.5)
     if (i > 0) {this.slender_script.look_meter -= (this.look_limits[i-1]-this.look_limits[i]);}
+  }
+
+  //For the thump sound, more granular control over how frequently it's heard
+  IEnumerator firstMusic(AudioSource music) {
+    while (this.pages_collected < 8) {
+      music.Play();
+      yield return new WaitForSeconds(4);
+    }
   }
 
   void victory() {
