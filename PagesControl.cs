@@ -8,6 +8,7 @@ public class PagesControl : MonoBehaviour
   public GameObject slenderman;
   public Slenderman slender_script;
   public TextControl text;
+  public StaticEffect static_effect;
 
   //Used for random page placement in map
   public Transform[] pages;
@@ -59,6 +60,7 @@ public class PagesControl : MonoBehaviour
 
   void victory() {//Unfinished of course
     this.slenderman.active = false;
+    static_effect.reset();
   }
 
   IEnumerator displayText(byte page_count) {

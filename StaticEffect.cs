@@ -17,6 +17,10 @@ public class StaticEffect : MonoBehaviour
     StartCoroutine(moveStatic());
   }
 
+  public void reset() {
+    this.static_material.color = new Color(1f, 1f, 1f, 0);
+  }
+
   public void stop() {
     this.static_material.color = new Color(1f, 1f, 1f, 0);
     this.static_sound.Stop();
