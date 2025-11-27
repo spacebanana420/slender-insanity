@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 //Controls difficulty according to the number of collected pages
 public class PagesControl : MonoBehaviour
@@ -7,6 +8,11 @@ public class PagesControl : MonoBehaviour
   public GameObject slenderman;
   public Slenderman slender_script;
   public TextControl text;
+
+  //Used for random page placement in map
+  public Transform[] pages;
+  public List<Transform> page_placements;
+
   private byte pages_collected = 0;
   private bool first_page = true;
 
@@ -18,6 +24,14 @@ public class PagesControl : MonoBehaviour
   public float[] invisible_limits = {80, 90, 100, 110, 120, 120, 120};
   public bool[] can_be_invisible = {true, true, true, true, true, false, false};
 
+  void Start() {
+    foreach (Transform page in this.pages) {
+      int i = Random.Range(0, this.page_placements.Count-1);
+      page.position = this.page_placements[i].position;
+      page.rotation = this.page_placements[i].rotation;
+      this.page_placements.RemoveAt(i);
+    }
+  }
   
   public void collectPage() {
     int i = this.pages_collected;
