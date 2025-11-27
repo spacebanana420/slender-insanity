@@ -19,11 +19,11 @@ public class PagesControl : MonoBehaviour
 
   //Slenderman's stats, difficulty adjustment
   //One value for each page collected (1 to 7 pages)
-  public float[] speeds = {0.5f, 1, 2, 3, 4, 5, 5.5f};
-  public float[] look_limits = {8, 7, 6, 5, 4, 3, 2};
-  public float[] teleport_limits = {30, 25, 20, 15, 10, 5, 5};
-  public float[] invisible_limits = {80, 90, 100, 110, 120, 120, 120};
-  public bool[] can_be_invisible = {true, true, true, true, true, false, false};
+  float[] speeds = {0.5f, 1, 2, 3, 4, 5, 5.5f};
+  float[] look_limits = {8, 7, 6, 5, 4, 3, 2};
+  float[] teleport_limits = {30, 25, 20, 15, 10, 5, 5};
+  float[] invisible_limits = {80, 90, 100, 110, 120, 120, 120};
+  bool[] can_be_invisible = {true, true, true, true, true, false, false};
 
   void Start() {
     foreach (Transform page in this.pages) {
