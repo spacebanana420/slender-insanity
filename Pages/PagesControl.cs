@@ -15,7 +15,6 @@ public class PagesControl : MonoBehaviour
   public List<Transform> page_placements;
 
   private byte pages_collected = 0;
-  private bool first_page = true;
 
   //Slenderman's stats, difficulty adjustment
   //One value for each page collected (1 to 7 pages)
@@ -24,6 +23,7 @@ public class PagesControl : MonoBehaviour
   float[] teleport_limits = {30, 25, 20, 15, 10, 5, 5};
   float[] invisible_limits = {80, 90, 100, 110, 120, 120, 120};
   bool[] can_be_invisible = {true, true, true, true, true, false, false};
+  public AudioSource[] music;
 
   void Start() {
     foreach (Transform page in this.pages) {
@@ -49,17 +49,29 @@ public class PagesControl : MonoBehaviour
     this.slender_script.invisible_limit = this.invisible_limits[i];
     this.slender_script.can_be_invisible = this.can_be_invisible[i];
     
-    if (first_page) {
-      this.slenderman.active = true;
-      this.first_page = false;
+    switch (this.pages_collected) {
+      case 1:
+        this.slenderman.active = true;
+        this.music[0].Play();
+        return;
+      case 3:
+        this.music[1].Play();
+        break;
+      case 5:
+        this.music[2].Play();
+        break;
+      case 7:
+        this.music[3].Play();
+        break;
     }
     //Adjust static intensity according to the changes done to look_limit
     //Prevents the player from dying for collecting a page (e.g look_limit decreases from 5 to 4 when the meter is at 4.5)
-    else if (i > 0) {this.slender_script.look_meter -= (this.look_limits[i-1]-this.look_limits[i]);}
+    if (i > 0) {this.slender_script.look_meter -= (this.look_limits[i-1]-this.look_limits[i]);}
   }
 
   void victory() {//Unfinished of course
     this.static_effect.stop();
+    StartCoroutine(stopMusic());
     this.slenderman.active = false;
   }
   
@@ -71,5 +83,25 @@ public class PagesControl : MonoBehaviour
     this.text.displayText(page_count+"/8 pages collected");
     yield return new WaitForSeconds(4);
     this.text.close();
+  }
+
+  //Gradually decreases the volume of the pages music based on a percentage of their original volume
+  IEnumerator stopMusic() {
+    float[] volume_steps = new float[this.music.Length];
+    for(int i = 0; i < this.music.Length; i++) {
+      volume_steps[i] = this.music[i].volume * 0.25f; //Get the volume step to reduce every second
+    }
+    bool decreasing = true;
+    while (true) {
+      for (int i = 0; i < this.music.Length; i++) {
+        this.music[i].volume -= volume_steps[i] * Time.deltaTime; 
+      }
+      bool all_done = true;
+      foreach (AudioSource m in this.music) {
+        if (m.volume > 0) {all_done = false; break;}
+      }
+      if (all_done) {break;}
+      yield return new WaitForSeconds(0.005f);
+    }
   }
 }
