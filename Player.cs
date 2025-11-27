@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
   private float max_stamina = 10;
   public bool caught = false;
 
-  public Light flashlight;
   public Transform player_transform;
   public Transform camera_transform;
   public CharacterController controller;
@@ -28,7 +27,6 @@ public class Player : MonoBehaviour
     if (caught) return;
     moveCamera();
     movePlayer();
-    toggleFlashlight();
   }
 
   void moveCamera() {
@@ -65,12 +63,6 @@ public class Player : MonoBehaviour
       if (this.stamina < this.max_stamina) {this.stamina += 0.5f * Time.deltaTime;}
       else {this.stamina = this.max_stamina;}
       return this.walkSpeed;
-    }
-  }
-
-  void toggleFlashlight() {
-    if (Keyboard.current.fKey.wasPressedThisFrame) {
-      this.flashlight.enabled = !this.flashlight.enabled;
     }
   }
   
