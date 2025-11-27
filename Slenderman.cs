@@ -43,7 +43,7 @@ public class Slenderman : MonoBehaviour
       return;
     }
     turn_invisible();
-    teleport(distance, player_pos);
+    teleport_check(distance, player_pos);
     
     //Kill the player by proximity
     if (distance < 1.2f) {
@@ -87,7 +87,7 @@ public class Slenderman : MonoBehaviour
   }
 
   //Teleportation logic, count the timer or teleport
-  void teleport(float distance, Vector3 player_pos) {
+  void teleport_check(float distance, Vector3 player_pos) {
     if (this.is_seen && distance <= 18) {return;}
 
     if (this.teleport_meter < this.teleport_limit) {
@@ -99,6 +99,10 @@ public class Slenderman : MonoBehaviour
     this.teleport_meter = 0; //Clamp
     //Teleporting isn't worth it if Slender is close to the player
     if (distance < 8) {return;}
+    teleport(distance, player_pos);
+  }
+
+  void teleport(float distance, Vector3 player_pos) {
     this.transform.LookAt(player_pos);
     controller.Move(transform.forward * (distance-4));
   }
@@ -127,8 +131,7 @@ public class Slenderman : MonoBehaviour
     this.model.enabled = true;
     this.controller.enabled = true;
     //Teleport to keep up with the player after idling
-    this.transform.LookAt(player_pos);
-    controller.Move(transform.forward * (distance-4));
+    teleport(distance, player_pos);
   }
 
   //Returns true if the player looked for too long and so will die

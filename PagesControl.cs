@@ -59,9 +59,13 @@ public class PagesControl : MonoBehaviour
   }
 
   void victory() {//Unfinished of course
-    this.slenderman.active = false;
     this.static_effect.stop();
+    this.slenderman.active = false;
   }
+  
+  //Todo
+  // IEnumerator victoryEvent() {
+  // }
 
   IEnumerator displayText(byte page_count) {
     this.text.displayText(page_count+"/8 pages collected");
