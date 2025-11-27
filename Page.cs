@@ -15,6 +15,7 @@ public class Page : MonoBehaviour
     if (Vector3.Distance(this.transform.position, player.position) > 2) {return;}
     sound.Play();
     pages_control.collectPage();
-    this.gameObject.active = false;
+    this.page_mesh.enabled = false;
+    this.enabled = false;
   }
 }
