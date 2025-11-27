@@ -60,7 +60,7 @@ public class PagesControl : MonoBehaviour
 
   void victory() {//Unfinished of course
     this.slenderman.active = false;
-    static_effect.reset();
+    this.static_effect.stop();
   }
 
   IEnumerator displayText(byte page_count) {
