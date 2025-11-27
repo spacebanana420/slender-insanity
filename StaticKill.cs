@@ -19,7 +19,7 @@ public class StaticKill : MonoBehaviour
       return;
     }
     if (this.intensity < 1) {
-      this.static_script.setStatic_death(this.intensity);
+      this.static_script.setStatic_strong(this.intensity);
       this.intensity += 0.6f * Time.deltaTime;
     }
     else {

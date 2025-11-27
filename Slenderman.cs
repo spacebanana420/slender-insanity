@@ -14,20 +14,19 @@ public class Slenderman : MonoBehaviour
 
   //Meter and limit variables compose timers measured in seconds
   //e.g jumpscare_limit=15 means that it takes 15 seconds for the counter to end
-  public float debug_distance;
-  public float teleport_meter = 0;
+  private float teleport_meter = 0;
   public float teleport_limit = 60;
   public float look_meter = 0;
   public float look_limit = 5;
-  public float jumpscare_meter = 15;
+  private  float jumpscare_meter = 15;
   public float jumpscare_limit = 15;
 
   public bool can_be_invisible = true;
-  public float invisible_meter = 0;
+  private float invisible_meter = 0;
   public float invisible_limit = 120;
 
   public float speed = 2f;
-  private bool is_seen;
+  private bool is_seen = false;
 
   void Start() {this.static_object.active = true;}
   
@@ -36,7 +35,6 @@ public class Slenderman : MonoBehaviour
     player_pos.y = this.transform.position.y;
     float distance = Vector3.Distance(this.transform.position, player_pos);
     this.is_seen = this.model.isVisible;
-    this.debug_distance = distance;
 
     if (is_invisible()) {
       turn_visible(distance, player_pos);

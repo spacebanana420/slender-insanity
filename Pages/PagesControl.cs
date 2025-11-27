@@ -72,15 +72,20 @@ public class PagesControl : MonoBehaviour
     if (i > 0) {this.slender_script.look_meter -= (this.look_limits[i-1]-this.look_limits[i]);}
   }
 
-  void victory() {//Unfinished of course
+  void victory() {
+    this.slenderman.active = false;
     this.static_effect.stop();
     StartCoroutine(stopMusic());
-    this.slenderman.active = false;
+    StartCoroutine(victoryEvent());
   }
   
-  //Todo
-  // IEnumerator victoryEvent() {
-  // }
+  //Need to finish
+  IEnumerator victoryEvent() {
+    yield return new WaitForSeconds(15);
+    this.static_effect.setStatic_strong(1);
+    yield return new WaitForSeconds(0.3f);
+    this.static_effect.stop();
+  }
 
   IEnumerator displayText(byte page_count) {
     this.text.displayText(page_count+"/8 pages collected");

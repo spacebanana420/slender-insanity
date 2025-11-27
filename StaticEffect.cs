@@ -31,7 +31,7 @@ public class StaticEffect : MonoBehaviour
   }
 
   //Alternate mode for game over, uses more intense static (and eventually a different audio)
-  public void setStatic_death(float percentage) {
+  public void setStatic_strong(float percentage) {
     float transparency = percentage;
     float volume = 0.2f * percentage; //Max volume should be 0.2
     this.static_material.color = new Color(1f, 1f, 1f, transparency);
