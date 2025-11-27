@@ -8,11 +8,9 @@ public class TextControl : MonoBehaviour
 
   public void displayText(string text) {
     this.text_ui.text = text;
-    this.text_ui.enabled = true;
   }
 
   public void close() {
-    this.text_ui.enabled = false;
     this.text_ui.text = "";
   }
 }
