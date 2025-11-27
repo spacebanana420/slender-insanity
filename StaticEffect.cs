@@ -19,7 +19,7 @@ public class StaticEffect : MonoBehaviour
 
   public void stop() {
     this.static_material.color = new Color(1f, 1f, 1f, 0);
-    this.static_sound.Stop();
+    this.static_sound.volume = 0;
   }
 
   //Sets static transparency and volume
