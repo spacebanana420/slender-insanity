@@ -58,10 +58,8 @@ public class Player : MonoBehaviour
         this.stamina -= 1f * Time.deltaTime;
         return this.sprintSpeed;
       }
-      else {
-        this.stamina = 0;
-        return this.walkSpeed;
-      }
+      this.stamina = 0;
+      return this.walkSpeed;
     }
     else {
       if (this.stamina < this.max_stamina) {this.stamina += 0.5f * Time.deltaTime;}

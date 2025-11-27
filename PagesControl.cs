@@ -19,8 +19,8 @@ public class PagesControl : MonoBehaviour
   //Slenderman's stats, difficulty adjustment
   //One value for each page collected (1 to 7 pages)
   public float[] speeds = {0.5f, 1, 2, 3, 4, 5, 5.5f};
-  public float[] look_limits = {10, 9, 8, 7, 6, 5, 4};
-  public float[] teleport_limits = {60, 50, 40, 30, 25, 20, 15};
+  public float[] look_limits = {8, 7, 6, 5, 4, 3, 2};
+  public float[] teleport_limits = {30, 25, 20, 15, 10, 5, 5};
   public float[] invisible_limits = {80, 90, 100, 110, 120, 120, 120};
   public bool[] can_be_invisible = {true, true, true, true, true, false, false};
 
@@ -54,7 +54,7 @@ public class PagesControl : MonoBehaviour
     }
     //Adjust static intensity according to the changes done to look_limit
     //Prevents the player from dying for collecting a page (e.g look_limit decreases from 5 to 4 when the meter is at 4.5)
-    else {this.slender_script.look_meter -=1;}
+    else if (i > 0) {this.slender_script.look_meter -= (this.look_limits[i-1]-this.look_limits[i]);}
   }
 
   void victory() {//Unfinished of course
