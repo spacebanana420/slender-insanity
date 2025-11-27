@@ -26,6 +26,7 @@ public class PagesControl : MonoBehaviour
   public AudioSource[] music;
 
   void Start() {
+    //Random page placement
     foreach (Transform page in this.pages) {
       int i = Random.Range(0, this.page_placements.Count-1);
       page.position = this.page_placements[i].position;
@@ -33,7 +34,9 @@ public class PagesControl : MonoBehaviour
       this.page_placements.RemoveAt(i);
     }
   }
-  
+
+  //Each page calls this function when it's collected
+  //Handles music, Slender's difficulty as well as the level 1 victory event
   public void collectPage() {
     int i = this.pages_collected;
     this.pages_collected += 1;
