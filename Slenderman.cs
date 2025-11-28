@@ -1,5 +1,7 @@
 using UnityEngine;
 
+//Slenderman's class controls all of his behavior as well as stats
+//Includes the following mechanics: static, chasing, teleportation, teleporting to the player's front, kill event, invisibility
 public class Slenderman : MonoBehaviour
 {
   public CharacterController controller;
@@ -14,22 +16,45 @@ public class Slenderman : MonoBehaviour
 
   //Meter and limit variables compose timers measured in seconds
   //e.g jumpscare_limit=15 means that it takes 15 seconds for the counter to end
+  //Some timers change faster (e.g. invisible_meter decrementing at 2x speed)
   private float teleport_meter = 0;
-  public float teleport_limit = 60;
-  public float tp_forward_meter = 0;
-  public float tp_forward_limit = 120;
-  public bool can_teleport_forward = false;
-  public float look_meter = 0;
-  public float look_limit = 5;
+  private float teleport_limit = 60;
+  private float tp_forward_meter = 0;
+  private float tp_forward_limit = 120;
+  private bool can_teleport_forward = false;
+  private float look_meter = 0;
+  private float look_limit = 5;
   private  float jumpscare_meter = 15;
-  public float jumpscare_limit = 15;
-
-  public bool can_be_invisible = true;
+  private float jumpscare_limit = 15;
+  private bool can_be_invisible = true;
   private float invisible_meter = 0;
-  public float invisible_limit = 120;
+  private float invisible_limit = 120;
 
-  public float speed = 2f;
+  private float speed = 2f;
   private bool is_seen = false;
+
+  //Set Slenderman's difficulty stats
+  public void setTeleportation(float time, bool can_tp_forward, float forward_time) {
+    this.teleport_limit = time;
+    this.can_teleport_forward = can_tp_forward;
+    this.tp_forward_limit = forward_time;
+  }
+
+  //Set Slenderman's difficulty stats
+  public void setLookDamage(float time) {
+    this.look_limit = time;
+    //Avoids the player dying suddenly for making progress (e.g look_meter at 4.5 but look_limit changes from 5 to 4)
+    if (this.look_meter >= time) {this.look_meter = time*0.7f;}
+  }
+
+  //Set Slenderman's difficulty stats
+  public void setInvisibility(float time, bool can_be_invisible) {
+    this.invisible_limit = time;
+    this.can_be_invisible = can_be_invisible;
+  }
+
+  //Set Slenderman's difficulty stats
+  public void setChaseSpeed(float speed) {this.speed = speed;}
 
   void Start() {this.static_object.active = true;}
   

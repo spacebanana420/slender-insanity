@@ -49,14 +49,10 @@ public class PagesControl : MonoBehaviour
       victory();
       return;
     }
-    
-    this.slender_script.speed = this.speeds[i];
-    this.slender_script.look_limit = this.look_limits[i];
-    this.slender_script.teleport_limit = this.teleport_limits[i];
-    this.slender_script.tp_forward_limit = this.forward_tp_limits[i];
-    this.slender_script.can_teleport_forward = this.can_tp_forward[i];
-    this.slender_script.invisible_limit = this.invisible_limits[i];
-    this.slender_script.can_be_invisible = this.can_be_invisible[i];
+    this.slender_script.setChaseSpeed(this.speeds[i]);
+    this.slender_script.setLookDamage(this.look_limits[i]);
+    this.slender_script.setTeleportation(this.teleport_limits[i], this.can_tp_forward[i], this.forward_tp_limits[i]);
+    this.slender_script.setInvisibility(this.invisible_limits[i], this.can_be_invisible[i]);
     
     switch (this.pages_collected) {
       case 1:
@@ -73,9 +69,6 @@ public class PagesControl : MonoBehaviour
         this.music[3].Play();
         break;
     }
-    //Adjust static intensity according to the changes done to look_limit
-    //Prevents the player from dying for collecting a page (e.g look_limit decreases from 5 to 4 when the meter is at 4.5)
-    if (i > 0) {this.slender_script.look_meter -= (this.look_limits[i-1]-this.look_limits[i]);}
   }
 
   //For the thump sound, more granular control over how frequently it's heard
