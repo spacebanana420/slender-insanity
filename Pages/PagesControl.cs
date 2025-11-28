@@ -60,13 +60,13 @@ public class PagesControl : MonoBehaviour
         StartCoroutine(firstMusic(this.music[0]));
         return;
       case 3:
-        this.music[1].Play();
+        StartCoroutine(playGradual(this.music[1]));
         break;
       case 5:
-        this.music[2].Play();
+        StartCoroutine(playGradual(this.music[2]));
         break;
       case 7:
-        this.music[3].Play();
+        StartCoroutine(playGradual(this.music[3]));
         break;
     }
   }
@@ -98,6 +98,19 @@ public class PagesControl : MonoBehaviour
     this.text.displayText(page_count+"/8 pages collected");
     yield return new WaitForSeconds(4);
     this.text.close();
+  }
+
+  //Play with a fade-in
+  IEnumerator playGradual(AudioSource music) {
+    float max_volume = music.volume;
+    float volume_step = max_volume * 0.3f;
+    music.volume = 0;
+    music.Play();
+    while (music.volume < max_volume) {
+      music.volume += volume_step * Time.deltaTime;
+      yield return new WaitForSeconds(0.005f);
+    }
+    music.volume = max_volume; //Clamp
   }
 
   //Gradually decreases the volume of the pages music based on a percentage of their original volume
