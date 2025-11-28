@@ -31,24 +31,24 @@ public class Slenderman : MonoBehaviour
   void Start() {this.static_object.active = true;}
   
   void Update() {
-    Vector3 player_pos = this.player.position;
-    player_pos.y = this.transform.position.y;
-    float distance = Vector3.Distance(this.transform.position, player_pos);
+    Vector3 player_target = this.player.position; //For slender to look at
+    player_target.y = this.transform.position.y;
+    float distance = Vector3.Distance(this.transform.position, player_target);
     this.is_seen = this.model.isVisible;
 
     if (isInvisible()) {
-      visibleCheck(distance, player_pos);
+      visibleCheck(distance, player_target);
       return;
     }
-    teleport_check(distance, player_pos);
+    teleport_check(distance, player_target);
     
     //Kill the player by proximity
     if (distance < 1.2f) {
-      kill(player_pos);
+      kill(player_target);
       return;
     }
     if (!this.is_seen) { //When not looking at Slender
-      this.transform.LookAt(player_pos);
+      this.transform.LookAt(player_target);
       this.controller.Move(transform.forward * speed * Time.deltaTime);
       jumpscareCount();
       decreaseStatic();
@@ -59,7 +59,7 @@ public class Slenderman : MonoBehaviour
       //Kill the player for staring for too long
       if (dead) {
         controller.Move(transform.forward * (distance-1.2f)); //Get close to the player to be identical to death by proximity
-        kill(player_pos);
+        kill(player_target);
         return;
       }
       jumpscareCheck(distance);
@@ -80,7 +80,7 @@ public class Slenderman : MonoBehaviour
   }
 
   //Teleportation logic, count the timer or teleport
-  void teleport_check(float distance, Vector3 player_pos) {
+  void teleport_check(float distance, Vector3 player_target) {
     if (this.is_seen && distance <= 18) {return;}
 
     //Slender should teleport earlier if the player looks at him from afar, for balancing
@@ -91,18 +91,20 @@ public class Slenderman : MonoBehaviour
     
     //Teleporting isn't worth it if Slender is close to the player
     if (distance < 8) {return;}
-    teleport(distance, player_pos, false);
+    teleport(distance, player_target, false);
   }
 
-  void teleport(float distance, Vector3 player_pos, bool forward) {
+  void teleport(float distance, Vector3 player_target, bool forward) {
     if (forward) { //Teleports to the player's front instead, not used yet
       this.controller.enabled = false; //Needed for manual position changes
-      this.transform.position = this.player.position + (this.player.forward * 4);
+      Vector3 player_pos = this.player.position;
+      player_pos.y = this.transform.position.y;
+      this.transform.position = player_pos + (this.player.forward * 4);
       this.controller.enabled = true;
     }
     else {controller.Move(transform.forward * (distance-4));}
 
-    this.transform.LookAt(player_pos);
+    this.transform.LookAt(player_target);
   }
 
   bool isInvisible() {return !model.enabled;}
@@ -118,14 +120,14 @@ public class Slenderman : MonoBehaviour
   }
 
   //Count the timer to revert invisibility or become visible
-  void visibleCheck(float distance, Vector3 player_pos) {
+  void visibleCheck(float distance, Vector3 player_target) {
     this.invisible_meter = decrement(this.invisible_meter, 2);
     if (this.invisible_meter == 0) {return;}
 
     this.model.enabled = true;
     this.controller.enabled = true;
     //Teleport to keep up with the player after idling
-    teleport(distance, player_pos, false);
+    teleport(distance, player_target, false);
   }
 
   bool increaseStatic() {
@@ -137,10 +139,10 @@ public class Slenderman : MonoBehaviour
     this.look_meter = decrement(this.look_meter, 1.2f);
   }
 
-  void kill(Vector3 player_pos) {
+  void kill(Vector3 player_target) {
     this.jumpscare_sound.Play();
     this.player_controller.caught = true;
-    this.transform.LookAt(player_pos);
+    this.transform.LookAt(player_target);
     Vector3 slender_pos = this.transform.position;
     slender_pos.y = this.player_camera.position.y+0.6f; //Make the camera look slightly up
     this.player_camera.LookAt(slender_pos);
