@@ -13,6 +13,7 @@ public class PagesControl : MonoBehaviour
   //Used for random page placement in map
   public Transform[] pages;
   public List<Transform> page_placements;
+  public AudioSource[] music;
 
   private byte pages_collected = 0;
 
@@ -20,10 +21,13 @@ public class PagesControl : MonoBehaviour
   //One value for each page collected (1 to 7 pages)
   float[] speeds = {0.5f, 1, 2, 3, 4, 5, 5.5f};
   float[] look_limits = {8, 7, 6, 5, 4, 3, 2};
+  
   float[] teleport_limits = {30, 25, 20, 15, 10, 5, 5};
+  float[] forward_tp_limits = {120, 120, 120, 120, 60, 30, 15};
+  bool[] can_tp_forward = {false, false, false, true, true, true, true};
+
   float[] invisible_limits = {80, 90, 100, 110, 120, 120, 120};
   bool[] can_be_invisible = {true, true, true, true, true, false, false};
-  public AudioSource[] music;
 
   void Start() {
     //Random page placement
@@ -49,6 +53,8 @@ public class PagesControl : MonoBehaviour
     this.slender_script.speed = this.speeds[i];
     this.slender_script.look_limit = this.look_limits[i];
     this.slender_script.teleport_limit = this.teleport_limits[i];
+    this.slender_script.tp_forward_limit = this.forward_tp_limits[i];
+    this.slender_script.can_teleport_forward = this.can_tp_forward[i];
     this.slender_script.invisible_limit = this.invisible_limits[i];
     this.slender_script.can_be_invisible = this.can_be_invisible[i];
     

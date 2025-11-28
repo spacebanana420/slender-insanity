@@ -16,6 +16,9 @@ public class Slenderman : MonoBehaviour
   //e.g jumpscare_limit=15 means that it takes 15 seconds for the counter to end
   private float teleport_meter = 0;
   public float teleport_limit = 60;
+  public float tp_forward_meter = 0;
+  public float tp_forward_limit = 120;
+  public bool can_teleport_forward = false;
   public float look_meter = 0;
   public float look_limit = 5;
   private  float jumpscare_meter = 15;
@@ -83,15 +86,22 @@ public class Slenderman : MonoBehaviour
   void teleport_check(float distance, Vector3 player_target) {
     if (this.is_seen && distance <= 18) {return;}
 
-    //Slender should teleport earlier if the player looks at him from afar, for balancing
+    //Slender should teleport earlier if the player looks at him from afar
     int increment_speed = this.is_seen ? 2 : 1;
     this.teleport_meter = increment(this.teleport_meter, this.teleport_limit, increment_speed);
+    if (this.can_teleport_forward) {this.tp_forward_meter = increment(this.tp_forward_meter, this.tp_forward_limit, increment_speed);}
+    
     if (this.teleport_meter != this.teleport_limit) {return;}
     this.teleport_meter = 0;
-    
-    //Teleporting isn't worth it if Slender is close to the player
+
+    if (this.tp_forward_meter == this.tp_forward_limit) {
+      this.tp_forward_meter = 0;
+      teleport(distance, player_target, true); //Teleport to the player's front
+      return;
+    }
+    //Teleporting behind the player isn't worth it if Slender is close to the player
     if (distance < 8) {return;}
-    teleport(distance, player_target, false);
+    teleport(distance, player_target, false); //Teleport to the player's back
   }
 
   void teleport(float distance, Vector3 player_target, bool forward) {
