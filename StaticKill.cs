@@ -8,6 +8,7 @@ public class StaticKill : MonoBehaviour
   public StaticEffect static_script;
   public GameObject black_screen;
   public TextControl text;
+  public AudioSource[] music;
   
   float intensity = 0.1f;
   bool await_user_input = false;
@@ -32,6 +33,7 @@ public class StaticKill : MonoBehaviour
     this.static_script.stop();
     this.static_script.enabled = false;
     this.black_screen.active = true;
+    foreach (AudioSource track in music) {track.Stop();}
     yield return new WaitForSeconds(2f);
     this.text.displayText("X/8 pages collected\nTry again? (y/n)"); //Placeholder
     this.await_user_input = true;
