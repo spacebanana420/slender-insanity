@@ -73,9 +73,10 @@ public class PagesControl : MonoBehaviour
 
   //For the thump sound, more granular control over how frequently it's heard
   IEnumerator firstMusic(AudioSource music) {
+    music.Play();
     while (this.pages_collected < 8) {
-      music.Play();
       yield return new WaitForSeconds(4);
+      music.time = 0; //Alternative to constant Play() calls, allows external scripts to stop the music
     }
   }
 
