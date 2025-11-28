@@ -95,7 +95,7 @@ public class Slenderman : MonoBehaviour
   }
 
   void teleport(float distance, Vector3 player_pos, bool forward) {
-    if (forward) { //Teleports forward instead of backwards, not used yet
+    if (forward) { //Teleports to the player's front instead, not used yet
       this.controller.enabled = false; //Needed for manual position changes
       this.transform.position = this.player.position + (this.player.forward * 4);
       this.controller.enabled = true;
@@ -125,7 +125,7 @@ public class Slenderman : MonoBehaviour
     this.model.enabled = true;
     this.controller.enabled = true;
     //Teleport to keep up with the player after idling
-    teleport(distance, player_pos);
+    teleport(distance, player_pos, false);
   }
 
   bool increaseStatic() {
