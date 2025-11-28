@@ -105,14 +105,6 @@ public class Slenderman : MonoBehaviour
     this.transform.LookAt(player_pos);
   }
 
-  //Implement later
-  // void teleportForward(float distance, Vector3 player_pos, Vector3 player_direction) {
-  //   this.controller.enabled = false; //Needed for manual position changes
-  //   this.transform.position = this.player.position + (player_direction * 4);
-  //   this.controller.enabled = true;
-  //   this.transform.lookAt(player_pos);
-  // }
-
   bool isInvisible() {return !model.enabled;}
 
   //Count the timer for invisibility or turn invisible
