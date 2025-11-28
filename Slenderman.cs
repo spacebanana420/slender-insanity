@@ -99,7 +99,7 @@ public class Slenderman : MonoBehaviour
       this.controller.enabled = false; //Needed for manual position changes
       Vector3 player_pos = this.player.position;
       player_pos.y = this.transform.position.y;
-      this.transform.position = player_pos + (this.player.forward * 4);
+      this.transform.position = player_pos + (this.player.forward * 6);
       this.controller.enabled = true;
     }
     else {controller.Move(transform.forward * (distance-4));}
