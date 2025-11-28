@@ -36,11 +36,10 @@ public class Slenderman : MonoBehaviour
     float distance = Vector3.Distance(this.transform.position, player_pos);
     this.is_seen = this.model.isVisible;
 
-    if (is_invisible()) {
-      turn_visible(distance, player_pos);
+    if (isInvisible()) {
+      visibleCheck(distance, player_pos);
       return;
     }
-    turn_invisible();
     teleport_check(distance, player_pos);
     
     //Kill the player by proximity
@@ -51,8 +50,9 @@ public class Slenderman : MonoBehaviour
     if (!this.is_seen) { //When not looking at Slender
       this.transform.LookAt(player_pos);
       this.controller.Move(transform.forward * speed * Time.deltaTime);
+      jumpscareCount();
       decreaseStatic();
-      jumpscare_count();
+      invisibleCheck();
     }
     else { //When looking at Slender
       bool dead = distance > 18 ? false : increaseStatic();
@@ -62,22 +62,17 @@ public class Slenderman : MonoBehaviour
         kill(player_pos);
         return;
       }
-      jumpscare(distance);
+      jumpscareCheck(distance);
     }
     //Sets both static transparency and volume
     this.static_script.setStatic(this.look_meter/this.look_limit);
   }
 
-  void jumpscare_count() {
-    if (this.jumpscare_meter < this.jumpscare_limit) {
-      this.jumpscare_meter += 1 * Time.deltaTime;
-      return;
-    }
-    this.jumpscare_meter = this.jumpscare_limit; //Clamp
+  void jumpscareCount() {
+    this.jumpscare_meter = increment(this.jumpscare_meter, this.jumpscare_limit, 1);
   }
 
-  //Jumpscare sound logic, trigger the scare
-  void jumpscare(float distance) {
+  void jumpscareCheck(float distance) {
     if (this.jumpscare_meter < this.jumpscare_limit || distance > 7f) {return;}
     this.jumpscare_meter = 0;
     this.jumpscare_sound.Play();
@@ -88,21 +83,26 @@ public class Slenderman : MonoBehaviour
   void teleport_check(float distance, Vector3 player_pos) {
     if (this.is_seen && distance <= 18) {return;}
 
-    if (this.teleport_meter < this.teleport_limit) {
-      //Slender should teleport earlier if the player looks at him from afar, for balancing
-      int increment_speed = this.is_seen ? 2 : 1;
-      this.teleport_meter += increment_speed * Time.deltaTime;
-      return;
-    }
-    this.teleport_meter = 0; //Clamp
+    //Slender should teleport earlier if the player looks at him from afar, for balancing
+    int increment_speed = this.is_seen ? 2 : 1;
+    this.teleport_meter = increment(this.teleport_meter, this.teleport_limit, increment_speed);
+    if (this.teleport_meter != this.teleport_limit) {return;}
+    this.teleport_meter = 0;
+    
     //Teleporting isn't worth it if Slender is close to the player
     if (distance < 8) {return;}
-    teleport(distance, player_pos);
+    teleport(distance, player_pos, false);
   }
 
-  void teleport(float distance, Vector3 player_pos) {
+  void teleport(float distance, Vector3 player_pos, bool forward) {
+    if (forward) { //Teleports forward instead of backwards, not used yet
+      this.controller.enabled = false; //Needed for manual position changes
+      this.transform.position = this.player.position + (this.player.forward * 4);
+      this.controller.enabled = true;
+    }
+    else {controller.Move(transform.forward * (distance-4));}
+
     this.transform.LookAt(player_pos);
-    controller.Move(transform.forward * (distance-4));
   }
 
   //Implement later
@@ -113,49 +113,36 @@ public class Slenderman : MonoBehaviour
   //   this.transform.lookAt(player_pos);
   // }
 
-  bool is_invisible() {return !model.enabled;}
+  bool isInvisible() {return !model.enabled;}
 
   //Count the timer for invisibility or turn invisible
-  void turn_invisible() {
-    if (!this.can_be_invisible || this.is_seen) {return;}
-    if (this.invisible_meter < this.invisible_limit) {
-      this.invisible_meter += 1 * Time.deltaTime;
-      return;
-    }
-    this.invisible_meter = this.invisible_limit; //Clamp
+  void invisibleCheck() {
+    if (!this.can_be_invisible) {return;}
+    this.invisible_meter = increment(this.invisible_meter, this.invisible_limit, 1);
+
+    if (this.invisible_meter != this.invisible_limit) {return;}
     this.model.enabled = false;
     this.controller.enabled = false;
   }
 
   //Count the timer to revert invisibility or become visible
-  void turn_visible(float distance, Vector3 player_pos) {
-    if (this.invisible_meter > 0) {
-      this.invisible_meter -= 2 * Time.deltaTime;
-      return;
-    }
-    this.invisible_meter = 0; //Clamp
+  void visibleCheck(float distance, Vector3 player_pos) {
+    this.invisible_meter = decrement(this.invisible_meter, 2);
+    if (this.invisible_meter == 0) {return;}
+
     this.model.enabled = true;
     this.controller.enabled = true;
     //Teleport to keep up with the player after idling
     teleport(distance, player_pos);
   }
 
-  //Returns true if the player looked for too long and so will die
   bool increaseStatic() {
-    if (this.look_meter < this.look_limit) {
-      this.look_meter += 1 * Time.deltaTime;
-      return false;
-    }
-    this.look_meter = this.look_limit;
-    return true;
+    this.look_meter = increment(this.look_meter, this.look_limit, 1);
+    return this.look_meter == this.look_limit;
   }
 
   void decreaseStatic() {
-    if (this.look_meter > 0) {
-      this.look_meter -= 1.2f * Time.deltaTime;
-      return;
-    }
-    this.look_meter = 0;
+    this.look_meter = decrement(this.look_meter, 1.2f);
   }
 
   void kill(Vector3 player_pos) {
@@ -168,5 +155,20 @@ public class Slenderman : MonoBehaviour
 
     this.kill_script.enabled = true; //Initiates the game over event
     this.enabled = false;
+  }
+
+  //Generic functions for incrementing and decrementing counters with clamp
+  float increment(float counter, float max_value, float step) {
+    if (counter < max_value) {
+      return counter + step * Time.deltaTime;
+    }
+    return max_value;
+  }
+
+  float decrement(float counter, float step) {
+    if (counter > 0) {
+      return counter - step * Time.deltaTime;
+    }
+    return 0;
   }
 }
