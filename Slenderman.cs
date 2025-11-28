@@ -136,6 +136,7 @@ public class Slenderman : MonoBehaviour
       player_pos.y = this.transform.position.y;
       this.transform.position = player_pos + (this.player.forward * 6);
       this.controller.enabled = true;
+      this.jumpscare_meter = this.jumpscare_limit; //Always jumpscare in forward teleporting
     }
     else {controller.Move(transform.forward * (distance-4));}
 
