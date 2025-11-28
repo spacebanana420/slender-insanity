@@ -104,7 +104,7 @@ public class PagesControl : MonoBehaviour
   IEnumerator stopMusic() {
     float[] volume_steps = new float[this.music.Length];
     for(int i = 0; i < this.music.Length; i++) {
-      volume_steps[i] = this.music[i].volume * 0.25f; //Get the volume step to reduce every second
+      volume_steps[i] = this.music[i].volume * 0.2f; //Get the volume step to reduce every second
     }
     bool decreasing = true;
     while (true) {
