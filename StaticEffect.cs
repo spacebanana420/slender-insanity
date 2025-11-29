@@ -6,20 +6,23 @@ using System.Collections;
 public class StaticEffect : MonoBehaviour
 {
   public Material static_material;
-  public AudioSource static_sound;
+  public AudioSource sound;
+  public AudioSource sound_strong;
 
   //Pseudo-random offsets for the animation
   private float[] offsets_x = new float[]{0.3f, 1.2f, 0.75f, 1.7f};
   private float[] offsets_y = new float[]{0.2f, 1.45f, 1.1f, 0.3f};
   
   void Start() {
-    this.static_sound.Play();
+    this.sound.Play();
+    this.sound_strong.Play();
     StartCoroutine(moveStatic());
   }
 
   public void stop() {
     this.static_material.color = new Color(1f, 1f, 1f, 0);
-    this.static_sound.volume = 0;
+    this.sound.volume = 0;
+    this.sound_strong.volume = 0;
   }
 
   //Sets static transparency and volume
@@ -27,15 +30,18 @@ public class StaticEffect : MonoBehaviour
     float transparency = 0.6f * percentage; //Max transparency should be 0.5
     float volume = 0.2f * percentage; //Max volume should be 0.2
     this.static_material.color = new Color(1f, 1f, 1f, transparency);
-    this.static_sound.volume = volume;
+    this.sound.volume = volume;
+    this.sound_strong.volume = 0;
   }
 
   //Alternate mode for game over, uses more intense static (and eventually a different audio)
   public void setStatic_strong(float percentage) {
     float transparency = percentage;
-    float volume = 0.2f * percentage; //Max volume should be 0.2
+    float volume1 = 0.2f * percentage; //Max volume should be 0.2
+    float volume2 = 0.3f * percentage; //Max volume should be 0.2
     this.static_material.color = new Color(1f, 1f, 1f, transparency);
-    this.static_sound.volume = volume;
+    this.sound.volume = volume1;
+    this.sound_strong.volume = volume2;
   }
 
   //Pseudo-random static animation
