@@ -40,7 +40,7 @@ public class StaticEffect : MonoBehaviour
   public void setStatic_strong(float percentage) {
     float transparency = percentage;
     float volume1 = 0.2f * percentage; //Max volume should be 0.2
-    float volume2 = 0.3f * percentage; //Max volume should be 0.2
+    float volume2 = 0.4f * percentage; //Max volume should be 0.2
     this.static_material.color = new Color(1f, 1f, 1f, transparency);
     this.sound.volume = volume1;
     this.sound_strong.volume = volume2;
