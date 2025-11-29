@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
   public float stamina = 10;
   private float max_stamina = 10;
   public bool caught = false;
+  public bool paused = false;
 
   public Transform player_transform;
   public Transform camera_transform;
@@ -24,7 +25,7 @@ public class Player : MonoBehaviour
 
   void Update()
   {
-    if (caught) return;
+    if (caught || paused) return;
     moveCamera();
     movePlayer();
   }

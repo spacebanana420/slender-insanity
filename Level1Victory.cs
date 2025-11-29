@@ -57,6 +57,7 @@ public class Level1Victory : MonoBehaviour
     yield return new WaitForSeconds(15);
     this.orb_script.levitateOrb();
     yield return new WaitForSeconds(10);
+    this.player_script.paused = true;
     this.blank_screen.displayBlackScreen();
   }
 
