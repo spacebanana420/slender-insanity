@@ -44,7 +44,8 @@ public class PagesControl : MonoBehaviour
   public void collectPage() {
     int i = this.pages_collected;
     this.pages_collected += 1;
-    StartCoroutine(displayText(this.pages_collected));
+    this.text.displayTemporaryText(this.pages_collected+"/8 pages collected", 4);
+    
     if (this.pages_collected == 8) {
       victory();
       return;
@@ -93,12 +94,6 @@ public class PagesControl : MonoBehaviour
     this.static_effect.setStatic_strong(1);
     yield return new WaitForSeconds(0.3f);
     this.static_effect.stop();
-  }
-
-  IEnumerator displayText(byte page_count) {
-    this.text.displayText(page_count+"/8 pages collected");
-    yield return new WaitForSeconds(4);
-    this.text.close();
   }
 
   //Play with a fade-in
