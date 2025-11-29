@@ -16,6 +16,7 @@ public class Level1Victory : MonoBehaviour
   
   public StaticEffect static_script;
   public BlankScreen blank_screen;
+  public TextControl text;
   
   public AudioSource jumpscare;
   public AudioSource thunder;
@@ -59,6 +60,12 @@ public class Level1Victory : MonoBehaviour
     yield return new WaitForSeconds(10);
     this.player_script.paused = true;
     this.blank_screen.displayBlackScreen();
+    yield return new WaitForSeconds(2);
+    this.text.displayText("He is free now, and so are you...");
+    yield return new WaitForSeconds(4);
+    this.text.close();
+    yield return new WaitForSeconds(2);
+    this.text.displayText("Congratulations!");
   }
 
   //Positions Slender and the player as if the player had been caught

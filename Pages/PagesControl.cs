@@ -8,7 +8,6 @@ public class PagesControl : MonoBehaviour
   public GameObject slenderman;
   public Slenderman slender_script;
   public TextControl text;
-  public StaticEffect static_effect;
   public Level1Victory l1victory;
 
   //Used for random page placement in map
