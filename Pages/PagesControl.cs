@@ -9,6 +9,7 @@ public class PagesControl : MonoBehaviour
   public Slenderman slender_script;
   public TextControl text;
   public StaticEffect static_effect;
+  public Level1Victory l1victory;
 
   //Used for random page placement in map
   public Transform[] pages;
@@ -85,15 +86,7 @@ public class PagesControl : MonoBehaviour
     this.slenderman.active = false;
     this.static_effect.stop();
     StartCoroutine(stopMusic());
-    StartCoroutine(victoryEvent());
-  }
-  
-  //Need to finish
-  IEnumerator victoryEvent() {
-    yield return new WaitForSeconds(15);
-    this.static_effect.setStatic_strong(1);
-    yield return new WaitForSeconds(0.3f);
-    this.static_effect.stop();
+    this.l1victory.enabled = true;
   }
 
   //Play with a fade-in

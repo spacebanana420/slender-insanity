@@ -12,6 +12,8 @@ public class StaticEffect : MonoBehaviour
   //Pseudo-random offsets for the animation
   private float[] offsets_x = new float[]{0.3f, 1.2f, 0.75f, 1.7f};
   private float[] offsets_y = new float[]{0.2f, 1.45f, 1.1f, 0.3f};
+
+  void Awake() {stop();}
   
   void Start() {
     this.sound.Play();
