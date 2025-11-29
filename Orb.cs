@@ -31,7 +31,7 @@ public class Orb : MonoBehaviour
 
   }
   
-  void levitateOrb() {
+  public void levitateOrb() {
     this.levitate = true;
     //todo: play a sound
   }
