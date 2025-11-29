@@ -15,7 +15,7 @@ public class PagesControl : MonoBehaviour
   public List<Transform> page_placements;
   public AudioSource[] music;
 
-  private byte pages_collected = 0;
+  public byte pages_collected = 0;
 
   //Slenderman's stats, difficulty adjustment
   //One value for each page collected (1 to 7 pages)

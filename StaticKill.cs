@@ -6,7 +6,8 @@ using UnityEngine.InputSystem;
 public class StaticKill : MonoBehaviour
 {
   public StaticEffect static_script;
-  public GameObject black_screen;
+  public PagesControl pages_script;
+  public BlankScreen black_screen;
   public TextControl text;
   public AudioSource[] music;
   
@@ -32,10 +33,10 @@ public class StaticKill : MonoBehaviour
   IEnumerator gameOver() {
     this.static_script.stop();
     this.static_script.enabled = false;
-    this.black_screen.active = true;
+    this.black_screen.displayBlackScreen();
     foreach (AudioSource track in music) {track.Stop();}
     yield return new WaitForSeconds(2f);
-    this.text.displayText("X/8 pages collected\nTry again? (y/n)"); //Placeholder
+    this.text.displayText(this.pages_script.pages_collected+"/8 pages collected\nTry again? (y/n)"); //Placeholder
     this.await_user_input = true;
   }
 }
