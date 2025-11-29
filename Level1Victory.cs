@@ -26,7 +26,7 @@ public class Level1Victory : MonoBehaviour
     yield return new WaitForSeconds(15);
     this.static_script.setStatic_strong(1);
     yield return new WaitForSeconds(0.5f);
-    this.static_script.stop();
+    this.static_script.stopFade_strong(4);
     this.slender_script.enabled = false;
     this.slender.active = true;
     this.jumpscare.Play();

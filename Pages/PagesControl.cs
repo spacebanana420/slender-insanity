@@ -84,7 +84,7 @@ public class PagesControl : MonoBehaviour
 
   void victory() {
     this.slenderman.active = false;
-    this.static_effect.stop();
+    this.static_effect.stopFade_strong(4);
     StartCoroutine(stopMusic());
     this.l1victory.enabled = true;
   }

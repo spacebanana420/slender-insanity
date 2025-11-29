@@ -26,7 +26,7 @@ public class BlankScreen : MonoBehaviour
     while (fade_in ? transparency < 1 : transparency > 0) {
       transparency += step * Time.deltaTime;
       this.screen.color = new Color(color, color, color, transparency);
-      yield return new WaitForSeconds(0.005f);
+      yield return new WaitForSeconds(0.008f);
     }
   }
 }

@@ -27,6 +27,10 @@ public class StaticEffect : MonoBehaviour
     this.sound_strong.volume = 0;
   }
 
+  //Automate fading out static
+  public void stopFade(float time) {StartCoroutine(fadeOut(time));}
+  public void stopFade_strong(float time) {StartCoroutine(fadeOut_strong(time));}
+
   //Sets static transparency and volume
   public void setStatic(float percentage) {
     float transparency = 0.6f * percentage; //Max transparency should be 0.5
@@ -44,6 +48,26 @@ public class StaticEffect : MonoBehaviour
     this.static_material.color = new Color(1f, 1f, 1f, transparency);
     this.sound.volume = volume1;
     this.sound_strong.volume = volume2;
+  }
+
+  IEnumerator fadeOut(float time) {
+    float speed = 1/time;
+    float transparency = this.static_material.color.a;
+    while (transparency > 0) {
+      transparency -= speed * Time.deltaTime;
+      setStatic(transparency);
+      yield return new WaitForSeconds(0.01f);
+    }
+  }
+
+  IEnumerator fadeOut_strong(float time) {
+    float speed = 1/time;
+    float transparency = this.static_material.color.a;
+    while (transparency > 0) {
+      transparency -= speed * Time.deltaTime;
+      setStatic_strong(transparency);
+      yield return new WaitForSeconds(0.01f);
+    }
   }
 
   //Pseudo-random static animation
