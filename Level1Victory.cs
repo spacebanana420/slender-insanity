@@ -23,11 +23,15 @@ public class Level1Victory : MonoBehaviour
   void Start() {StartCoroutine(victoryEvent());}
 
   IEnumerator victoryEvent() {
+    //Slender vanishes
+    this.slender.active = false;
+    this.slender_script.enabled = false;
+    this.static_script.stopFade(4);
     yield return new WaitForSeconds(15);
+    //Slender re-appears
     this.static_script.setStatic_strong(1);
     yield return new WaitForSeconds(0.5f);
-    this.static_script.stopFade_strong(4);
-    this.slender_script.enabled = false;
+    this.static_script.stop();
     this.slender.active = true;
     this.jumpscare.Play();
     this.player_script.caught = true;
@@ -39,14 +43,17 @@ public class Level1Victory : MonoBehaviour
       intensity += 0.6f * Time.deltaTime;
       yield return new WaitForSeconds(0.005f);
     }
+    //Slender disappears, orb appears
     this.player_script.caught = false;
     releaseSoul(this.slender, this.orb);
     this.thunder.time=0.1f; //Remove tiny silent moment before lightning
     this.thunder.Play();    
-    this.static_script.setStatic_strong(0);
+    this.static_script.stopFade_strong(4);
     this.blank_screen.displayWhiteScreen();
     yield return new WaitForSeconds(0.5f);
     this.blank_screen.fadeFromWhite(4);
+
+    //Orb levitates and level ends
     yield return new WaitForSeconds(15);
     this.orb_script.levitateOrb();
     yield return new WaitForSeconds(10);

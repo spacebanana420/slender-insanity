@@ -52,20 +52,20 @@ public class StaticEffect : MonoBehaviour
 
   IEnumerator fadeOut(float time) {
     float speed = 1/time;
-    float transparency = this.static_material.color.a;
-    while (transparency > 0) {
-      transparency -= speed * Time.deltaTime;
-      setStatic(transparency);
+    float alpha = this.static_material.color.a;
+    while (alpha > 0) {
+      alpha -= speed * Time.deltaTime;
+      setStatic(alpha);
       yield return new WaitForSeconds(0.01f);
     }
   }
 
   IEnumerator fadeOut_strong(float time) {
     float speed = 1/time;
-    float transparency = this.static_material.color.a;
-    while (transparency > 0) {
-      transparency -= speed * Time.deltaTime;
-      setStatic_strong(transparency);
+    float alpha = this.static_material.color.a;
+    while (alpha > 0) {
+      alpha -= speed * Time.deltaTime;
+      setStatic_strong(alpha);
       yield return new WaitForSeconds(0.01f);
     }
   }

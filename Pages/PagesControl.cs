@@ -48,7 +48,8 @@ public class PagesControl : MonoBehaviour
     this.text.displayTemporaryText(this.pages_collected+"/8 pages collected", 4);
     
     if (this.pages_collected == 8) {
-      victory();
+      StartCoroutine(stopMusic());
+      this.l1victory.enabled = true;
       return;
     }
     this.slender_script.setChaseSpeed(this.speeds[i]);
@@ -80,13 +81,6 @@ public class PagesControl : MonoBehaviour
       yield return new WaitForSeconds(4);
       music.time = 0; //Alternative to constant Play() calls, allows external scripts to stop the music
     }
-  }
-
-  void victory() {
-    this.slenderman.active = false;
-    this.static_effect.stopFade_strong(4);
-    StartCoroutine(stopMusic());
-    this.l1victory.enabled = true;
   }
 
   //Play with a fade-in
