@@ -6,7 +6,7 @@ public class Orb : MonoBehaviour
   private float base_height;
   private float max_height;
   private bool levitate = false;
-  private float levitate_speed = 0.1f;
+  private float levitate_speed = 0.05f;
   
   void Start() {
     this.base_height = this.transform.position.y;
@@ -26,7 +26,7 @@ public class Orb : MonoBehaviour
     }
     pos.y += this.levitate_speed * Time.deltaTime;
     this.transform.position = pos;
-    this.levitate_speed += 0.05f * Time.deltaTime;
+    this.levitate_speed += 1.5f * Time.deltaTime;
     return;
 
   }

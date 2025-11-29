@@ -24,41 +24,42 @@ public class Level1Victory : MonoBehaviour
 
   IEnumerator victoryEvent() {
     yield return new WaitForSeconds(15);
-    float intensity = 0;
     this.static_script.setStatic_strong(1);
-    yield return new WaitForSeconds(0.3f);
+    yield return new WaitForSeconds(0.5f);
     this.static_script.stop();
     this.slender_script.enabled = false;
     this.slender.active = true;
     this.jumpscare.Play();
     this.player_script.caught = true;
     emulateDeath(this.slender.transform, this.player, this.player_cam);
-    
+
+    float intensity = 0;
     while (intensity < 1) {
       this.static_script.setStatic_strong(intensity);
       intensity += 0.6f * Time.deltaTime;
       yield return new WaitForSeconds(0.005f);
     }
     this.player_script.caught = false;
-    this.slender.active = false;
-    this.orb.active = true;
-    this.thunder.Play();
+    releaseSoul(this.slender, this.orb);
+    this.thunder.time=0.1f; //Remove tiny silent moment before lightning
+    this.thunder.Play();    
     this.static_script.setStatic_strong(0);
     this.blank_screen.displayWhiteScreen();
+    yield return new WaitForSeconds(0.5f);
     this.blank_screen.fadeFromWhite(4);
-    yield return new WaitForSeconds(10);
+    yield return new WaitForSeconds(15);
     this.orb_script.levitateOrb();
     yield return new WaitForSeconds(10);
     this.blank_screen.displayBlackScreen();
   }
 
   //Positions Slender and the player as if the player had been caught
-  //Duplicate code, taken from Slenderman.kill() and other parts of Slender's class
+  //Inspired by Slenderman.kill() and other parts of Slender's class
   void emulateDeath(Transform slender, Transform player, Transform player_cam) {
     //Move Slender next to the player, keep height the same
     Vector3 player_pos = player.position;
     player_pos.y = slender.position.y;
-    slender.position = player_pos + (player.forward * 1.2f);
+    slender.position = player_pos + (player.forward * 1.4f);
 
     //Look at Slender
     Vector3 slender_target = slender.position;
@@ -69,5 +70,14 @@ public class Level1Victory : MonoBehaviour
     Vector3 player_target = player.position;
     player_target.y = slender.position.y;
     slender.LookAt(player_target);    
+  }
+
+  //Replaces Slenderman with a soul orb
+  void releaseSoul(GameObject slender, GameObject orb) {
+    slender.active = false;
+    Vector3 slender_pos = slender.transform.position;
+    slender_pos.y = orb.transform.position.y;
+    orb.transform.position = slender_pos;
+    orb.active = true;
   }
 }

@@ -20,10 +20,11 @@ public class BlankScreen : MonoBehaviour
 
   IEnumerator fadeScreen(float time, float color, bool fade_in) {
     float transparency = this.screen.color.a;
-    if (!fade_in) {time *= -1;} //Fade-out instead
+    float step = 1/time;
+    if (!fade_in) {step *= -1;} //Fade-out instead
     
     while (fade_in ? transparency < 1 : transparency > 0) {
-      transparency += time * Time.deltaTime;
+      transparency += step * Time.deltaTime;
       this.screen.color = new Color(color, color, color, transparency);
       yield return new WaitForSeconds(0.005f);
     }
