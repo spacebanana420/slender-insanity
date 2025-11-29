@@ -3,7 +3,7 @@ using System.Collections;
 
 //Pre-defined event for level 1 victory
 //Slenderman jumpscares the player but does not kill him, revealing his "soul orb" instead
-public class SlenderOrb : MonoBehaviour
+public class Level1Victory : MonoBehaviour
 {
   public GameObject slender;
   public Orb orb_script;
