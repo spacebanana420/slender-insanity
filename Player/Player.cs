@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
     bool is_sprinting = Keyboard.current.leftShiftKey.isPressed;
     float speed = getWalkSpeed();
     controller.Move(motion * speed * Time.deltaTime);
+    controller.Move(new Vector3(0, -5 * Time.deltaTime, 0)); //Gravity
   }
 
   float getWalkSpeed() {
