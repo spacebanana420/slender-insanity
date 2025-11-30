@@ -7,7 +7,6 @@ public class Player : MonoBehaviour
   public bool caught = false;
   public bool paused = false;
 
-  //public Transform player_transform;
   public Transform camera_transform;
   public CharacterController controller;
 
