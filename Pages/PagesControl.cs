@@ -32,7 +32,7 @@ public class PagesControl : MonoBehaviour
   void Start() {
     //Random page placement
     foreach (Transform page in this.pages) {
-      int i = Random.Range(0, this.page_placements.Count-1);
+      int i = Random.Range(0, this.page_placements.Count);
       page.position = this.page_placements[i].position;
       page.rotation = this.page_placements[i].rotation;
       this.page_placements.RemoveAt(i);
