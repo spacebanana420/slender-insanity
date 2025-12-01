@@ -1,19 +1,27 @@
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 using System.Collections;
 
 //Animates the static effect and defines its transparency and volume
 public class StaticEffect : MonoBehaviour
 {
   public Material static_material;
+  public Image static_image;
   public AudioSource sound;
   public AudioSource sound_strong;
+  public bool weak_static; //Use for night/dark levels
 
   //Pseudo-random offsets for the animation
   private float[] offsets_x = new float[]{0.3f, 1.2f, 0.75f, 1.7f};
   private float[] offsets_y = new float[]{0.2f, 1.45f, 1.1f, 0.3f};
 
-  void Awake() {stop();}
+  void Awake() {
+    stop();
+    //In dark/night levels, static by default is too intense and ruins the experience, this adjusts
+    float c = this.weak_static ? 0.25f : 1;
+    float t = this.weak_static ? 0.8f : 1;
+    this.static_image.color = new Color(c, c, c, t);
+  }
   
   void Start() {
     this.sound.Play();
