@@ -19,7 +19,7 @@ public class StaticEffect : MonoBehaviour
     stop();
     //In dark/night levels, static by default is too intense and ruins the experience, this adjusts
     float c = this.weak_static ? 0.25f : 1;
-    float t = this.weak_static ? 0.6f : 1;
+    float t = this.weak_static ? 0.65f : 1;
     this.static_image.color = new Color(c, c, c, t);
   }
   
@@ -42,7 +42,7 @@ public class StaticEffect : MonoBehaviour
   //Sets static transparency and volume
   public void setStatic(float percentage) {
     float transparency = 0.6f * percentage; //Max transparency should be 0.5
-    float volume = 0.2f * percentage; //Max volume should be 0.2
+    float volume = 0.15f * percentage; //Max volume should be 0.2
     this.static_material.color = new Color(1f, 1f, 1f, transparency);
     this.sound.volume = volume;
     this.sound_strong.volume = 0;
@@ -51,8 +51,8 @@ public class StaticEffect : MonoBehaviour
   //Alternate mode for game over, uses more intense static (and eventually a different audio)
   public void setStatic_strong(float percentage) {
     float transparency = percentage;
-    float volume1 = 0.2f * percentage; //Max volume should be 0.2
-    float volume2 = 0.4f * percentage; //Max volume should be 0.2
+    float volume1 = 0.15f * percentage; //Max volume should be 0.2
+    float volume2 = 0.35f * percentage; //Max volume should be 0.2
     this.static_material.color = new Color(1f, 1f, 1f, transparency);
     this.sound.volume = volume1;
     this.sound_strong.volume = volume2;
