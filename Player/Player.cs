@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.IO;
 
 public class Player : MonoBehaviour
 {
-  public float mouseSensitivity = 0.5f;
+  public float mouse_sensitivity = 0.5f;
+  public int screenshot_scale = 1;
   public bool caught = false;
   public bool paused = false;
 
@@ -25,13 +27,25 @@ public class Player : MonoBehaviour
 
   void Update()
   {
+    takeScreenshot();
     if (caught || paused) return;
     moveCamera();
     movePlayer();
   }
 
+  void takeScreenshot() {
+    if (!Keyboard.current.pKey.wasPressedThisFrame) {return;}
+    long num = 0;
+    string filename = "slender-insanity-0.png";
+    while (File.Exists(filename)) {
+      num+=1;
+      filename = "slender-insanity-"+num+".png";
+    }
+    ScreenCapture.CaptureScreenshot(filename, this.screenshot_scale);
+  }
+
   void moveCamera() {
-    Vector2 mouseDelta = Mouse.current.delta.ReadValue() * this.mouseSensitivity;
+    Vector2 mouseDelta = Mouse.current.delta.ReadValue() * this.mouse_sensitivity;
     this.transform.Rotate(Vector3.up * mouseDelta.x);
     this.verticalRotation -= mouseDelta.y;
     this.verticalRotation = Mathf.Clamp(this.verticalRotation, -this.maxLookAngle, this.maxLookAngle);

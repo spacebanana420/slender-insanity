@@ -9,7 +9,8 @@ using System;
 //Allows the player to configure the game directly from a text file
 public class Config : MonoBehaviour
 { 
-  //Todo later, have separate setting variables for floats and ints
+  public Player player; //todo implement screenshot and mouse sensitivity
+  //todo implement camera antialiasing
   private List<string> settings = new List<string>();
   private List<string> values = new List<string>();
   private string config_path = "config.txt";
@@ -19,30 +20,35 @@ public class Config : MonoBehaviour
     string[] config = readConfig();
     if (config == null) {return;} //Todo: handle this error
     foreach (string line in config) {parseLine(line);}
-
+    
     int quality_level = readQualityLevel();
+    QualitySettings.SetQualityLevel(quality_level);
     
     Resolution[] available_res = Screen.resolutions;
     Resolution max_res = available_res[available_res.Length-1];
     int width = readInt("width", Screen.width, 640, max_res.width);
     int height = readInt("height", Screen.height, 480, max_res.height);
     bool fullscreen_mode = readBool("fullscreen", true);
+    Screen.SetResolution(width, height, fullscreen_mode);
 
     bool vsync_mode = readBool("vsync", false);
     int frame_rate = readInt("framerate", 60, 0, 501); //Min 10, max 500, disable 0
     if (frame_rate < 10 && frame_rate > 0) {frame_rate = 10;}
     if (frame_rate == 501) {frame_rate = 0;} //Unlock it instead
-    
-    float audio_volume = readFloat("volume", 0.5f, 0, 1);
-
-    QualitySettings.SetQualityLevel(quality_level);
-    Screen.SetResolution(width, height, fullscreen_mode);
     if (vsync_mode) {QualitySettings.vSyncCount = 1;}
     else {
       Application.targetFrameRate = frame_rate;
       QualitySettings.vSyncCount = 0;
     }
+    
+    float audio_volume = readFloat("volume", 0.5f, 0, 1);
     AudioListener.volume = audio_volume;
+
+    float mouse_sensitivity = readFloat("sensitivity", 0.5f, 0.1f, 3);
+    this.player.mouse_sensitivity = mouse_sensitivity;
+    
+    int screenshot_scale = readInt("screenshot_scale", 1, 1, 5);
+    this.player.screenshot_scale = screenshot_scale;
   }
 
   int readQualityLevel() {
@@ -170,6 +176,9 @@ public class Config : MonoBehaviour
       + "\n\n# Sets the audio volume, accepted values range from 0 to 1 (e.g 0.25)"
       + "\nvolume=0.3"
 
+      + "\n\n# Sets the mouse sensitivity, affecting camera look speed. Supported values range between 0.1 and 3"
+      + "\nsensitivity=0.5"
+
       + "\n\n# Sets the game's window mode, set it to false to play the game in windowed mode"
       + "\nfullscreen=true"
 
@@ -177,14 +186,17 @@ public class Config : MonoBehaviour
       + "\n#width=1920"
       + "\n#height=1080"
 
-      + "\n\n# Sets the game's quality level, supported values: low, medium, high"
+      + "\n\n# Sets the game's quality level. Supported values: low, medium, high"
       + "\nquality=high"
 
-      + "\n\n# Sets the game's framerate, supported values range between 10 and 500, set to 0 to disable framerate limit"
+      + "\n\n# Sets the game's framerate limit. Supported values range between 10 and 500, set to 0 to disable framerate limit"
       + "\nframerate=60"
 
       + "\n\n# Toggles vsync, overrides framerate setting, set to true to enable"
       + "\nvsync=false"
+
+      + "\n\n# When taking screenshots, this sets the upscaling factor. Supported values range between 1 and 5"
+      + "\nscreenshot_scale=1"
     ;
     File.WriteAllText(this.config_path, default_config);
   }
