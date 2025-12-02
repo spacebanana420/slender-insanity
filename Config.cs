@@ -163,9 +163,9 @@ public class Config : MonoBehaviour
   void createDefaultConfig() {
     string default_config =
       "# Slender: Insanity Configuration File"
-      + "\n# From this file you can configure the game's graphics and audio volume"
+      + "\n\n# From this file you can configure the game's graphics and audio volume"
       + "\n# Options are case-insensitive and incorrect configurations are safely handled with default settings" 
-      + "\n# Options that start with \"#\" are commented and will not be taken in consideration, remove the character to use them"
+      + "\n# Options that start with \"#\" are disabled, remove the character \"#\" to use them"
 
       + "\n\n# Sets the audio volume, accepted values range from 0 to 1 (e.g 0.25)"
       + "\nvolume=0.3"
