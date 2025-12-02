@@ -17,6 +17,8 @@ public class PagesControl : MonoBehaviour
 
   public byte pages_collected = 0;
 
+  private float thump_volume; //Preserves original thump volume so it can be played manually from other classes
+
   //Slenderman's stats, difficulty adjustment
   //One value for each page collected (1 to 7 pages)
   float[] speeds = {0.5f, 1, 2, 3, 4, 4.5f, 5f};
@@ -30,6 +32,7 @@ public class PagesControl : MonoBehaviour
   bool[] can_be_invisible = {true, true, true, true, true, false, false};
 
   void Start() {
+    this.thump_volume = this.music[0].volume;
     //Random page placement
     foreach (Transform page in this.pages) {
       int i = Random.Range(0, this.page_placements.Count);
@@ -37,6 +40,12 @@ public class PagesControl : MonoBehaviour
       page.rotation = this.page_placements[i].rotation;
       this.page_placements.RemoveAt(i);
     }
+  }
+
+  //External classes can play this sound, it's a nice sound to use in some parts of the game
+  public void playThump() {
+    this.music[0].volume = this.thump_volume;
+    this.music[0].Play();
   }
 
   //Each page calls this function when it's collected
