@@ -17,9 +17,10 @@ public class Config : MonoBehaviour
   //Read the config and set the quality options with safe defaults in case of incorrect configuration
   void Start() {
     string[] config = readConfig();
-    if (config == null) {return;}
+    if (config == null) {return;} //Todo: handle this error
     foreach (string line in config) {parseLine(line);}
-    int quality_level = readInt("quality", 2, 0, 2);
+
+    int quality_level = readQualityLevel();
     
     Resolution[] available_res = Screen.resolutions;
     Resolution max_res = available_res[available_res.Length-1];
@@ -27,21 +28,31 @@ public class Config : MonoBehaviour
     int height = readInt("height", Screen.height, 480, max_res.height);
     bool fullscreen_mode = readBool("fullscreen", true);
 
+    bool vsync_mode = readBool("vsync", false);
     int frame_rate = readInt("framerate", 60, 0, 501); //Min 10, max 500, disable 0
     if (frame_rate < 10 && frame_rate > 0) {frame_rate = 10;}
     if (frame_rate == 501) {frame_rate = 0;} //Unlock it instead
     
-    bool vsync_mode = readBool("vsync", false);
     float audio_volume = readFloat("volume", 0.5f, 0, 1);
 
+    QualitySettings.SetQualityLevel(quality_level);
     Screen.SetResolution(width, height, fullscreen_mode);
     if (vsync_mode) {QualitySettings.vSyncCount = 1;}
     else {
       Application.targetFrameRate = frame_rate;
       QualitySettings.vSyncCount = 0;
     }
-    QualitySettings.SetQualityLevel(quality_level);
     AudioListener.volume = audio_volume;
+  }
+
+  int readQualityLevel() {
+    string[] quality_levels = {"high", "medium", "low"};
+    string quality = readSetting("quality");
+    if (quality == null) {return 0;}
+    for (int i = 0; i < quality_levels.Length; i++) {
+      if (quality.Equals(quality_levels[i])) {return i;}
+    }
+    return 0;
   }
 
   int readInt(string setting, int default_val, int min_val, int max_val) {
@@ -110,10 +121,7 @@ public class Config : MonoBehaviour
   
   //Read the config file into an array composed of each line
   string[] readConfig() {
-    if (!File.Exists(this.config_path)) {
-      createDefaultConfig();
-      return null;
-    }
+    if (!File.Exists(this.config_path)) {createDefaultConfig();}
     
     string file = File.ReadAllText(this.config_path);
     List<string> lines = new List<string>();
@@ -136,12 +144,13 @@ public class Config : MonoBehaviour
       }
       line.Append(c);
     }
+    addLine(line, lines);
     return lines.ToArray();
   }
 
   int skipComment(string file, int start, int end) {
     for (int i = start; i < end; i++) {
-      if (file[i] == '\n') {return i+1;}
+      if (file[i] == '\n') {return i;}
     }
     return end;
   }
@@ -167,6 +176,9 @@ public class Config : MonoBehaviour
       + "\n\n# Sets the game's resolution width and height, minimum supported resolution: 640x480"
       + "\n#width=1920"
       + "\n#height=1080"
+
+      + "\n\n# Sets the game's quality level, supported values: low, medium, high"
+      + "\nquality=high"
 
       + "\n\n# Sets the game's framerate, supported values range between 10 and 500, set to 0 to disable framerate limit"
       + "\nframerate=60"
