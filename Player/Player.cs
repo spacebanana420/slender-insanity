@@ -21,10 +21,7 @@ public class Player : MonoBehaviour
 
   private float verticalRotation = 0f;
 
-  void Awake(){
-    setFramerate(120, false);
-    Cursor.lockState = CursorLockMode.Locked;
-  }
+  void Awake(){Cursor.lockState = CursorLockMode.Locked;}
 
   void Update()
   {
@@ -100,14 +97,5 @@ public class Player : MonoBehaviour
       else {this.stamina = this.max_stamina;}
       return this.walkSpeed;
     }
-  }
-  
-  void setFramerate(int fps, bool vsync) {
-    if (vsync) {
-      QualitySettings.vSyncCount = 1;
-      return;
-    }
-    QualitySettings.vSyncCount = 0;
-    Application.targetFrameRate = fps;
   }
 }
