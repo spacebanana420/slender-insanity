@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
 
   public Transform camera_transform;
   public CharacterController controller;
+  public AudioSource footsteps;
+  public AudioSource footsteps_running;
+  private float running_tempo = 1.3f; //Currently the running SFX speed is 1.3x of the original
 
   private float walkSpeed = 3f;
   private float sprintSpeed = 6f;
@@ -39,9 +42,15 @@ public class Player : MonoBehaviour
   }
 
   void movePlayer() {
+    bool forward = Keyboard.current.wKey.isPressed;
+    bool backward = Keyboard.current.sKey.isPressed;
+    bool left = Keyboard.current.aKey.isPressed;
+    bool right = Keyboard.current.dKey.isPressed;
+    bool moving = forward || backward || left || right;
+    
     Vector2 moveInput = new Vector2(
-      (Keyboard.current.dKey.isPressed ? 1f : 0f) - (Keyboard.current.aKey.isPressed ? 1f : 0f),
-      (Keyboard.current.wKey.isPressed ? 1f : 0f) - (Keyboard.current.sKey.isPressed ? 1f : 0f)
+      (right ? 1f : 0f) - (left ? 1f : 0f),
+      (forward ? 1f : 0f) - (backward ? 1f : 0f)
     ).normalized;
     Vector3 motion = this.transform.right * moveInput.x + this.transform.forward * moveInput.y;
 
@@ -49,6 +58,31 @@ public class Player : MonoBehaviour
     float speed = getWalkSpeed();
     this.controller.Move(motion * speed * Time.deltaTime);
     this.controller.Move(new Vector3(0, -5 * Time.deltaTime, 0)); //Gravity
+
+    playFootsteps(moving, is_sprinting && this.stamina > 0);
+  }
+
+  //Whole audio file contains the footstep sounds, instead of relying on one file per footstep
+  //More convenient but less flexible
+  void playFootsteps(bool moving, bool running) {
+    if (!moving) {
+      this.footsteps.Pause();
+      this.footsteps_running.Pause();
+      return;
+    }
+    if (running) {
+      this.footsteps.Pause();
+      float new_time = this.footsteps_running.time * 1.3f;
+      if (new_time > this.footsteps.clip.length) {new_time = 0;} //Bug fix for going off-bounds
+      this.footsteps.time = new_time;
+      if (this.footsteps_running.isPlaying) {return;}
+      this.footsteps_running.Play();
+      return;
+    }
+    this.footsteps_running.Pause();
+    this.footsteps_running.time = this.footsteps.time / 1.3f;
+    if (this.footsteps.isPlaying) {return;}
+    this.footsteps.Play();
   }
 
   float getWalkSpeed() {
