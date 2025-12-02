@@ -38,8 +38,8 @@ public class Level1Start : MonoBehaviour
     this.music.Play();
     this.fade_in = true;
     yield return new WaitForSeconds(2);
-    text.displayTemporaryText("Collect the 8 pages", 6);
-    yield return new WaitForSeconds(20);
+    text.displayTemporaryText("Collect the 8 pages", 8);
+    yield return new WaitForSeconds(18);
     this.fade_in = false;
     this.fade_out = true;
   }
