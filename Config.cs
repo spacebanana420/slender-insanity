@@ -165,8 +165,8 @@ public class Config : MonoBehaviour
       + "\nfullscreen=true"
 
       + "\n\n# Sets the game's resolution width and height, minimum supported resolution: 640x480"
-      + "#width=1920"
-      + "#height=1080"
+      + "\n#width=1920"
+      + "\n#height=1080"
 
       + "\n\n# Sets the game's framerate, supported values range between 10 and 500, set to 0 to disable framerate limit"
       + "\nframerate=60"
