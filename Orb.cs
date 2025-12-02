@@ -3,6 +3,7 @@ using UnityEngine;
 //Floating orb
 public class Orb : MonoBehaviour
 {
+  public AudioSource sound;
   private float base_height;
   private float max_height;
   private bool levitate = false;
@@ -10,7 +11,7 @@ public class Orb : MonoBehaviour
   
   void Start() {
     this.base_height = this.transform.position.y;
-    this.max_height = this.base_height+30;
+    this.max_height = this.base_height+50;
   }
 
   void Update() {
@@ -26,8 +27,9 @@ public class Orb : MonoBehaviour
     }
     //Levitate
     pos.y += this.levitate_speed * Time.deltaTime;
+    this.sound.pitch += 0.5f * Time.deltaTime;
     this.transform.position = pos;
-    this.levitate_speed += 3f * Time.deltaTime;
+    this.levitate_speed += 3.5f * Time.deltaTime;
     return;
 
   }
