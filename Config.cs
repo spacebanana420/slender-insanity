@@ -12,7 +12,8 @@ public class Config : MonoBehaviour
   //Todo later, have separate setting variables for floats and ints
   private List<string> settings = new List<string>();
   private List<string> values = new List<string>();
-
+  private string config_path = "config.txt";
+  
   //Read the config and set the quality options with safe defaults in case of incorrect configuration
   void Start() {
     string[] config = readConfig();
@@ -21,13 +22,13 @@ public class Config : MonoBehaviour
     int quality_level = readInt("quality", 2, 0, 2);
     
     Resolution[] available_res = Screen.resolutions;
-    Resolution min_res = available_res[0];
     Resolution max_res = available_res[available_res.Length-1];
-    int width = readInt("width", Screen.width, min_res.width, max_res.width);
-    int height = readInt("height", Screen.height, min_res.height, max_res.height);
+    int width = readInt("width", Screen.width, 640, max_res.width);
+    int height = readInt("height", Screen.height, 480, max_res.height);
     bool fullscreen_mode = readBool("fullscreen", true);
 
-    int frame_rate = readInt("framerate", 60, 5, 501); //True max framerate is 500
+    int frame_rate = readInt("framerate", 60, 0, 501); //Min 10, max 500, disable 0
+    if (frame_rate < 10 && frame_rate > 0) {frame_rate = 10;}
     if (frame_rate == 501) {frame_rate = 0;} //Unlock it instead
     
     bool vsync_mode = readBool("vsync", false);
@@ -109,8 +110,13 @@ public class Config : MonoBehaviour
   
   //Read the config file into an array composed of each line
   string[] readConfig() {
+    if (!File.Exists(this.config_path)) {
+      createDefaultConfig();
+      return null;
+    }
+    
+    string file = File.ReadAllText(this.config_path);
     List<string> lines = new List<string>();
-    string file = File.ReadAllText("config.txt");
     if (file == null) {return null;}
     StringBuilder line = new StringBuilder();
     
@@ -143,5 +149,31 @@ public class Config : MonoBehaviour
   void addLine(StringBuilder line, List<string> lines) {
     if (line.Length == 0) {return;}
     lines.Add(line.ToString().Trim());
+  }
+
+  void createDefaultConfig() {
+    string default_config =
+      "# Slender: Insanity Configuration File"
+      + "\n# From this file you can configure the game's graphics and audio volume"
+      + "\n# Options are case-insensitive and incorrect configurations are safely handled with default settings" 
+      + "\n# Options that start with \"#\" are commented and will not be taken in consideration, remove the character to use them"
+
+      + "\n\n# Sets the audio volume, accepted values range from 0 to 1 (e.g 0.25)"
+      + "\nvolume=0.3"
+
+      + "\n\n# Sets the game's window mode, set it to false to play the game in windowed mode"
+      + "\nfullscreen=true"
+
+      + "\n\n# Sets the game's resolution width and height, minimum supported resolution: 640x480"
+      + "#width=1920"
+      + "#height=1080"
+
+      + "\n\n# Sets the game's framerate, supported values range between 10 and 500, set to 0 to disable framerate limit"
+      + "\nframerate=60"
+
+      + "\n\n# Toggles vsync, overrides framerate setting, set to true to enable"
+      + "\nvsync=false"
+    ;
+    File.WriteAllText(this.config_path, default_config);
   }
 }
