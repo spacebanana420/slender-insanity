@@ -180,7 +180,7 @@ public class Slenderman : MonoBehaviour
   }
 
   void decreaseStatic() {
-    this.look_meter = decrement(this.look_meter, 1.2f);
+    this.look_meter = decrement(this.look_meter, 0.9f);
   }
 
   void kill(Vector3 player_target) {
