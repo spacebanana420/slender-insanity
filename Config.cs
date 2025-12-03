@@ -41,7 +41,7 @@ public class Config : MonoBehaviour
       QualitySettings.vSyncCount = 0;
     }
     
-    float audio_volume = readFloat("volume", 0.5f, 0, 1);
+    float audio_volume = readFloat("volume", 1, 0, 1);
     AudioListener.volume = audio_volume;
 
     float mouse_sensitivity = readFloat("sensitivity", 0.5f, 0.1f, 3);
@@ -174,7 +174,7 @@ public class Config : MonoBehaviour
       + "\n# Options that start with \"#\" are disabled, remove the character \"#\" to use them"
 
       + "\n\n# Sets the audio volume, accepted values range from 0 to 1 (e.g 0.25)"
-      + "\nvolume=0.3"
+      + "\nvolume=1"
 
       + "\n\n# Sets the mouse sensitivity, affecting camera look speed. Supported values range between 0.1 and 3"
       + "\nsensitivity=0.5"
