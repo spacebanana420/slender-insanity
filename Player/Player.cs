@@ -67,8 +67,8 @@ public class Player : MonoBehaviour
 
     bool is_sprinting = Keyboard.current.leftShiftKey.isPressed;
     float speed = getWalkSpeed();
+    motion.y = -5 * Time.deltaTime; //Gravity
     this.controller.Move(motion * speed * Time.deltaTime);
-    this.controller.Move(new Vector3(0, -5 * Time.deltaTime, 0)); //Gravity
 
     playFootsteps(moving, is_sprinting && this.stamina > 0);
   }

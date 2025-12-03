@@ -81,8 +81,9 @@ public class Slenderman : MonoBehaviour
     }
     if (!this.is_seen) { //When not looking at Slender
       this.transform.LookAt(player_target);
-      this.controller.Move(transform.forward * speed * Time.deltaTime);
-      this.controller.Move(new Vector3(0, -10 * Time.deltaTime, 0)); //Gravity
+      Vector3 motion = transform.forward * speed;
+      motion.y = -10; //Gravity
+      this.controller.Move(motion * Time.deltaTime);
       jumpscareCount();
       decreaseStatic();
       invisibleCheck();
