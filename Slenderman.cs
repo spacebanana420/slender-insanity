@@ -13,6 +13,7 @@ public class Slenderman : MonoBehaviour
   public GameObject static_object;
   public StaticEffect static_script; //Handles the static effect
   public StaticKill kill_script; //Rapidly increases static, for the death screen
+  public Terrain terrain;
 
   //Meter and limit variables compose timers measured in seconds
   //e.g jumpscare_limit=15 means that it takes 15 seconds for the counter to end
@@ -63,43 +64,48 @@ public class Slenderman : MonoBehaviour
   void Start() {this.static_object.active = true;}
   
   void Update() {
-    Vector3 player_target = this.player.position; //For slender to look at
-    player_target.y = this.transform.position.y;
-    float distance = Vector3.Distance(this.transform.position, player_target);
+    float distance = Vector3.Distance(this.transform.position, this.player.position);
     this.is_seen = this.model.isVisible;
 
     if (isInvisible()) {
-      visibleCheck(distance, player_target);
+      visibleCheck(distance);
       return;
     }
-    teleport_check(distance, player_target);
+    teleport_check(distance);
     
     //Kill the player by proximity
     if (distance < 1.2f) {
-      kill(player_target);
+      kill();
       return;
     }
     if (!this.is_seen) { //When not looking at Slender
-      this.transform.LookAt(player_target);
-      Vector3 motion = transform.forward * speed;
-      motion.y = -10; //Gravity
-      this.controller.Move(motion * Time.deltaTime);
       jumpscareCount();
       decreaseStatic();
       invisibleCheck();
+      lookAtPlayer();
+      Vector3 motion = transform.forward * speed;
+      motion.y = -10; //Gravity
+      this.controller.Move(motion * Time.deltaTime);
     }
     else { //When looking at Slender
       bool dead = distance > 18 ? false : increaseStatic();
       //Kill the player for staring for too long
       if (dead) {
         controller.Move(transform.forward * (distance-1.2f)); //Get close to the player to be identical to death by proximity
-        kill(player_target);
+        controller.Move(new Vector3(0, -100, 0));
+        kill();
         return;
       }
       jumpscareCheck(distance);
     }
     //Sets both static transparency and volume
     this.static_script.setStatic(this.look_meter/this.look_limit);
+  }
+
+  void lookAtPlayer() {
+    Vector3 look_target = this.player.position;
+    look_target.y = this.transform.position.y;
+    this.transform.LookAt(look_target);
   }
 
   void jumpscareCount() {
@@ -114,7 +120,7 @@ public class Slenderman : MonoBehaviour
   }
 
   //Teleportation logic, count the timer or teleport
-  void teleport_check(float distance, Vector3 player_target) {
+  void teleport_check(float distance) {
     if (this.is_seen && distance <= 18) {return;}
 
     //Slender should teleport earlier if the player looks at him from afar
@@ -127,26 +133,31 @@ public class Slenderman : MonoBehaviour
 
     if (this.tp_forward_meter == this.tp_forward_limit) {
       this.tp_forward_meter = 0;
-      teleport(distance, player_target, true); //Teleport to the player's front
+      teleport(distance, true); //Teleport to the player's front
       return;
     }
     //Teleporting behind the player isn't worth it if Slender is close to the player
     if (distance < 8) {return;}
-    teleport(distance, player_target, false); //Teleport to the player's back
+    teleport(distance, false); //Teleport to the player's back
   }
 
-  void teleport(float distance, Vector3 player_target, bool forward) {
-    if (forward) { //Teleports to the player's front instead, not used yet
-      this.controller.enabled = false; //Needed for manual position changes
-      Vector3 player_pos = this.player.position;
-      player_pos.y = this.transform.position.y;
-      this.transform.position = player_pos + (this.player.forward * 6);
+  //Slenderman can teleport to the player's front or not
+  //If he creeps up behind the player, he simply moves very fast, following collisions properly
+  //In forward teleportation, he is manually positioned and then gravity is applied so he doesn't stand mid-air
+  void teleport(float distance, bool forward) {
+    //Teleports to the player's front instead
+    if (forward) {
+      this.controller.enabled = false;
+      Vector3 new_position = this.player.position + (this.player.forward * 6);
+      new_position.y = this.terrain.SampleHeight(new_position)+1.5f; //Prevents the possibility of teleporting below ground
+      this.transform.position = new_position;
       this.controller.enabled = true;
-      this.jumpscare_meter = this.jumpscare_limit; //Always jumpscare in forward teleporting
+      this.jumpscare_meter = this.jumpscare_limit;
     }
-    else {controller.Move(transform.forward * (distance-this.teleport_distance));}
-
-    this.transform.LookAt(player_target);
+    //Teleport behind the player instead
+    else {this.controller.Move(transform.forward * (distance-this.teleport_distance));}
+    this.controller.Move(new Vector3(0, -100, 0)); //Gravity
+    lookAtPlayer();
   }
 
   bool isInvisible() {return !model.enabled;}
@@ -161,8 +172,8 @@ public class Slenderman : MonoBehaviour
     this.controller.enabled = false;
   }
 
-  //Count the timer to revert invisibility or become visible
-  void visibleCheck(float distance, Vector3 player_target) {
+  //Invisibility duration countdown, then become visible
+  void visibleCheck(float distance) {
     this.invisible_countdown = decrement(this.invisible_countdown, 1);
     if (this.invisible_countdown != 0) {return;}
     this.invisible_countdown = 30;
@@ -170,8 +181,7 @@ public class Slenderman : MonoBehaviour
 
     this.model.enabled = true;
     this.controller.enabled = true;
-    //Teleport to keep up with the player after idling
-    teleport(distance, player_target, false);
+    teleport(distance, false);
   }
 
   bool increaseStatic() {
@@ -183,13 +193,13 @@ public class Slenderman : MonoBehaviour
     this.look_meter = decrement(this.look_meter, 0.9f);
   }
 
-  void kill(Vector3 player_target) {
+  void kill() {
     this.jumpscare_sound.Play();
     this.player_controller.caught = true;
-    this.transform.LookAt(player_target);
     Vector3 slender_pos = this.transform.position;
     slender_pos.y = this.player_camera.position.y+0.6f; //Make the camera look slightly up
     this.player_camera.LookAt(slender_pos);
+    lookAtPlayer();
 
     this.kill_script.enabled = true; //Initiates the game over event
     this.enabled = false;
