@@ -44,8 +44,8 @@ public class Config : MonoBehaviour
     float audio_volume = readFloat("volume", 1, 0, 1);
     AudioListener.volume = audio_volume;
 
-    float mouse_sensitivity = readFloat("sensitivity", 0.5f, 0.1f, 3);
-    this.player.mouse_sensitivity = mouse_sensitivity;
+    float mouse_sensitivity = readFloat("sensitivity", 2f, 0.1f, 20);
+    this.player.mouse_sensitivity = mouse_sensitivity * 0.2f;
     
     int screenshot_scale = readInt("screenshot_scale", 1, 1, 5);
     this.player.screenshot_scale = screenshot_scale;
@@ -176,8 +176,8 @@ public class Config : MonoBehaviour
       + "\n\n# Sets the audio volume, accepted values range from 0 to 1 (e.g 0.25)"
       + "\nvolume=1"
 
-      + "\n\n# Sets the mouse sensitivity, affecting camera look speed. Supported values range between 0.1 and 3"
-      + "\nsensitivity=0.5"
+      + "\n\n# Sets the mouse sensitivity, affecting camera look speed. Supported values range between 0.1 and 20"
+      + "\nsensitivity=2"
 
       + "\n\n# Sets the game's window mode, set it to false to play the game in windowed mode"
       + "\nfullscreen=true"

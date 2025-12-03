@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
   public float mouse_sensitivity = 0.5f;
   public int screenshot_scale = 1;
   public bool caught = false;
-  public bool paused = false;
+  private bool paused = false;
 
   public Transform camera_transform;
   public CharacterController controller;
@@ -27,14 +27,31 @@ public class Player : MonoBehaviour
 
   void Update()
   {
+    pauseGame();
     takeScreenshot();
-    if (caught || paused) {
+    if (this.caught || this.paused) {
       this.footsteps.Pause();
       this.footsteps_running.Pause();
       return;
     }
     moveCamera();
     movePlayer();
+  }
+
+  void pauseGame() {
+    if (this.caught) {return;}
+    if (!Keyboard.current.escapeKey.wasPressedThisFrame) {return;}
+    if (this.paused) {
+      Cursor.lockState = CursorLockMode.Locked;
+      Time.timeScale = 1;
+      AudioListener.pause = false;
+      this.paused = false;
+      return;
+    }
+    Cursor.lockState = CursorLockMode.None;
+    Time.timeScale = 0;
+    AudioListener.pause = true;
+    this.paused = true;
   }
 
   void takeScreenshot() {
