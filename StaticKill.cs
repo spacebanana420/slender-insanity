@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 //Game over class, handles static and game over logic
 public class StaticKill : MonoBehaviour
@@ -13,20 +14,26 @@ public class StaticKill : MonoBehaviour
   
   float intensity = 0.1f;
   bool await_user_input = false;
+  bool stop_check = false;
  
   void Update() {
     if (await_user_input) {
       bool yes = Keyboard.current.yKey.wasPressedThisFrame;
       bool no = Keyboard.current.nKey.wasPressedThisFrame;
+      if (yes) {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        return;
+      }
       return;
     }
+    if (stop_check) {return;}
     if (this.intensity < 1) {
       this.static_script.setStatic_strong(this.intensity);
       this.intensity += 0.6f * Time.deltaTime;
     }
     else {
       StartCoroutine(gameOver());
-      this.enabled = false;
+      this.stop_check = true;
     }
   }
 
