@@ -29,6 +29,7 @@ public class Slenderman : MonoBehaviour
   private bool can_be_invisible = true;
   private float invisible_meter = 0;
   private float invisible_limit = 120;
+  private float invisible_countdown = 30;
 
   private float speed = 2f;
   private bool is_seen = false;
@@ -158,8 +159,10 @@ public class Slenderman : MonoBehaviour
 
   //Count the timer to revert invisibility or become visible
   void visibleCheck(float distance, Vector3 player_target) {
-    this.invisible_meter = decrement(this.invisible_meter, 2);
-    if (this.invisible_meter != 0) {return;}
+    this.invisible_countdown = decrement(this.invisible_countdown, 1);
+    if (this.invisible_countdown != 0) {return;}
+    this.invisible_countdown = 30;
+    this.invisible_meter = 0;
 
     this.model.enabled = true;
     this.controller.enabled = true;
