@@ -28,7 +28,11 @@ public class Player : MonoBehaviour
   void Update()
   {
     takeScreenshot();
-    if (caught || paused) return;
+    if (caught || paused) {
+      this.footsteps.Pause();
+      this.footsteps_running.Pause();
+      return;
+    }
     moveCamera();
     movePlayer();
   }
@@ -76,7 +80,7 @@ public class Player : MonoBehaviour
   //Whole audio file contains the footstep sounds, instead of relying on one file per footstep
   //More convenient but less flexible
   void playFootsteps(bool moving, bool running) {
-    if (!moving || this.caught || this.paused) {
+    if (!moving) {
       this.footsteps.Pause();
       this.footsteps_running.Pause();
       return;
