@@ -32,6 +32,7 @@ public class Slenderman : MonoBehaviour
   private float invisible_countdown = 30;
 
   private float speed = 2f;
+  private float teleport_distance = 4;
   private bool is_seen = false;
 
   //Set Slenderman's difficulty stats
@@ -56,6 +57,8 @@ public class Slenderman : MonoBehaviour
 
   //Set Slenderman's difficulty stats
   public void setChaseSpeed(float speed) {this.speed = speed;}
+
+  public void setTeleportDistance(float dist) {this.teleport_distance = dist;}
 
   void Start() {this.static_object.active = true;}
   
@@ -140,7 +143,7 @@ public class Slenderman : MonoBehaviour
       this.controller.enabled = true;
       this.jumpscare_meter = this.jumpscare_limit; //Always jumpscare in forward teleporting
     }
-    else {controller.Move(transform.forward * (distance-4));}
+    else {controller.Move(transform.forward * (distance-this.teleport_distance));}
 
     this.transform.LookAt(player_target);
   }
