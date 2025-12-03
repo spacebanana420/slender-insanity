@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
   public float mouse_sensitivity = 0.5f;
   public int screenshot_scale = 1;
   public bool caught = false;
-  private bool paused = false;
+  public bool paused = false;
 
   public Transform camera_transform;
   public CharacterController controller;
