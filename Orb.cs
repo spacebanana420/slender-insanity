@@ -27,9 +27,9 @@ public class Orb : MonoBehaviour
     }
     //Levitate
     pos.y += this.levitate_speed * Time.deltaTime;
-    this.sound.pitch += 0.5f * Time.deltaTime;
+    this.sound.pitch += 0.1f * Time.deltaTime;
     this.transform.position = pos;
-    this.levitate_speed += 3.5f * Time.deltaTime;
+    this.levitate_speed += 3.2f * Time.deltaTime;
     return;
 
   }
