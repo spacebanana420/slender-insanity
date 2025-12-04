@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
 
   void Update()
   {
-    pauseGame();
+    checkPause();
     takeScreenshot();
     if (this.caught || this.paused) {
       this.footsteps.Pause();
@@ -39,7 +39,15 @@ public class Player : MonoBehaviour
     movePlayer();
   }
 
-  //Used by UI buttons to unpause game
+  //Pause and unpause
+  void checkPause() {
+    if (this.caught) {return;}
+    if (!Keyboard.current.escapeKey.wasPressedThisFrame) {return;}
+
+    if (this.paused) {unpauseGame();}
+    else {pauseGame();}
+  }
+
   public void unpauseGame() {
     Cursor.lockState = CursorLockMode.Locked;
     Time.timeScale = 1;
@@ -48,18 +56,7 @@ public class Player : MonoBehaviour
     this.paused = false;
   }
 
-  //Pause and unpause, used internally
   void pauseGame() {
-    if (this.caught) {return;}
-    if (!Keyboard.current.escapeKey.wasPressedThisFrame) {return;}
-    if (this.paused) {
-      Cursor.lockState = CursorLockMode.Locked;
-      Time.timeScale = 1;
-      AudioListener.pause = false;
-      this.pause_menu.active = false;
-      this.paused = false;
-      return;
-    }
     Cursor.lockState = CursorLockMode.None;
     Time.timeScale = 0;
     AudioListener.pause = true;
