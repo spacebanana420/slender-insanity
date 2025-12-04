@@ -4,20 +4,24 @@ using UnityEngine;
 //Includes the following mechanics: static, chasing, teleportation, teleporting to the player's front, kill event, invisibility
 public class Slenderman : MonoBehaviour
 {
+  //Slender's components
   public CharacterController controller;
   public MeshRenderer model;
+
+  //Player's components
   public Transform player;
   public Transform player_camera;
   public Player player_controller;
+  
   public AudioSource jumpscare_sound;
   public GameObject static_object;
   public StaticEffect static_script; //Handles the static effect
   public StaticKill kill_script; //Rapidly increases static, for the death screen
   public Terrain terrain;
 
-  //Meter and limit variables compose timers measured in seconds
+  //Variables used for counting timers
   //e.g jumpscare_limit=15 means that it takes 15 seconds for the counter to end
-  //Some timers change faster (e.g. invisible_meter decrementing at 2x speed)
+  //Some timers count faster (e.g. teleport_meter counting faster when Slender is seen from afar)
   private float teleport_meter = 0;
   private float teleport_limit = 60;
   private float tp_forward_meter = 0;
@@ -63,7 +67,9 @@ public class Slenderman : MonoBehaviour
   public void setTeleportDistance(float dist) {this.teleport_distance = dist;}
 
   void Start() {this.static_object.active = true;}
-  
+
+  //Slender's primary function, handles all logic from a high level
+  //Most functions it calls check for whether he is visible to the player or not
   void Update() {
     float distance = Vector3.Distance(this.transform.position, this.player.position);
     this.looking_at = this.model.isVisible; //Slenderman in player's field of view
@@ -87,7 +93,7 @@ public class Slenderman : MonoBehaviour
     }
 
     jumpscareCheck(distance);
-    teleport_check(distance);
+    teleportCheck(distance);
     
     if (!this.looking_at) {
       lookAtPlayer();
@@ -124,7 +130,7 @@ public class Slenderman : MonoBehaviour
   }
 
   //Teleportation logic, count the timer or teleport
-  void teleport_check(float distance) {
+  void teleportCheck(float distance) {
     if (this.is_seen && distance <= 18) {return;}
 
     //Slender should teleport earlier if the player looks at him from afar
