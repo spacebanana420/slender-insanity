@@ -64,6 +64,7 @@ public class Slenderman : MonoBehaviour
   //Set Slenderman's difficulty stats
   public void setChaseSpeed(float speed) {this.speed = speed;}
 
+  //Set Slenderman's difficulty stats
   public void setTeleportDistance(float dist) {this.teleport_distance = dist;}
 
   void Start() {this.static_object.active = true;}
@@ -107,7 +108,7 @@ public class Slenderman : MonoBehaviour
   bool isSeenByPlayer() {
     if (!this.model.isVisible) {return false;}
     RaycastHit hit_info;
-    bool collided = Physics.Raycast(this.player_camera.position, this.transform.position-this.player_camera.position, out hit_info, 200);
+    bool collided = Physics.Raycast(this.player_camera.position, this.transform.position-this.player_camera.position, out hit_info, 30);
     if (!collided) {return false;}
     return hit_info.collider.gameObject == this.gameObject;
   }
