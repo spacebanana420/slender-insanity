@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
   public CharacterController controller;
   public AudioSource footsteps;
   public AudioSource footsteps_running;
+  public GameObject pause_menu;
   private float running_tempo = 1.3f; //Currently the running SFX speed is 1.3x of the original
 
   private float walkSpeed = 3f;
@@ -38,6 +39,16 @@ public class Player : MonoBehaviour
     movePlayer();
   }
 
+  //Used by UI buttons to unpause game
+  public void unpauseGame() {
+    Cursor.lockState = CursorLockMode.Locked;
+    Time.timeScale = 1;
+    AudioListener.pause = false;
+    this.pause_menu.active = false;
+    this.paused = false;
+  }
+
+  //Pause and unpause, used internally
   void pauseGame() {
     if (this.caught) {return;}
     if (!Keyboard.current.escapeKey.wasPressedThisFrame) {return;}
@@ -45,12 +56,14 @@ public class Player : MonoBehaviour
       Cursor.lockState = CursorLockMode.Locked;
       Time.timeScale = 1;
       AudioListener.pause = false;
+      this.pause_menu.active = false;
       this.paused = false;
       return;
     }
     Cursor.lockState = CursorLockMode.None;
     Time.timeScale = 0;
     AudioListener.pause = true;
+    this.pause_menu.active = true;
     this.paused = true;
   }
 
