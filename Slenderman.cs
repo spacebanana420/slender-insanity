@@ -34,6 +34,7 @@ public class Slenderman : MonoBehaviour
 
   private float speed = 2f;
   private float teleport_distance = 4;
+  private bool looking_at = false;
   private bool is_seen = false;
 
   //Set Slenderman's difficulty stats
@@ -65,41 +66,44 @@ public class Slenderman : MonoBehaviour
   
   void Update() {
     float distance = Vector3.Distance(this.transform.position, this.player.position);
-    this.is_seen = this.model.isVisible;
+    this.looking_at = this.model.isVisible; //Slenderman in player's field of view
+    this.is_seen = isSeenByPlayer(); //Slenderman visible from player's field of view
 
     if (isInvisible()) {
       visibleCheck(distance);
       return;
     }
-    teleport_check(distance);
-    
     //Kill the player by proximity
     if (distance < 1.2f) {
       kill();
       return;
     }
-    if (!this.is_seen) { //When not looking at Slender
-      jumpscareCount();
-      decreaseStatic();
-      invisibleCheck();
+    bool stare_death = adjustStatic(distance);
+    if (stare_death) { //Kill the player for staring for too long
+      controller.Move(transform.forward * (distance-1.2f)); //Get close to the player to be identical to death by proximity
+      controller.Move(new Vector3(0, -100, 0));
+      kill();
+      return;
+    }
+
+    jumpscareCheck(distance);
+    teleport_check(distance);
+    
+    if (!this.looking_at) {
       lookAtPlayer();
       Vector3 motion = transform.forward * speed;
       motion.y = -10; //Gravity
       this.controller.Move(motion * Time.deltaTime);
+      invisibleCheck();
     }
-    else { //When looking at Slender
-      bool dead = distance > 18 ? false : increaseStatic();
-      //Kill the player for staring for too long
-      if (dead) {
-        controller.Move(transform.forward * (distance-1.2f)); //Get close to the player to be identical to death by proximity
-        controller.Move(new Vector3(0, -100, 0));
-        kill();
-        return;
-      }
-      jumpscareCheck(distance);
-    }
-    //Sets both static transparency and volume
-    this.static_script.setStatic(this.look_meter/this.look_limit);
+  }
+
+  bool isSeenByPlayer() {
+    if (!this.model.isVisible) {return false;}
+    RaycastHit hit_info;
+    bool collided = Physics.Raycast(this.player_camera.position, this.transform.position-this.player_camera.position, out hit_info, 200);
+    if (!collided) {return false;}
+    return hit_info.collider.gameObject == this.gameObject;
   }
 
   void lookAtPlayer() {
@@ -108,11 +112,11 @@ public class Slenderman : MonoBehaviour
     this.transform.LookAt(look_target);
   }
 
-  void jumpscareCount() {
-    this.jumpscare_meter = increment(this.jumpscare_meter, this.jumpscare_limit, 1);
-  }
-
   void jumpscareCheck(float distance) {
+    if (!this.is_seen) {
+      this.jumpscare_meter = increment(this.jumpscare_meter, this.jumpscare_limit, 1);
+      return;
+    }
     if (this.jumpscare_meter < this.jumpscare_limit || distance > 7f) {return;}
     this.jumpscare_meter = 0;
     this.jumpscare_sound.Play();
@@ -184,13 +188,16 @@ public class Slenderman : MonoBehaviour
     teleport(distance, false);
   }
 
-  bool increaseStatic() {
-    this.look_meter = increment(this.look_meter, this.look_limit, 1);
+  //Increases or decreases static, also returns true if the player dies for staring at Slender
+  bool adjustStatic(float distance) {
+    if (this.is_seen && distance <= 18) {
+      this.look_meter = increment(this.look_meter, this.look_limit, 1);
+    }
+    else {
+      this.look_meter = decrement(this.look_meter, 0.9f);
+    }
+    this.static_script.setStatic(this.look_meter/this.look_limit);
     return this.look_meter == this.look_limit;
-  }
-
-  void decreaseStatic() {
-    this.look_meter = decrement(this.look_meter, 0.9f);
   }
 
   void kill() {
