@@ -9,49 +9,18 @@ using System;
 //Allows the player to configure the game directly from a text file
 public class Config : MonoBehaviour
 { 
-  public Player player; //todo implement screenshot and mouse sensitivity
-  //todo implement camera antialiasing
   private List<string> settings = new List<string>();
   private List<string> values = new List<string>();
   private string config_path = "config.txt";
   
-  //Read the config and set the quality options with safe defaults in case of incorrect configuration
+  //Read config.txt and parse the options into the "settings" and "values" variables
   void Start() {
     string[] config = readConfig();
     if (config == null) {return;} //Todo: handle this error
     foreach (string line in config) {parseLine(line);}
-    
-    int quality_level = readQualityLevel();
-    QualitySettings.SetQualityLevel(quality_level);
-    
-    Resolution[] available_res = Screen.resolutions;
-    Resolution max_res = available_res[available_res.Length-1];
-    int width = readInt("width", Screen.width, 640, max_res.width);
-    int height = readInt("height", Screen.height, 480, max_res.height);
-    bool fullscreen_mode = readBool("fullscreen", true);
-    Screen.SetResolution(width, height, fullscreen_mode);
-
-    bool vsync_mode = readBool("vsync", false);
-    int frame_rate = readInt("framerate", 60, 0, 501); //Min 10, max 500, disable 0
-    if (frame_rate < 10 && frame_rate > 0) {frame_rate = 10;}
-    if (frame_rate == 501) {frame_rate = 0;} //Unlock it instead
-    if (vsync_mode) {QualitySettings.vSyncCount = 1;}
-    else {
-      Application.targetFrameRate = frame_rate;
-      QualitySettings.vSyncCount = 0;
-    }
-    
-    float audio_volume = readFloat("volume", 1, 0, 1);
-    AudioListener.volume = audio_volume;
-
-    float mouse_sensitivity = readFloat("sensitivity", 2f, 0.1f, 20);
-    this.player.mouse_sensitivity = mouse_sensitivity * 0.2f;
-    
-    int screenshot_scale = readInt("screenshot_scale", 1, 1, 5);
-    this.player.screenshot_scale = screenshot_scale;
   }
 
-  int readQualityLevel() {
+  public int readQualityLevel() {
     string[] quality_levels = {"high", "medium", "low"};
     string quality = readSetting("quality");
     if (quality == null) {return 0;}
@@ -61,7 +30,7 @@ public class Config : MonoBehaviour
     return 0;
   }
 
-  int readInt(string setting, int default_val, int min_val, int max_val) {
+  public int readInt(string setting, int default_val, int min_val, int max_val) {
     string svalue = readSetting(setting);
     try {
       int ival = int.Parse(svalue);
@@ -74,7 +43,7 @@ public class Config : MonoBehaviour
     catch (OverflowException) {return default_val;}
   }
 
-  float readFloat(string setting, float default_val, float min_val, float max_val) {
+  public float readFloat(string setting, float default_val, float min_val, float max_val) {
     string svalue = readSetting(setting);
     try {
       float fval = float.Parse(svalue);
@@ -87,13 +56,13 @@ public class Config : MonoBehaviour
     catch (OverflowException) {return default_val;}
   }
 
-  bool readBool(string setting, bool default_val) {
+  public bool readBool(string setting, bool default_val) {
     string svalue = readSetting(setting);
     if (svalue == null) {return default_val;}
     return svalue.Equals("true") || svalue.Equals("yes");
   }
 
-  string readSetting(string setting) {
+  public string readSetting(string setting) {
     int value_i = -1;
     for (int i = 0; i < this.settings.Count; i++) {
       if (this.settings[i].Equals(setting)) {value_i = i; break;}
@@ -192,7 +161,7 @@ public class Config : MonoBehaviour
       + "\n\n# Sets the game's framerate limit. Supported values range between 10 and 500, set to 0 to disable framerate limit"
       + "\nframerate=60"
 
-      + "\n\n# Toggles vsync, overrides framerate setting, set to true to enable"
+      + "\n\n# Toggles vsync, set to true to enable"
       + "\nvsync=false"
 
       + "\n\n# When taking screenshots, this sets the upscaling factor. Supported values range between 1 and 5"
