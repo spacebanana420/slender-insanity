@@ -14,7 +14,7 @@ public class Config : MonoBehaviour
   private string config_path = "config.txt";
   
   //Read config.txt and parse the options into the "settings" and "values" variables
-  void Start() {
+  public void readFile() {
     string[] config = readConfig();
     if (config == null) {return;} //Todo: handle this error
     foreach (string line in config) {parseLine(line);}
@@ -158,7 +158,7 @@ public class Config : MonoBehaviour
       + "\n\n# Sets the game's quality level. Supported values: low, medium, high"
       + "\nquality=high"
 
-      + "\n\n# Sets the game's framerate limit. Supported values range between 10 and 500, set to 0 to disable framerate limit"
+      + "\n\n# Sets the game's framerate limit. Supported values range between 0 and 500, set to 0 to disable framerate limit"
       + "\nframerate=60"
 
       + "\n\n# Toggles vsync, set to true to enable"
