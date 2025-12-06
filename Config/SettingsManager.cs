@@ -65,8 +65,14 @@ public class SettingsManager : MonoBehaviour
   //Configure the game effectively
   void setQuality(int level) {QualitySettings.SetQualityLevel(level);}
   void setAudioVolume(float volume) {AudioListener.volume = volume;}
-  void setSensitivity(float sensitivity) {this.player.mouse_sensitivity = sensitivity * 0.2f;}
-  void setScreenshotScale(int scale) {this.player.screenshot_scale = scale;}
+  void setSensitivity(float sensitivity) {
+    if (this.player == null) return;
+    this.player.mouse_sensitivity = sensitivity * 0.2f;
+  }
+  void setScreenshotScale(int scale) {
+    if (this.player == null) return;
+    this.player.screenshot_scale = scale;
+  }
   void setFullscreen(bool fullscreen) {Screen.SetResolution(Screen.width, Screen.height, fullscreen);}
   void setVsync(bool vsync) {QualitySettings.vSyncCount = vsync ? 1 : 0;}
   void setFramerate(int fps) {

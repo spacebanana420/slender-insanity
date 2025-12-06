@@ -81,7 +81,7 @@ public class Slenderman : MonoBehaviour
       return;
     }
     //Kill the player by proximity
-    if (distance < 1.2f) {
+    if (distance < 1.5f) {
       kill();
       return;
     }
