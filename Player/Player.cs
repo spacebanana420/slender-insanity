@@ -14,8 +14,9 @@ public class Player : MonoBehaviour
   public AudioSource footsteps;
   public AudioSource footsteps_running;
   public GameObject pause_menu;
+  public GameObject settings_menu;
+  
   private float running_tempo = 1.3f; //Currently the running SFX speed is 1.3x of the original
-
   private float walkSpeed = 3f;
   private float sprintSpeed = 6f;
   private float stamina = 10;
@@ -49,6 +50,11 @@ public class Player : MonoBehaviour
   }
 
   public void unpauseGame() {
+    if (this.settings_menu.active) { //Leave settings UI instead of unpausing
+      this.settings_menu.active = false;
+      this.pause_menu.active = true;
+      return;
+    }
     Cursor.lockState = CursorLockMode.Locked;
     Time.timeScale = 1;
     AudioListener.pause = false;

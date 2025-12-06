@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 //Reads the game's settings from the config file (Config class)
 //The settings UI calls functions from here to configure the game as well
@@ -12,7 +13,7 @@ public class SettingsManager : MonoBehaviour
   public Slider fps;
   public Slider sensitivity;
   public Slider volume;
-  public TMPro.TMP_Dropdown quality;
+  public TMP_Dropdown quality;
   public Toggle vsync;
   public Toggle fullscreen;
   
@@ -26,13 +27,29 @@ public class SettingsManager : MonoBehaviour
     int height = config.readInt("height", Screen.height, 480, max_res.height);
     bool fullscreen_mode = config.readBool("fullscreen", true);
     Screen.SetResolution(width, height, fullscreen_mode);
-    
-    setQuality(config.readQualityLevel());
-    setVsync(config.readBool("vsync", false));
-    setFramerate(config.readInt("framerate", 60, 0, 501)); //Min 10, max 500, disable 0
-    setAudioVolume(config.readFloat("volume", 1, 0, 1));
-    setSensitivity(config.readFloat("sensitivity", 2f, 0.1f, 20));
+
     setScreenshotScale(config.readInt("screenshot_scale", 1, 1, 5));
+
+    //Apply settings and add them to the settings UI as well
+    int quality = config.readQualityLevel();
+    setQuality(quality);
+    this.quality.value = quality;
+    
+    bool vsync = config.readBool("vsync", false);
+    setVsync(vsync);
+    this.vsync.isOn = vsync;
+
+    int fps = config.readInt("framerate", 60, 0, 501); //Min 10, max 500, disable 0, above 500 set to 0 (501)
+    setFramerate(fps);
+    this.fps.value = fps;
+
+    float volume = config.readFloat("volume", 1, 0, 1);
+    setAudioVolume(volume);
+    this.volume.value = volume;
+
+    float sensitivity = config.readFloat("sensitivity", 2f, 0.1f, 20);
+    setSensitivity(volume);
+    this.sensitivity.value = sensitivity;
   }
 
   //Called by the settings UI
