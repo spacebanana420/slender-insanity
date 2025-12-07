@@ -77,6 +77,7 @@ public class Slenderman : MonoBehaviour
     this.is_seen = isSeenByPlayer(); //Slenderman visible from player's field of view
 
     if (isInvisible()) {
+      adjustStatic(distance);
       visibleCheck(distance);
       return;
     }
@@ -179,6 +180,8 @@ public class Slenderman : MonoBehaviour
     this.invisible_meter = increment(this.invisible_meter, this.invisible_limit, 1);
 
     if (this.invisible_meter != this.invisible_limit) {return;}
+    this.is_seen = false;
+    this.looking_at = false;
     this.model.enabled = false;
     this.controller.enabled = false;
   }
