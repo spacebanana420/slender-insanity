@@ -5,6 +5,7 @@ public class Level1Start : MonoBehaviour
 {
   public TextControl text;
   public AudioSource music;
+  public Flashlight flashlight;
   private float start_volume;
   private bool fade_out = false;
   private bool fade_in = false;
@@ -37,6 +38,8 @@ public class Level1Start : MonoBehaviour
   IEnumerator levelStart() {
     this.music.Play();
     this.fade_in = true;
+    yield return new WaitForSeconds(1);
+    this.flashlight.turnOn();
     yield return new WaitForSeconds(2);
     text.displayTemporaryText("Collect the 8 pages", 8);
     yield return new WaitForSeconds(18);
