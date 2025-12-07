@@ -16,6 +16,9 @@ public class SettingsManager : MonoBehaviour
   public TMP_Dropdown quality;
   public Toggle vsync;
   public Toggle fullscreen;
+
+  //Setting stored to be later saved in config overrides by UI
+  private int screenshot_scale;
   
   //Set the game options on startup based on the config file
   //Todo: implement camera antialiasing
@@ -28,7 +31,8 @@ public class SettingsManager : MonoBehaviour
     bool fullscreen_mode = config.readBool("fullscreen", true);
     Screen.SetResolution(width, height, fullscreen_mode);
 
-    setScreenshotScale(config.readInt("screenshot_scale", 1, 1, 5));
+    this.screenshot_scale = config.readInt("screenshot_scale", 1, 1, 5);
+    setScreenshotScale(this.screenshot_scale);
 
     //Apply settings and add them to the settings UI as well
     int quality = config.readQualityLevel();
@@ -60,6 +64,23 @@ public class SettingsManager : MonoBehaviour
     setSensitivity(this.sensitivity.value);
     setAudioVolume(this.volume.value);
     setQuality(this.quality.value); //Order of quality levels in dropdown must match the order in config and QualitySettings
+
+    SaveOptions opts = new SaveOptions(); //Part of Config.cs
+    string[] quality_levels = {"high", "medium", "low"}; //Duplicate code in Config.cs
+
+    //Save new config.txt file
+    opts.framerate = (int)this.fps.value;
+    opts.vsync = this.vsync.isOn;
+    opts.fullscreen = this.fullscreen.isOn;
+    opts.sensitivity = this.sensitivity.value;
+    opts.volume = this.volume.value;
+    opts.quality = quality_levels[this.quality.value];
+    opts.width = Screen.width;
+    opts.height = Screen.height;
+    opts.comment_resolution = false;
+    opts.screenshot_scale = this.screenshot_scale;
+    Config.deleteConfig();
+    Config.createConfig(opts);
   }
 
   //Configure the game effectively
