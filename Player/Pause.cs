@@ -11,7 +11,6 @@ public class Pause : MonoBehaviour
 
   // Update is called once per frame
   void Update() {
-    if (this.player.caught) return;
     if (!Keyboard.current.escapeKey.wasPressedThisFrame) return;
 
     if (this.paused) unpauseGame();
@@ -27,7 +26,7 @@ public class Pause : MonoBehaviour
     this.paused = false;
   }
 
-  void unpauseGame() {
+  public void unpauseGame() {
     if (this.settings_menu.active) { //Leave settings UI instead of unpausing
       this.settings_menu.active = false;
       this.pause_menu.active = true;
