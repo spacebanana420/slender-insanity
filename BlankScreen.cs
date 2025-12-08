@@ -20,7 +20,7 @@ public class BlankScreen : MonoBehaviour
 
   void Start() {
     Color color = this.screen.color;
-    color.a = 1;
+    color.a = 0;
     this.screen.color = color;
   }
   
