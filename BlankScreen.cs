@@ -18,7 +18,7 @@ public class BlankScreen : MonoBehaviour
   public void fadeToWhite(float time) {StartCoroutine(fadeScreen(time, 1, true));}
   public void fadeFromWhite(float time) {StartCoroutine(fadeScreen(time, 1, false));}
 
-  void Start() {
+  void Awake() {
     Color color = this.screen.color;
     color.a = 0;
     this.screen.color = color;
