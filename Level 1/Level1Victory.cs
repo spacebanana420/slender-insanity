@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 //Pre-defined event for level 1 victory
@@ -66,6 +67,8 @@ public class Level1Victory : MonoBehaviour
     this.text.close();
     yield return new WaitForSeconds(2);
     this.text.displayText("Congratulations!");
+    yield return new WaitForSeconds(10);
+    SceneManager.LoadScene("Main Menu");
   }
 
   //Positions Slender and the player as if the player had been caught
