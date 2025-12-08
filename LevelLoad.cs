@@ -4,8 +4,12 @@ using UnityEngine.SceneManagement;
 //Called by button components, used to load levels or quit the game
 public class LevelLoad : MonoBehaviour
 {
+  public Pause pause;
+  
   public void loadScene(string name) {
-    AudioListener.pause = false;
+    if (this.pause != null) {
+      this.pause.unpauseLoad();
+    }
     SceneManager.LoadScene(name);
   }
 

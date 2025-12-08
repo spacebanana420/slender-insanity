@@ -52,7 +52,7 @@ public class SettingsManager : MonoBehaviour
     this.volume.value = volume;
 
     float sensitivity = config.readFloat("sensitivity", 2f, 0.1f, 20);
-    setSensitivity(volume);
+    setSensitivity(sensitivity);
     this.sensitivity.value = sensitivity;
   }
 

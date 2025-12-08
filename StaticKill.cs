@@ -24,6 +24,9 @@ public class StaticKill : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         return;
       }
+      if (no) {
+        SceneManager.LoadScene("Main Menu");
+      }
       return;
     }
     if (stop_check) {return;}

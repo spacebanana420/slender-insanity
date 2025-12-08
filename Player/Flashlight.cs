@@ -9,7 +9,7 @@ public class Flashlight : MonoBehaviour
 
   // Update is called once per frame
   void Update() {
-    if (this.player.caught || this.player.paused) {return;}
+    if (this.player.caught) return;
     bool f_key_press = Keyboard.current.fKey.wasPressedThisFrame;
     bool r_mouse_press = Mouse.current.rightButton.wasPressedThisFrame;
     if (f_key_press || r_mouse_press) {
@@ -20,7 +20,7 @@ public class Flashlight : MonoBehaviour
 
   //Called externally, used in level 1 start
   public void turnOn() {
-    if (this.light.enabled) {return;}
+    if (this.light.enabled) return;
     this.light.enabled = true;
     this.sound.Play();
   }

@@ -6,15 +6,12 @@ public class Player : MonoBehaviour
 {
   public float mouse_sensitivity = 0.5f;
   public int screenshot_scale = 1;
-  public bool caught = false;
-  public bool paused = false;
+  public bool caught = false; //Freeze player controls, change the variable name later to a more appropriate one
 
   public Transform camera_transform;
   public CharacterController controller;
   public AudioSource footsteps;
   public AudioSource footsteps_running;
-  public GameObject pause_menu;
-  public GameObject settings_menu;
   
   private float running_tempo = 1.3f; //Currently the running SFX speed is 1.3x of the original
   private float walkSpeed = 3f;
@@ -29,45 +26,14 @@ public class Player : MonoBehaviour
 
   void Update()
   {
-    checkPause();
     takeScreenshot();
-    if (this.caught || this.paused) {
+    if (this.caught) {
       this.footsteps.Pause();
       this.footsteps_running.Pause();
       return;
     }
     moveCamera();
     movePlayer();
-  }
-
-  //Pause and unpause
-  void checkPause() {
-    if (this.caught) {return;}
-    if (!Keyboard.current.escapeKey.wasPressedThisFrame) {return;}
-
-    if (this.paused) {unpauseGame();}
-    else {pauseGame();}
-  }
-
-  public void unpauseGame() {
-    if (this.settings_menu.active) { //Leave settings UI instead of unpausing
-      this.settings_menu.active = false;
-      this.pause_menu.active = true;
-      return;
-    }
-    Cursor.lockState = CursorLockMode.Locked;
-    Time.timeScale = 1;
-    AudioListener.pause = false;
-    this.pause_menu.active = false;
-    this.paused = false;
-  }
-
-  void pauseGame() {
-    Cursor.lockState = CursorLockMode.None;
-    Time.timeScale = 0;
-    AudioListener.pause = true;
-    this.pause_menu.active = true;
-    this.paused = true;
   }
 
   void takeScreenshot() {
