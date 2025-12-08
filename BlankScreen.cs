@@ -18,6 +18,12 @@ public class BlankScreen : MonoBehaviour
   public void fadeToWhite(float time) {StartCoroutine(fadeScreen(time, 1, true));}
   public void fadeFromWhite(float time) {StartCoroutine(fadeScreen(time, 1, false));}
 
+  void Start() {
+    Color color = this.screen.color;
+    color.a = 1;
+    this.screen.color = color;
+  }
+  
   IEnumerator fadeScreen(float time, float color, bool fade_in) {
     float transparency = this.screen.color.a;
     float step = 1/time;
