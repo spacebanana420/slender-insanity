@@ -7,9 +7,7 @@ public class LevelLoad : MonoBehaviour
   public Pause pause;
   
   public void loadScene(string name) {
-    if (this.pause != null) {
-      this.pause.unpauseLoad();
-    }
+    if (this.pause != null) this.pause.unpauseLoad();
     SceneManager.LoadScene(name);
   }
 
