@@ -22,6 +22,10 @@ public class Player : MonoBehaviour
 
   private float verticalRotation = 0f;
 
+  //When taking screenshots, Unity saves them in the Data directory instead of the executable's path
+  //I use an absolute path to circumvent
+  private string working_dir = Directory.GetCurrentDirectory();
+
   void Awake(){Cursor.lockState = CursorLockMode.Locked;}
 
   void Update()
@@ -39,10 +43,10 @@ public class Player : MonoBehaviour
   void takeScreenshot() {
     if (!Keyboard.current.pKey.wasPressedThisFrame) {return;}
     long num = 0;
-    string filename = "slender-insanity-0.png";
+    string filename = this.working_dir+"/slender-insanity-0.png";
     while (File.Exists(filename)) {
       num+=1;
-      filename = "slender-insanity-"+num+".png";
+      filename = this.working_dir+"/slender-insanity-"+num+".png";
     }
     ScreenCapture.CaptureScreenshot(filename, this.screenshot_scale);
   }
