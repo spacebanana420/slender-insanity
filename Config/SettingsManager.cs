@@ -22,7 +22,7 @@ public class SettingsManager : MonoBehaviour
   
   //Set the game options on startup based on the config file
   //Todo: implement camera antialiasing
-  void Start() {
+  void Awake() {
     config.readFile(); //Read and parse config.txt
     Resolution[] available_res = Screen.resolutions;
     Resolution max_res = available_res[available_res.Length-1];
