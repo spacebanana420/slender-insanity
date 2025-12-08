@@ -21,6 +21,8 @@ public class Level1Victory : MonoBehaviour
   
   public AudioSource jumpscare;
   public AudioSource thunder;
+
+  public LevelLoad level_loader;
   
   void Start() {StartCoroutine(victoryEvent());}
 
@@ -68,7 +70,7 @@ public class Level1Victory : MonoBehaviour
     yield return new WaitForSeconds(2);
     this.text.displayText("Congratulations!");
     yield return new WaitForSeconds(10);
-    SceneManager.LoadScene("Main Menu");
+    level_loader.loadScene("Main Menu");
   }
 
   //Positions Slender and the player as if the player had been caught
