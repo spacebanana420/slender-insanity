@@ -11,6 +11,7 @@ public class StaticKill : MonoBehaviour
   public BlankScreen black_screen;
   public TextControl text;
   public AudioSource[] music;
+  public LevelLoad level_loader;
   
   float intensity = 0.1f;
   bool await_user_input = false;
@@ -20,14 +21,8 @@ public class StaticKill : MonoBehaviour
     if (await_user_input) {
       bool yes = Keyboard.current.yKey.wasPressedThisFrame;
       bool no = Keyboard.current.nKey.wasPressedThisFrame;
-      if (yes) {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        return;
-      }
-      if (no) {
-        SceneManager.LoadScene("Main Menu");
-      }
-      return;
+      if (yes) level_loader.loadScene(SceneManager.GetActiveScene().buildIndex);
+      else if (no) level_loader.loadScene("Main Menu");
     }
     if (stop_check) {return;}
     if (this.intensity < 1) {

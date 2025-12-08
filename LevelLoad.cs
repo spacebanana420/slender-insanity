@@ -11,5 +11,10 @@ public class LevelLoad : MonoBehaviour
     SceneManager.LoadScene(name);
   }
 
+  public void loadScene(int index) {
+    if (this.pause != null) this.pause.unpauseLoad();
+    SceneManager.LoadScene(index);
+  }
+
   public void quitGame() {Application.Quit();}
 }
