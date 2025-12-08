@@ -32,7 +32,7 @@ public class PagesControl : MonoBehaviour
   float[] invisible_limits = {80, 90, 100, 110, 120, 120, 120};
   bool[] can_be_invisible = {true, true, true, true, true, false, false};
 
-  void Start() {
+  void Awake() {
     this.thump_volume = this.music[0].volume;
     //Random page placement
     foreach (Transform page in this.pages) {
