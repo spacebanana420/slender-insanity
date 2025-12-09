@@ -11,7 +11,7 @@ public class Orb : MonoBehaviour
   
   void Start() {
     this.base_height = this.transform.position.y;
-    this.max_height = this.base_height+50;
+    this.max_height = this.base_height+70;
   }
 
   void Update() {
@@ -27,7 +27,7 @@ public class Orb : MonoBehaviour
     }
     //Levitate
     pos.y += this.levitate_speed * Time.deltaTime;
-    this.sound.pitch += 0.1f * Time.deltaTime;
+    this.sound.pitch += 0.06f * Time.deltaTime;
     this.transform.position = pos;
     this.levitate_speed += 3.2f * Time.deltaTime;
     return;
