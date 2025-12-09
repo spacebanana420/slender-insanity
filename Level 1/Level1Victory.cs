@@ -32,6 +32,7 @@ public class Level1Victory : MonoBehaviour
     this.static_script.stopFade(4);
     yield return new WaitForSeconds(15);
     //Slender re-appears
+    this.static_script.disableWeakStatic();
     this.static_script.setStatic_strong(1);
     yield return new WaitForSeconds(0.5f);
     this.static_script.stop();

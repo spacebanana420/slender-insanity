@@ -29,6 +29,13 @@ public class StaticEffect : MonoBehaviour
     StartCoroutine(moveStatic());
   }
 
+  //If weak_static is enabled, this can be used to disable later on
+  //Used in level 1 ending 
+  public void disableWeakStatic() {
+    this.weak_static = false;
+    this.static_image.color = new Color(1, 1, 1, 1);
+  }
+
   public void stop() {
     this.static_material.color = new Color(1f, 1f, 1f, 0);
     this.sound.volume = 0;
