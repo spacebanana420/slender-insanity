@@ -88,7 +88,7 @@ public class SettingsManager : MonoBehaviour
   void setAudioVolume(float volume) {AudioListener.volume = volume;}
   void setSensitivity(float sensitivity) {
     if (this.player == null) return;
-    this.player.mouse_sensitivity = sensitivity * 0.2f;
+    this.player.mouse_sensitivity = sensitivity * 0.1f;
   }
   void setScreenshotScale(int scale) {
     if (this.player == null) return;
