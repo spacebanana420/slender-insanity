@@ -43,7 +43,7 @@ public class SettingsManager : MonoBehaviour
     setVsync(vsync);
     this.vsync.isOn = vsync;
 
-    int fps = config.readInt("framerate", 60, 0, 501); //Min 10, max 500, disable 0, above 500 set to 0 (501)
+    int fps = config.readInt("framerate", 60, 0, 300); //Min 10, max 300, disable 0
     setFramerate(fps);
     this.fps.value = fps;
 
@@ -96,8 +96,5 @@ public class SettingsManager : MonoBehaviour
   }
   void setFullscreen(bool fullscreen) {Screen.SetResolution(Screen.width, Screen.height, fullscreen);}
   void setVsync(bool vsync) {QualitySettings.vSyncCount = vsync ? 1 : 0;}
-  void setFramerate(int fps) {
-    if (fps == 501) {fps = 0;} //Unlock it instead
-    Application.targetFrameRate = fps;
-  }
+  void setFramerate(int fps) {Application.targetFrameRate = fps;}
 }

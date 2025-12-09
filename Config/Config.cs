@@ -163,7 +163,7 @@ public class Config : MonoBehaviour
       + "\n\n# Sets the game's quality level. Supported values: low, medium, high"
       + "\nquality="+opts.quality
 
-      + "\n\n# Sets the game's framerate limit. Supported values range between 0 and 500, set to 0 to disable framerate limit"
+      + "\n\n# Sets the game's framerate limit. Supported values range between 0 and 300, set to 0 to disable framerate limit"
       + "\nframerate="+opts.framerate
 
       + "\n\n# Toggles vsync, set to true to enable"
