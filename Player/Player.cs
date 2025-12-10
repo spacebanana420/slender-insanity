@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.IO;
 
+//Player's base code file
+//Controls mouse and keyboard movement and pausing the game
 public class Player : MonoBehaviour
 {
   public float mouse_sensitivity = 0.5f;
-  public int screenshot_scale = 1;
   public bool caught = false; //Freeze player controls, change the variable name later to a more appropriate one
 
   public Transform camera_transform;
@@ -22,15 +22,9 @@ public class Player : MonoBehaviour
 
   private float verticalRotation = 0f;
 
-  //When taking screenshots, Unity saves them in the Data directory instead of the executable's path
-  //I use an absolute path to circumvent
-  private string working_dir = Directory.GetCurrentDirectory();
+  void Awake() {Cursor.lockState = CursorLockMode.Locked;}
 
-  void Awake(){Cursor.lockState = CursorLockMode.Locked;}
-
-  void Update()
-  {
-    takeScreenshot();
+  void Update() {
     if (this.caught) {
       this.footsteps.Pause();
       this.footsteps_running.Pause();
@@ -38,17 +32,6 @@ public class Player : MonoBehaviour
     }
     moveCamera();
     movePlayer();
-  }
-
-  void takeScreenshot() {
-    if (!Keyboard.current.pKey.wasPressedThisFrame) {return;}
-    long num = 0;
-    string filename = this.working_dir+"/slender-insanity-0.png";
-    while (File.Exists(filename)) {
-      num+=1;
-      filename = this.working_dir+"/slender-insanity-"+num+".png";
-    }
-    ScreenCapture.CaptureScreenshot(filename, this.screenshot_scale);
   }
 
   void moveCamera() {

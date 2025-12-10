@@ -5,8 +5,9 @@ using TMPro;
 //Reads the game's settings from the config file (Config class)
 //The settings UI calls functions from here to configure the game as well
 public class SettingsManager : MonoBehaviour
-{ 
+{
   public Player player;
+  public Screenshooter screenshooter;
   public Config config;
 
   //Settings UI elements
@@ -91,8 +92,8 @@ public class SettingsManager : MonoBehaviour
     this.player.mouse_sensitivity = sensitivity * 0.1f;
   }
   void setScreenshotScale(int scale) {
-    if (this.player == null) return;
-    this.player.screenshot_scale = scale;
+    if (this.screenshooter == null) return;
+    this.screenshooter.scale = scale;
   }
   void setFullscreen(bool fullscreen) {Screen.SetResolution(Screen.width, Screen.height, fullscreen);}
   void setVsync(bool vsync) {QualitySettings.vSyncCount = vsync ? 1 : 0;}
