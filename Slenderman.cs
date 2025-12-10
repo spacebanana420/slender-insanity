@@ -34,7 +34,7 @@ public class Slenderman : MonoBehaviour
   private bool can_be_invisible = true;
   private float invisible_meter = 0;
   private float invisible_limit = 120;
-  private float invisible_countdown = 30;
+  private float invisible_countdown = 18;
 
   private float speed = 2f;
   private float teleport_distance = 4;
@@ -190,7 +190,7 @@ public class Slenderman : MonoBehaviour
   void visibleCheck(float distance) {
     this.invisible_countdown = decrement(this.invisible_countdown, 1);
     if (this.invisible_countdown != 0) {return;}
-    this.invisible_countdown = 30;
+    this.invisible_countdown = 18;
     this.invisible_meter = 0;
 
     this.model.enabled = true;

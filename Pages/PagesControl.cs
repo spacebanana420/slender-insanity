@@ -21,15 +21,15 @@ public class PagesControl : MonoBehaviour
 
   //Slenderman's stats, difficulty adjustment
   //One value for each page collected (1 to 7 pages)
-  float[] speeds = {0.5f, 1, 2, 3, 4, 4.5f, 4.8f};
-  float[] look_limits = {7, 6, 5, 4, 3.5f, 3, 3};
+  float[] speeds = {0.8f, 1.2f, 2, 3, 4, 4.5f, 4.8f};
+  float[] look_limits = {7, 6, 5, 4, 3.5f, 3.2f, 3};
 
-  float[] teleport_distances = {8, 7, 6, 5.5f, 5.2f, 5, 5f};
-  float[] teleport_limits = {50, 40, 30, 25, 20, 15, 10};
-  float[] forward_tp_limits = {120, 120, 120, 80, 60, 30, 20};
+  float[] teleport_distances = {8, 7.5f, 7, 6, 5.5f, 5, 5};
+  float[] teleport_limits = {35, 30, 26, 22, 20, 15, 10};
+  float[] forward_tp_limits = {100, 100, 100, 60, 40, 25, 20};
   bool[] can_tp_forward = {false, false, true, true, true, true, true};
 
-  float[] invisible_limits = {80, 90, 100, 110, 120, 120, 120};
+  float[] invisible_limits = {60, 80, 100, 110, 120, 120, 120};
   bool[] can_be_invisible = {true, true, true, true, true, false, false};
 
   void Awake() {
