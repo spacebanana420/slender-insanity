@@ -24,8 +24,8 @@ public class PagesControl : MonoBehaviour
   float[] speeds = {0.8f, 1.2f, 2, 3, 4, 4.5f, 4.8f};
   float[] look_limits = {7, 6, 5, 4, 3.5f, 3.2f, 3};
 
-  float[] teleport_distances = {8, 7.5f, 7, 6, 5.5f, 5, 5};
-  float[] teleport_limits = {35, 30, 26, 22, 20, 15, 10};
+  float[] teleport_distances = {8, 7.5f, 7, 6, 5.5f, 5, 5f};
+  float[] teleport_limits = {35, 30, 26, 22, 20, 12, 8};
   float[] forward_tp_limits = {100, 100, 100, 60, 40, 25, 20};
   bool[] can_tp_forward = {false, false, true, true, true, true, true};
 
