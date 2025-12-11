@@ -64,11 +64,11 @@ public class Level1Victory : MonoBehaviour
     //Orb levitates and level ends
     yield return new WaitForSeconds(15);
     this.orb_script.levitateOrb();
-    yield return new WaitForSeconds(10);
+    yield return new WaitForSeconds(12);
     this.pause_script.can_pause = false;
     this.player_script.caught = true;
     this.blank_screen.displayBlackScreen();
-    yield return new WaitForSeconds(2);
+    yield return new WaitForSeconds(3);
     this.text.displayText("He is free now, and so are you...");
     yield return new WaitForSeconds(5);
     this.text.close();
@@ -78,14 +78,14 @@ public class Level1Victory : MonoBehaviour
     this.end_camera.active = true;
     this.blank_screen.fadeFromBlack(7);
     yield return new WaitForSeconds(20);
-    this.blank_screen.fadeToBlack(15);
-    yield return new WaitForSeconds(18);
+    this.blank_screen.fadeToBlack(10);
+    yield return new WaitForSeconds(13);
     level_loader.loadScene("Main Menu");
   }
 
   void changeTimeOfDay() {
     RenderSettings.skybox = this.end_skybox;
-    RenderSettings.ambientLight = new Color32(70, 70, 90, 255);
+    RenderSettings.ambientLight = new Color32(68, 68, 84, 255);
     RenderSettings.fogDensity /= 15;
     RenderSettings.fogColor = new Color32(51, 57, 67, 255);
   }
