@@ -26,6 +26,8 @@ public class Level1Victory : MonoBehaviour
 
   public Material end_skybox;
   public GameObject end_camera;
+
+  void Awake() {changeTimeOfDay();}
   
   public void startVictoryEvent() {StartCoroutine(victoryEvent());}
 
@@ -73,10 +75,7 @@ public class Level1Victory : MonoBehaviour
     yield return new WaitForSeconds(5);
     this.text.close();
     yield return new WaitForSeconds(2);
-    RenderSettings.skybox = this.end_skybox;
-    RenderSettings.ambientLight = new Color32(75, 75, 75, 255);
-    RenderSettings.fogDensity /= 15;
-    RenderSettings.fogColor = new Color32(94, 103, 117, 255);
+    changeTimeOfDay();
     this.player.gameObject.active = false;
     this.end_camera.active = true;
     this.blank_screen.fadeFromBlack(7);
@@ -84,6 +83,13 @@ public class Level1Victory : MonoBehaviour
     this.blank_screen.fadeToBlack(15);
     yield return new WaitForSeconds(18);
     level_loader.loadScene("Main Menu");
+  }
+
+  void changeTimeOfDay() {
+    RenderSettings.skybox = this.end_skybox;
+    RenderSettings.ambientLight = new Color32(70, 70, 90, 255);
+    RenderSettings.fogDensity /= 15;
+    RenderSettings.fogColor = new Color32(51, 57, 67, 255);
   }
 
   //Positions Slender and the player as if the player had been caught
