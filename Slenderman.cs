@@ -98,8 +98,8 @@ public class Slenderman : MonoBehaviour
     jumpscareCheck(distance);
     teleportCheck(distance);
 
-    if (!this.is_seen) lookAtPlayer();
     if (!this.looking_at) {
+      lookAtPlayer();
       Vector3 motion = transform.forward * speed;
       motion.y = -10; //Gravity
       this.controller.Move(motion * Time.deltaTime);
