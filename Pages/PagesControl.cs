@@ -58,7 +58,7 @@ public class PagesControl : MonoBehaviour
     
     if (this.pages_collected == 8) {
       StartCoroutine(stopMusic());
-      this.l1victory.enabled = true;
+      this.l1victory.startVictoryEvent();
       return;
     }
     this.slender_script.setChaseSpeed(this.speeds[i]);

@@ -23,8 +23,11 @@ public class Level1Victory : MonoBehaviour
   public AudioSource thunder;
 
   public LevelLoad level_loader;
+
+  public Material end_skybox;
+  public GameObject end_camera;
   
-  void Start() {StartCoroutine(victoryEvent());}
+  public void startVictoryEvent() {StartCoroutine(victoryEvent());}
 
   IEnumerator victoryEvent() {
     //Slender vanishes
@@ -67,11 +70,19 @@ public class Level1Victory : MonoBehaviour
     this.blank_screen.displayBlackScreen();
     yield return new WaitForSeconds(2);
     this.text.displayText("He is free now, and so are you...");
-    yield return new WaitForSeconds(4);
+    yield return new WaitForSeconds(5);
     this.text.close();
     yield return new WaitForSeconds(2);
-    this.text.displayText("Congratulations!");
-    yield return new WaitForSeconds(10);
+    RenderSettings.skybox = this.end_skybox;
+    RenderSettings.ambientLight = new Color32(75, 75, 75, 255);
+    RenderSettings.fogDensity /= 15;
+    RenderSettings.fogColor = new Color32(94, 103, 117, 255);
+    this.player.gameObject.active = false;
+    this.end_camera.active = true;
+    this.blank_screen.fadeFromBlack(7);
+    yield return new WaitForSeconds(20);
+    this.blank_screen.fadeToBlack(15);
+    yield return new WaitForSeconds(18);
     level_loader.loadScene("Main Menu");
   }
 

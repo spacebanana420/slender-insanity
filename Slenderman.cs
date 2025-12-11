@@ -107,12 +107,20 @@ public class Slenderman : MonoBehaviour
     }
   }
 
+  //Raycast to see if Slender is not hidden behind an object
+  //Sends 3 rays, 1 to the center, 1 below center and 1 above center
   bool isSeenByPlayer() {
     if (!this.model.isVisible) {return false;}
-    RaycastHit hit_info;
-    bool collided = Physics.Raycast(this.player_camera.position, this.transform.position-this.player_camera.position, out hit_info, 30);
-    if (!collided) {return false;}
-    return hit_info.collider.gameObject == this.gameObject;
+    Vector3[] ray_pos = {this.transform.position, this.transform.position, this.transform.position};
+    ray_pos[1].y -= 0.4f;
+    ray_pos[2].y += 0.4f;
+    foreach (Vector3 pos in ray_pos) {
+      RaycastHit hit_info;
+      bool collided = Physics.Raycast(this.player_camera.position, pos-this.player_camera.position, out hit_info, 30);
+      if (!collided) {continue;}
+      if (hit_info.collider.gameObject == this.gameObject) {return true;}
+    }
+    return false;
   }
 
   void lookAtPlayer() {

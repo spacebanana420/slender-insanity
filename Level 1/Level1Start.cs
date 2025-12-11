@@ -42,7 +42,7 @@ public class Level1Start : MonoBehaviour
     this.flashlight.turnOn();
     yield return new WaitForSeconds(2);
     text.displayTemporaryText("Collect the 8 pages", 8);
-    yield return new WaitForSeconds(18);
+    yield return new WaitForSeconds(12);
     this.fade_in = false;
     this.fade_out = true;
   }
