@@ -26,8 +26,6 @@ public class Level1Victory : MonoBehaviour
 
   public Material end_skybox;
   public GameObject end_camera;
-
-  void Awake() {changeTimeOfDay();}
   
   public void startVictoryEvent() {StartCoroutine(victoryEvent());}
 
