@@ -12,6 +12,7 @@ public class Slenderman : MonoBehaviour
   public Transform player;
   public Transform player_camera;
   public Player player_controller;
+  public Pause pause_script;
   
   public AudioSource jumpscare_sound;
   public GameObject static_object;
@@ -211,6 +212,7 @@ public class Slenderman : MonoBehaviour
   }
 
   void kill() {
+    this.pause_script.can_pause = false;
     this.jumpscare_sound.Play();
     this.player_controller.caught = true;
     Vector3 slender_pos = this.transform.position;

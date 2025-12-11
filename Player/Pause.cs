@@ -6,10 +6,14 @@ public class Pause : MonoBehaviour
   public Player player;
   public GameObject pause_menu;
   public GameObject settings_menu;
-
+  public bool can_pause = true;
+  
   private bool paused;
 
+  void Awake(){this.can_pause = true;}
+  
   void Update() {
+    if (!this.can_pause) return;
     if (!Keyboard.current.escapeKey.wasPressedThisFrame) return;
 
     if (this.paused) unpauseGame();

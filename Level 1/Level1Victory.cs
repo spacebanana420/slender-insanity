@@ -8,6 +8,7 @@ public class Level1Victory : MonoBehaviour
   public Transform player;
   public Transform player_cam;
   public Player player_script;
+  public Pause pause_script;
   
   public GameObject slender;
   public Slenderman slender_script;
@@ -61,6 +62,7 @@ public class Level1Victory : MonoBehaviour
     yield return new WaitForSeconds(15);
     this.orb_script.levitateOrb();
     yield return new WaitForSeconds(10);
+    this.pause_script.can_pause = false;
     this.player_script.caught = true;
     this.blank_screen.displayBlackScreen();
     yield return new WaitForSeconds(2);
