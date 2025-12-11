@@ -85,9 +85,9 @@ public class Level1Victory : MonoBehaviour
 
   void changeTimeOfDay() {
     RenderSettings.skybox = this.end_skybox;
-    RenderSettings.ambientLight = new Color32(68, 68, 84, 255);
+    RenderSettings.ambientLight = new Color32(60, 60, 80, 255);
     RenderSettings.fogDensity /= 15;
-    RenderSettings.fogColor = new Color32(51, 57, 67, 255);
+    RenderSettings.fogColor = new Color32(39, 44, 52, 255);
   }
 
   //Positions Slender and the player as if the player had been caught
