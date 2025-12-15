@@ -24,7 +24,7 @@ public class SCPGhost : MonoBehaviour
     this.teleport_cooldown = cooldown;
   }
   public void setSpeed(float speed) {this.speed = speed;}
-  public void setInvisibility(float cooldown) {this.invisible_cooldown = cooldown;}
+  public void setInvisibilityCooldown(float cooldown) {this.invisible_cooldown = cooldown;}
   
   void Awake() {this.material.color = new Color32(109, 109, 109, 255);}
 

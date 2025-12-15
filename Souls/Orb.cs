@@ -31,11 +31,7 @@ public class Orb : MonoBehaviour
     this.transform.position = pos;
     this.levitate_speed += 3.2f * Time.deltaTime;
     return;
-
   }
   
-  public void levitateOrb() {
-    this.levitate = true;
-    //todo: play a sound
-  }
+  public void levitateOrb() {this.levitate = true;}
 }
