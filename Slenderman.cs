@@ -100,7 +100,7 @@ public class Slenderman : MonoBehaviour
 
     if (!this.looking_at) {
       lookAtPlayer();
-      Vector3 motion = transform.forward * speed;
+      Vector3 motion = this.transform.forward * this.speed;
       motion.y = -10; //Gravity
       this.controller.Move(motion * Time.deltaTime);
       invisibleCheck();
