@@ -5,19 +5,34 @@ public class SCPGhost : MonoBehaviour
 {
   public EnemyAPI enemy_api;
   public Material material;
+  public MeshRenderer mesh;
+  public CharacterController controller;
 
   private float visible_percentage = 1; //For adjusting material transparency
-  private float teleport_distance;
   private float speed = 1;
+
+  private float teleport_distance = 5;
+  private float teleport_cooldown = 20;
+  private float teleport_meter = 0;
 
   //Ghost turns invisible when it fades out, entering a cooldown where it's not hostile
   private float invisible_cooldown = 20;
   private float invisible_meter = 0;
-  private bool is_invisible = false;
+
+  public void setTeleport(float distance, float cooldown) {
+    this.teleport_distance = distance;
+    this.teleport_cooldown = cooldown;
+  }
+  public void setSpeed(float speed) {this.speed = speed;}
+  public void setInvisibility(float cooldown) {this.invisible_cooldown = cooldown;}
   
   void Awake() {this.material.color = new Color32(109, 109, 109, 255);}
 
   void Update() {
+    if (isInvisible()) {
+      waitInvisibleTime();
+      return;
+    }
     this.enemy_api.lookAtPlayer();
     float distance = this.enemy_api.getDistance();
     bool is_visible = this.enemy_api.isLookedAt();
@@ -29,32 +44,59 @@ public class SCPGhost : MonoBehaviour
       this.enabled = false;
       return;
     }
-    if (is_seen) {
-      if (distance < 4) fade(true);
-      else fade(false);
-      return;
-    }
-    fade(false);
+    bool faded_away = fade(is_seen, distance);
+    if (faded_away) return;
+
+    checkTeleport(distance, is_visible);
+    if (is_seen) return;
     this.enemy_api.move(this.speed);     
   }
 
-  void waitInvisibleTime() {
+  void checkTeleport(float distance, bool is_visible) {
+    float count_speed = is_visible ? 2 : 1;
+    if (distance < 8) {return;}
+    if (this.teleport_meter > this.teleport_cooldown) {
+      this.teleport_meter = 0;
+      this.enemy_api.teleport(distance, this.teleport_distance);
+      return;
+    }
+    this.teleport_meter += count_speed * Time.deltaTime;
   }
 
+  void turnInvisible() {
+    this.mesh.enabled = false;
+    this.controller.enabled = false; //To disable collisions
+  }
+
+  void waitInvisibleTime() {
+    if (this.invisible_meter > this.invisible_cooldown) {
+      this.mesh.enabled = true;
+      this.controller.enabled = true;
+      this.invisible_meter = 0;
+    }
+    this.invisible_meter += 1 * Time.deltaTime;
+  }
+
+  bool isInvisible() {return !this.mesh.enabled;}
+
   //Ghost fades in or out, if fully transparent then it returns true
-  bool fade(bool fade_out) {
-    if (fade_out) {
+  bool fade(bool is_seen, float distance) {
+    if (is_seen && distance < 4) {
       if (this.visible_percentage < 0) this.visible_percentage = 0;
       else this.visible_percentage -= 0.2f * Time.deltaTime;
     }
     else {
       if (this.visible_percentage > 1) this.visible_percentage = 1;
-      else this.visible_percentage += 0.4f * Time.deltaTime;
+      else this.visible_percentage += 0.6f * Time.deltaTime;
     }
     Color c = this.material.color;
     c.a = this.visible_percentage;
     this.material.color = c;
-    return c.a == 0;
+    if (c.a == 0) {
+      turnInvisible();
+      return true;
+    }
+    return false;
   }
 
   void resetTransparency() {
@@ -62,5 +104,4 @@ public class SCPGhost : MonoBehaviour
     c.a = 1;
     this.material.color = c;
   }
-  
 }

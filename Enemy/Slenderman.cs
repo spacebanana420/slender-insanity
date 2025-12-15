@@ -30,7 +30,7 @@ public class Slenderman : MonoBehaviour
   private bool can_teleport_forward = false;
   private float look_meter = 0;
   private float look_limit = 5;
-  private  float jumpscare_meter = 15;
+  private float jumpscare_meter = 15;
   private float jumpscare_limit = 15;
   private bool can_be_invisible = true;
   private float invisible_meter = 0;
