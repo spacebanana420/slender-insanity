@@ -48,7 +48,7 @@ public class SCPGhost : MonoBehaviour
     if (faded_away) return;
 
     checkTeleport(distance, is_visible);
-    if (is_seen) return;
+    if (is_visible) return;
     this.enemy_api.move(this.speed);     
   }
 

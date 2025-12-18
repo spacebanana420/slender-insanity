@@ -31,6 +31,7 @@ public class SoulsControl : MonoBehaviour
     foreach (Transform orb in this.orbs) {
       int i = Random.Range(0, this.orb_placements.Count);
       orb.position = this.orb_placements[i].position;
+      orb.gameObject.active = true;
       this.orb_placements.RemoveAt(i);
     }
   }
@@ -147,6 +148,6 @@ class SlenderStats {
 class GhostStats {
   public float[] teleport_cooldown = {30, 25, 20, 15, 12, 10, 8, 6, 4};
   public float[] teleport_distances = {10, 9, 8, 7, 6, 5, 4.5f, 4.5f, 4.5f};
-  public float[] speeds = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+  public float[] speeds = {3, 4, 4.5f, 5, 5.5f, 6, 7, 8, 9};
   public float[] invisibility_cooldown = {40, 30, 25, 22, 18, 15, 12, 10, 10};
 }
