@@ -7,6 +7,8 @@ public class SCPGhost : MonoBehaviour
   public Material material;
   public MeshRenderer mesh;
   public CharacterController controller;
+  public AudioSource sound_loop; //Audio cue to aid the player
+  private float sound_loop_volume; //Original volume
 
   private float visible_percentage = 1; //For adjusting material transparency
   private float speed = 1;
@@ -26,7 +28,10 @@ public class SCPGhost : MonoBehaviour
   public void setSpeed(float speed) {this.speed = speed;}
   public void setInvisibilityCooldown(float cooldown) {this.invisible_cooldown = cooldown;}
   
-  void Awake() {this.material.color = new Color32(109, 109, 109, 255);}
+  void Awake() {
+    this.material.color = new Color32(109, 109, 109, 255);
+    this.sound_loop_volume = this.sound_loop.volume;
+  }
 
   void Update() {
     if (isInvisible()) {
@@ -92,6 +97,7 @@ public class SCPGhost : MonoBehaviour
     Color c = this.material.color;
     c.a = this.visible_percentage;
     this.material.color = c;
+    this.sound_loop.volume = this.sound_loop_volume * this.visible_percentage;
     if (c.a == 0) {
       turnInvisible();
       return true;
