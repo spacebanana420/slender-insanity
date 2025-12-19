@@ -1,6 +1,6 @@
 using UnityEngine;
 
-//Very unfinished, generic API for in-game sprites and portraits
+//Library code for functions which are useful for 2D sprites inside a 3D scene
 public class SpriteAPI : MonoBehaviour
 {
   public Transform player;
