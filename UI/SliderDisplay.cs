@@ -11,5 +11,12 @@ public class SliderDisplay : MonoBehaviour
 
   void Start() {setValue();}
 
-  public void setValue() {this.text_ui.text = ""+this.slider.value;}
+  public void setValue() {
+    int value_rounded = (int)(this.slider.value * 1000); //Rounding with 3 decimal cases
+    float value = (float)value_rounded / 1000;
+    this.text_ui.text = ""+value;
+  }
+
+  //Skip rounding for integer values
+  public void setValue_int() {this.text_ui.text = ""+this.slider.value;}
 }
