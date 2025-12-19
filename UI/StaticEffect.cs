@@ -5,8 +5,10 @@ using System.Collections;
 //Animates the static effect and defines its transparency and volume
 public class StaticEffect : MonoBehaviour
 {
-  public Material static_material;
+  
   public Image static_image;
+  private Material static_material;
+  
   public AudioSource sound;
   public AudioSource sound_strong;
   public bool weak_static; //Use for night/dark levels
@@ -16,6 +18,7 @@ public class StaticEffect : MonoBehaviour
   private float[] offsets_y = new float[]{0.2f, 1.45f, 1.1f, 0.3f};
 
   void Awake() {
+    this.static_material = this.static_image.material;
     stop();
     //In dark/night levels, static by default is too intense and ruins the experience, this adjusts
     float c = this.weak_static ? 0.35f : 1;

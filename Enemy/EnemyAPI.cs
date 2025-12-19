@@ -55,6 +55,11 @@ public class EnemyAPI : MonoBehaviour
     lookAtPlayer();
   }
 
+  public void toggleMesh(bool toggle) {this.enemy_mesh.enabled = toggle;}
+  public void toggleController(bool toggle) {this.enemy_ctrl.enabled = toggle;}
+  public bool isMeshEnabled() {return this.enemy_mesh.enabled;}
+  public bool isControllerEnabled() {return this.enemy_ctrl.enabled;}
+  
   //Disables player movement and positions the player to look at the enemy up close
   public void killPlayer(float look_offset = 0.6f) {
     this.pause_script.can_pause = false;

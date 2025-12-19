@@ -4,9 +4,7 @@ using UnityEngine;
 public class SCPGhost : MonoBehaviour
 {
   public EnemyAPI enemy_api;
-  public Material material;
-  public MeshRenderer mesh;
-  public CharacterController controller;
+  public SpriteAPI sprite_api;
   public AudioSource sound_loop; //Audio cue to aid the player
   private float sound_loop_volume; //Original volume
 
@@ -28,10 +26,7 @@ public class SCPGhost : MonoBehaviour
   public void setSpeed(float speed) {this.speed = speed;}
   public void setInvisibilityCooldown(float cooldown) {this.invisible_cooldown = cooldown;}
   
-  void Awake() {
-    this.material.color = new Color32(109, 109, 109, 255);
-    this.sound_loop_volume = this.sound_loop.volume;
-  }
+  void Awake() {this.sound_loop_volume = this.sound_loop.volume;}
 
   void Update() {
     if (isInvisible()) {
@@ -45,7 +40,7 @@ public class SCPGhost : MonoBehaviour
     
     if (distance < 1.8f) {
       this.enemy_api.killPlayer();
-      resetTransparency();
+      this.sprite_api.setAlpha(1);
       this.enabled = false;
       return;
     }
@@ -68,21 +63,20 @@ public class SCPGhost : MonoBehaviour
     this.teleport_meter += count_speed * Time.deltaTime;
   }
 
-  void turnInvisible() {
-    this.mesh.enabled = false;
-    this.controller.enabled = false; //To disable collisions
+  void turnInvisible(bool invisible) {
+    this.enemy_api.toggleMesh(!invisible);
+    this.enemy_api.toggleController(!invisible); //To disable collisions
   }
 
   void waitInvisibleTime() {
     if (this.invisible_meter > this.invisible_cooldown) {
-      this.mesh.enabled = true;
-      this.controller.enabled = true;
+      turnInvisible(false);
       this.invisible_meter = 0;
     }
     this.invisible_meter += 1 * Time.deltaTime;
   }
 
-  bool isInvisible() {return !this.mesh.enabled;}
+  bool isInvisible() {return !this.enemy_api.isMeshEnabled();}
 
   //Ghost fades in or out, if fully transparent then it returns true
   bool fade(bool is_seen, float distance) {
@@ -94,20 +88,12 @@ public class SCPGhost : MonoBehaviour
       if (this.visible_percentage > 1) this.visible_percentage = 1;
       else this.visible_percentage += 0.6f * Time.deltaTime;
     }
-    Color c = this.material.color;
-    c.a = this.visible_percentage;
-    this.material.color = c;
+    this.sprite_api.setAlpha(this.visible_percentage);
     this.sound_loop.volume = this.sound_loop_volume * this.visible_percentage;
-    if (c.a == 0) {
-      turnInvisible();
+    if (this.visible_percentage == 0) {
+      turnInvisible(true);
       return true;
     }
     return false;
-  }
-
-  void resetTransparency() {
-    Color c = this.material.color;
-    c.a = 1;
-    this.material.color = c;
   }
 }
