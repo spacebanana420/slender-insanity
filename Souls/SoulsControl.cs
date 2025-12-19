@@ -75,14 +75,12 @@ public class SoulsControl : MonoBehaviour
       case 3:
         StartCoroutine(playGradual(this.music[1]));
         break;
-      case 5:
+      case 6:
         StartCoroutine(playGradual(this.music[2]));
         break;
-      case 7:
+      case 9:
         StartCoroutine(playGradual(this.music[3]));
         break;
-        //case 9:
-        //break;
     }
   }
 
@@ -98,7 +96,7 @@ public class SoulsControl : MonoBehaviour
   //Play with a fade-in
   IEnumerator playGradual(AudioSource music) {
     float max_volume = music.volume;
-    float volume_step = max_volume * 0.3f;
+    float volume_step = max_volume * 0.4f;
     music.volume = 0;
     music.Play();
     while (music.volume < max_volume) {
@@ -133,12 +131,12 @@ public class SoulsControl : MonoBehaviour
 //Enemy stats for Slender and the ghost are written in separate classes here to not clutter the main class
 //1 to 9 orbs released out of 10
 class SlenderStats {
-  public float[] speeds = {0.1f, 0.5f, 1, 1.5f, 2, 2.5f, 3, 3.5f, 4};
-  public float[] look_limits = {20, 15, 10, 8, 7, 6, 5, 4, 3, 3};
+  public float[] speeds = {0.5f, 1, 2, 2.5f, 3, 3.5f, 3.8f, 4, 4.2f};
+  public float[] look_limits = {10, 9, 8, 7, 6, 5, 4.5f, 4, 3.5f, 3};
 
-  public float[] teleport_distances = {25, 20, 10, 9, 8, 7, 6, 5, 5};
-  public float[] teleport_limits = {120, 80, 70, 60, 40, 30, 20, 15, 10};
-  public float[] forward_tp_limits = {120, 120, 120, 120, 120, 100, 60, 40, 20};
+  public float[] teleport_distances = {20, 15, 10, 9, 8, 7, 6, 5, 5};
+  public float[] teleport_limits = {70, 60, 50, 40, 35, 30, 20, 15, 10};
+  public float[] forward_tp_limits = {120, 120, 120, 120, 100, 80, 40, 30, 20};
   public bool[] can_tp_forward = {false, false, false, false, true, true, true, true, true};
 
   public float[] invisible_limits = {40, 80, 100, 110, 120, 120, 120, 120, 120};
@@ -147,7 +145,7 @@ class SlenderStats {
 
 class GhostStats {
   public float[] teleport_cooldown = {30, 25, 20, 15, 12, 10, 8, 6, 4};
-  public float[] teleport_distances = {10, 9, 8, 7, 6, 5, 4.5f, 4.5f, 4.5f};
-  public float[] speeds = {3, 4, 4.5f, 5, 5.5f, 6, 7, 8, 9};
-  public float[] invisibility_cooldown = {40, 30, 25, 22, 18, 15, 12, 10, 10};
+  public float[] teleport_distances = {15, 12, 10, 9, 8, 8, 8, 8, 8};
+  public float[] speeds = {5, 5.5f, 6, 6.5f, 7, 7.5f, 8, 8.5f, 9};
+  public float[] invisibility_cooldown = {40, 38, 36, 34, 32, 30, 28, 26, 24};
 }
