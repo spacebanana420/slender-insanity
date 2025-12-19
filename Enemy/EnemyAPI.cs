@@ -49,6 +49,10 @@ public class EnemyAPI : MonoBehaviour
     this.enemy_ctrl.Move(motion * Time.deltaTime);  
   }
 
+  public void applyGravity(float gravity = 10) {this.enemy_ctrl.Move(new Vector3(0, -gravity * Time.deltaTime, 0));}
+
+  public void applyInstantGravity(float gravity = 10) {this.enemy_ctrl.Move(new Vector3(0, -gravity, 0));}
+
   public void teleport(float distance, float teleport_distance) {
     this.enemy_ctrl.Move(this.enemy.forward * (distance-teleport_distance));
     this.enemy_ctrl.Move(new Vector3(0, -100, 0)); //Gravity

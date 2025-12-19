@@ -25,7 +25,8 @@ public class SCPGhost : MonoBehaviour
   }
   public void setSpeed(float speed) {this.speed = speed;}
   public void setInvisibilityCooldown(float cooldown) {this.invisible_cooldown = cooldown;}
-  
+
+  //Preserve original max volume
   void Awake() {this.sound_loop_volume = this.sound_loop.volume;}
 
   void Update() {
@@ -39,17 +40,17 @@ public class SCPGhost : MonoBehaviour
     bool is_seen = this.enemy_api.isSeen();
     
     if (distance < 1.8f) {
-      this.enemy_api.killPlayer();
+      this.enemy_api.killPlayer(0.2f);
       this.sprite_api.setAlpha(1);
       this.enabled = false;
       return;
     }
-    bool faded_away = fade(is_seen, distance);
+    bool faded_away = fade(is_seen, distance); //Fade-in or fade-out
     if (faded_away) return;
 
     checkTeleport(distance, is_visible);
-    if (is_visible) return;
-    this.enemy_api.move(this.speed);     
+    if (is_visible) this.enemy_api.applyInstantGravity(); //Only apply gravity
+    else this.enemy_api.move(this.speed); //Move toward player
   }
 
   void checkTeleport(float distance, bool is_visible) {

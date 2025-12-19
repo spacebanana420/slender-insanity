@@ -9,7 +9,7 @@ public class Yuyuko : MonoBehaviour
   
   void FixedUpdate() {
     if (this.fade_out) return;
-    if (this.spriteapi.getDistance() < 4) {
+    if (this.spriteapi.getDistance() < 3) {
       this.fade_out = true;
       this.sound.Play();
     }
@@ -19,7 +19,7 @@ public class Yuyuko : MonoBehaviour
     this.spriteapi.lookAtPlayer();
     if (!this.fade_out) return;
 
-    float alpha = this.spriteapi.getAlpha() - 0.2f * Time.deltaTime;
+    float alpha = this.spriteapi.getAlpha() - 0.35f * Time.deltaTime;
     if (alpha <= 0) {
       this.spriteapi.setAlpha(0);
       this.enabled = false;
