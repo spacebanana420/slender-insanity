@@ -25,6 +25,9 @@ public class SpriteAPI : MonoBehaviour
     this.transform.LookAt(look_target);
   }
 
+  public Color getColor() {return this.material.color;}
+  public float getAlpha() {return this.material.color.a;}
+  
   public void setColor(Color c) {this.material.color = c;}
   public void setColor32(Color32 c) {this.material.color = c;}
   public void setAlpha(float alpha) {
