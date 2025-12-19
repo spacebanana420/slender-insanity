@@ -22,7 +22,7 @@ public class PagesControl : MonoBehaviour
   //Slenderman's stats, difficulty adjustment
   //One value for each page collected (1 to 7 pages)
   float[] speeds = {1, 1.5f, 2.5f, 3.5f, 4, 4.5f, 4.8f};
-  float[] look_limits = {7, 6, 5, 4, 3.5f, 3.2f, 3};
+  float[] look_limits = {6, 5.5f, 5, 4.5f, 3.5f, 3.2f, 3};
 
   float[] teleport_distances = {8, 7, 6.2f, 5.8f, 5.5f, 5, 4.8f};
   float[] teleport_limits = {35, 30, 26, 22, 20, 12, 6};

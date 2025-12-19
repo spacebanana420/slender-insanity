@@ -207,12 +207,15 @@ public class Slenderman : MonoBehaviour
   }
 
   //Increases or decreases static, also returns true if the player dies for staring at Slender
+  //Static increase speed is weaker the farther Slender is
+  //Normal speed at 6 distance, 1/2 speed at 12 distance, 6x speed at 1 distance
   bool adjustStatic(float distance) {
     if (this.is_seen && distance <= 18) {
-      this.look_meter = increment(this.look_meter, this.look_limit, 1);
+      float static_speed = 1/(distance/6);
+      this.look_meter = increment(this.look_meter, this.look_limit, static_speed);
     }
     else {
-      this.look_meter = decrement(this.look_meter, 0.9f);
+      this.look_meter = decrement(this.look_meter, 0.8f);
     }
     this.static_script.setStatic(this.look_meter/this.look_limit);
     return this.look_meter == this.look_limit;

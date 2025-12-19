@@ -131,21 +131,21 @@ public class SoulsControl : MonoBehaviour
 //Enemy stats for Slender and the ghost are written in separate classes here to not clutter the main class
 //1 to 9 orbs released out of 10
 class SlenderStats {
-  public float[] speeds = {0.5f, 1, 2, 2.5f, 3, 3.5f, 3.8f, 4, 4.2f};
-  public float[] look_limits = {10, 9, 8, 7, 6, 5, 4.5f, 4, 3.5f, 3};
+  public float[] speeds = {1, 1.5f, 2, 2.5f, 3, 3.5f, 3.8f, 4, 4.6f};
+  public float[] look_limits = {5, 4.8f, 4.6f, 4.4f, 4.2f, 4, 3.8f, 3.6f, 3.4f, 3.2f};
 
-  public float[] teleport_distances = {20, 15, 10, 9, 8, 7, 6, 5, 5};
-  public float[] teleport_limits = {70, 60, 50, 40, 35, 30, 20, 15, 10};
-  public float[] forward_tp_limits = {120, 120, 120, 120, 100, 80, 40, 30, 20};
-  public bool[] can_tp_forward = {false, false, false, false, true, true, true, true, true};
+  public float[] teleport_distances = {15, 12, 10, 9, 8, 7, 6, 5.5f, 5};
+  public float[] teleport_limits = {60, 50, 40, 36, 32, 25, 20, 15, 10};
+  public float[] forward_tp_limits = {120, 120, 120, 120, 90, 70, 40, 30, 20};
+  public bool[] can_tp_forward = {false, false, false, true, true, true, true, true, true};
 
   public float[] invisible_limits = {40, 80, 100, 110, 120, 120, 120, 120, 120};
-  public bool[] can_be_invisible = {true, true, true, true, true, true, false, false, false};
+  public bool[] can_be_invisible = {true, true, true, true, true, false, false, false, false};
 }
 
 class GhostStats {
   public float[] teleport_cooldown = {30, 25, 20, 15, 12, 10, 8, 6, 4};
-  public float[] teleport_distances = {15, 12, 10, 9, 8, 8, 8, 8, 8};
-  public float[] speeds = {5, 5.5f, 6, 6.5f, 7, 7.5f, 8, 8.5f, 9};
-  public float[] invisibility_cooldown = {40, 38, 36, 34, 32, 30, 28, 26, 24};
+  public float[] teleport_distances = {20, 18, 16, 14, 12, 10, 10, 10, 10};
+  public float[] speeds = {5, 5.5f, 6, 6.5f, 7, 7.5f, 8, 8.5f, 8.5f};
+  public float[] invisibility_cooldown = {40, 38, 36, 34, 32, 30, 28, 26, 26};
 }

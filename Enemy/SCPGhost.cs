@@ -5,6 +5,7 @@ public class SCPGhost : MonoBehaviour
 {
   public EnemyAPI enemy_api;
   public SpriteAPI sprite_api;
+  public Light player_light;
   public AudioSource sound_loop; //Audio cue to aid the player
   private float sound_loop_volume; //Original volume
 
@@ -81,13 +82,16 @@ public class SCPGhost : MonoBehaviour
 
   //Ghost fades in or out, if fully transparent then it returns true
   bool fade(bool is_seen, float distance) {
-    if (is_seen && distance < 5) {
+    int fade_distance = this.player_light.enabled ? 7 : 3;
+    float fade_speed = this.player_light.enabled ? 0.5f : 0.2f;
+
+    if (is_seen && distance < fade_distance) {
       if (this.visible_percentage < 0) this.visible_percentage = 0;
-      else this.visible_percentage -= 0.4f * Time.deltaTime;
+      else this.visible_percentage -= fade_speed * Time.deltaTime;
     }
     else {
       if (this.visible_percentage > 1) this.visible_percentage = 1;
-      else this.visible_percentage += 0.8f * Time.deltaTime;
+      else this.visible_percentage += 0.6f * Time.deltaTime;
     }
     this.sprite_api.setAlpha(this.visible_percentage);
     this.sound_loop.volume = this.sound_loop_volume * this.visible_percentage;
