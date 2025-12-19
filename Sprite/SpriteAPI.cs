@@ -5,7 +5,14 @@ public class SpriteAPI : MonoBehaviour
 {
   public Transform player;
   public MeshRenderer mesh;
-  public Material material;
+  
+  private Color original_color;
+  private Material material;
+  
+  void Awake() {
+    this.original_color = this.mesh.material.color;
+    this.material = this.mesh.material;
+  }
   
   public float getDistance() {return Vector3.Distance(this.transform.position, this.player.position);}
 
@@ -16,5 +23,13 @@ public class SpriteAPI : MonoBehaviour
     Vector3 look_target = this.player.position;
     look_target.y = this.transform.position.y; //Do not rotate vertically
     this.transform.LookAt(look_target);
+  }
+
+  public void setColor(Color c) {this.material.color = c;}
+  public void setColor32(Color32 c) {this.material.color = c;}
+  public void setAlpha(float alpha) {
+    Color c = this.material.color;
+    c.a = alpha;
+    this.material.color = c;
   }
 }
