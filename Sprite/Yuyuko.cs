@@ -7,7 +7,13 @@ public class Yuyuko : MonoBehaviour
   public AudioSource sound;
   private bool fade_out = false;
   
-  void FixedUpdate() {this.fade_out = this.fade_out || this.spriteapi.getDistance() < 4;}
+  void FixedUpdate() {
+    if (this.fade_out) return;
+    if (this.spriteapi.getDistance() < 4) {
+      this.fade_out = true;
+      this.sound.Play();
+    }
+  }
   
   void Update() {
     this.spriteapi.lookAtPlayer();
@@ -16,7 +22,6 @@ public class Yuyuko : MonoBehaviour
     float alpha = this.spriteapi.getAlpha() - 0.2f * Time.deltaTime;
     if (alpha <= 0) {
       this.spriteapi.setAlpha(0);
-      this.sound.Play();
       this.enabled = false;
       this.spriteapi.toggleMesh(false); //Alternative to disabling object so sound can still play
       return;
