@@ -81,13 +81,13 @@ public class SCPGhost : MonoBehaviour
 
   //Ghost fades in or out, if fully transparent then it returns true
   bool fade(bool is_seen, float distance) {
-    if (is_seen && distance < 4) {
+    if (is_seen && distance < 5) {
       if (this.visible_percentage < 0) this.visible_percentage = 0;
-      else this.visible_percentage -= 0.2f * Time.deltaTime;
+      else this.visible_percentage -= 0.4f * Time.deltaTime;
     }
     else {
       if (this.visible_percentage > 1) this.visible_percentage = 1;
-      else this.visible_percentage += 0.6f * Time.deltaTime;
+      else this.visible_percentage += 0.8f * Time.deltaTime;
     }
     this.sprite_api.setAlpha(this.visible_percentage);
     this.sound_loop.volume = this.sound_loop_volume * this.visible_percentage;

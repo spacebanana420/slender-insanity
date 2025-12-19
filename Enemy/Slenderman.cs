@@ -15,7 +15,6 @@ public class Slenderman : MonoBehaviour
   public Pause pause_script;
   
   public AudioSource jumpscare_sound;
-  public GameObject static_object;
   public StaticEffect static_script; //Handles the static effect
   public StaticKill kill_script; //Rapidly increases static, for the death screen
   public Terrain terrain;
@@ -68,7 +67,7 @@ public class Slenderman : MonoBehaviour
   //Set Slenderman's difficulty stats
   public void setTeleportDistance(float dist) {this.teleport_distance = dist;}
 
-  void Start() {this.static_object.active = true;}
+  void Start() {this.static_script.gameObject.active = true;}
 
   //Slender's primary function, handles all logic from a high level
   //Most functions it calls check for whether he is visible to the player or not
