@@ -8,6 +8,7 @@ public class SCPGhost : MonoBehaviour
   public SpriteAPI sprite_api;
   public Light player_light;
   public AudioSource sound_loop; //Audio cue to aid the player
+  public AudioSource jumpscare;
   public BlankScreen screen;
   
   private float sound_loop_volume; //Original volume
@@ -111,6 +112,7 @@ public class SCPGhost : MonoBehaviour
 
   //Freezes player, disappears and hinders player visibility
   IEnumerator stunPlayer() {
+    this.jumpscare.Play();
     yield return new WaitForSeconds(0.35f);
     this.screen.fadeToBlack(0.1f);
     yield return new WaitForSeconds(0.16f);
