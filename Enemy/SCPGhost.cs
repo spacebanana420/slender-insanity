@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 //Source code for the level 2 enemy behavior, a ghost inspired by SCP-087-1
 public class SCPGhost : MonoBehaviour
@@ -7,6 +8,8 @@ public class SCPGhost : MonoBehaviour
   public SpriteAPI sprite_api;
   public Light player_light;
   public AudioSource sound_loop; //Audio cue to aid the player
+  public BlankScreen screen;
+  
   private float sound_loop_volume; //Original volume
 
   private float visible_percentage = 1; //For adjusting material transparency
@@ -20,6 +23,8 @@ public class SCPGhost : MonoBehaviour
   private float invisible_cooldown = 20;
   private float invisible_meter = 0;
 
+  private bool stunning_player = false;
+
   public void setTeleport(float distance, float cooldown) {
     this.teleport_distance = distance;
     this.teleport_cooldown = cooldown;
@@ -31,6 +36,7 @@ public class SCPGhost : MonoBehaviour
   void Awake() {this.sound_loop_volume = this.sound_loop.volume;}
 
   void Update() {
+    if (this.stunning_player) return;
     if (isInvisible()) {
       waitInvisibleTime();
       return;
@@ -41,9 +47,10 @@ public class SCPGhost : MonoBehaviour
     bool is_seen = this.enemy_api.isSeen();
     
     if (distance < 1.8f) {
-      this.enemy_api.killPlayer(0.2f);
+      this.enemy_api.killPlayer(0.2f); //Does not actually kill, just positions the player and camera
+      this.stunning_player = true;
       this.sprite_api.setAlpha(1);
-      this.enabled = false;
+      StartCoroutine(stunPlayer());
       return;
     }
     bool faded_away = fade(is_seen, distance); //Fade-in or fade-out
@@ -100,5 +107,19 @@ public class SCPGhost : MonoBehaviour
       return true;
     }
     return false;
+  }
+
+  //Freezes player, disappears and hinders player visibility
+  IEnumerator stunPlayer() {
+    yield return new WaitForSeconds(0.35f);
+    this.screen.fadeToBlack(0.1f);
+    yield return new WaitForSeconds(0.16f);
+    this.invisible_meter = 0;
+    this.visible_percentage = 0;
+    this.sound_loop.volume = 0;
+    this.turnInvisible(true);
+    this.enemy_api.releasePlayer();
+    this.stunning_player = false;
+    this.screen.fadeFromBlack(20);
   }
 }

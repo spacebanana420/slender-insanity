@@ -73,4 +73,10 @@ public class EnemyAPI : MonoBehaviour
     this.player_camera.LookAt(enemy_pos);
     lookAtPlayer();
   }
+
+  //Enables player controls and pause menu, useful for temporary "kill" events that use killPlayer()
+  public void releasePlayer() {
+    this.pause_script.can_pause = true;
+    this.player_script.caught = false;
+  }
 }
