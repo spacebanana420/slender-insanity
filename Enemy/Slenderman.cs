@@ -19,6 +19,8 @@ public class Slenderman : MonoBehaviour
   public StaticKill kill_script; //Rapidly increases static, for the death screen
   public Terrain terrain;
 
+  public GameObject[] other_enemies; //Disale all of them when Slender kills the player to avoid conflict
+
   //Variables used for counting timers
   //e.g jumpscare_limit=15 means that it takes 15 seconds for the counter to end
   //Some timers count faster (e.g. teleport_meter counting faster when Slender is seen from afar)
@@ -222,6 +224,8 @@ public class Slenderman : MonoBehaviour
   }
 
   void kill() {
+    foreach (GameObject enemy in this.other_enemies) enemy.active = false; //Avoid conflicts
+    
     this.pause_script.can_pause = false;
     this.jumpscare_sound.Play();
     this.player_controller.caught = true;

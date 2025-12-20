@@ -136,7 +136,7 @@ class SlenderStats {
 
   public float[] teleport_distances = {15, 12, 10, 9, 8, 7, 6, 5.5f, 5};
   public float[] teleport_limits = {45, 42, 38, 36, 32, 25, 20, 15, 10};
-  public float[] forward_tp_limits = {120, 120, 120, 90, 70, 45, 30, 25, 20};
+  public float[] forward_tp_limits = {90, 90, 90, 90, 60, 45, 30, 25, 20};
   public bool[] can_tp_forward = {false, false, true, true, true, true, true, true, true};
 
   public float[] invisible_limits = {40, 80, 100, 110, 120, 120, 120, 120, 120};
