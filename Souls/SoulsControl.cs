@@ -131,7 +131,7 @@ public class SoulsControl : MonoBehaviour
 //Enemy stats for Slender and the ghost are written in separate classes here to not clutter the main class
 //1 to 9 orbs released out of 10
 class SlenderStats {
-  public float[] speeds = {1, 1.5f, 2, 2.5f, 3, 3.5f, 3.8f, 4, 4.6f};
+  public float[] speeds = {1, 1.5f, 2, 3, 3.5f, 4, 4.5f, 5, 5.2f};
   public float[] look_limits = {5, 4.8f, 4.6f, 4.4f, 4.2f, 4, 3.8f, 3.6f, 3.4f};
 
   public float[] teleport_distances = {15, 12, 10, 9, 8, 7, 6, 5.5f, 5};
@@ -144,8 +144,8 @@ class SlenderStats {
 }
 
 class GhostStats {
-  public float[] teleport_cooldown = {30, 25, 20, 15, 12, 10, 8, 6, 4};
-  public float[] teleport_distances = {26, 24, 22, 20, 18, 16, 14, 12, 12};
-  public float[] speeds = {6, 6.5f, 7, 7.5f, 8, 8.5f, 9, 9.5f, 10};
+  public float[] teleport_cooldown = {35, 30, 25, 20, 15, 12, 10, 8, 8};
+  public float[] teleport_distances = {20, 19, 18, 17, 16, 15, 14, 14, 14};
+  public float[] speeds = {6.5f, 7, 7.5f, 8, 8.5f, 9, 9.5f, 10, 10.5f};
   public float[] invisibility_cooldown = {40, 38, 36, 34, 32, 30, 28, 26, 26};
 }

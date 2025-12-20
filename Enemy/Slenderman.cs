@@ -133,7 +133,7 @@ public class Slenderman : MonoBehaviour
       this.jumpscare_meter = increment(this.jumpscare_meter, this.jumpscare_limit, 1);
       return;
     }
-    if (this.jumpscare_meter < this.jumpscare_limit || distance > 7f) {return;}
+    if (this.jumpscare_meter < this.jumpscare_limit || distance > 8f) {return;}
     this.jumpscare_meter = 0;
     this.jumpscare_sound.Play();
     return;
