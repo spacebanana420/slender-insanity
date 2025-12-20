@@ -209,7 +209,7 @@ public class Slenderman : MonoBehaviour
       this.look_meter = increment(this.look_meter, 10, static_speed); //10 is the reference time limit
     }
     else {
-      this.look_meter = decrement(this.look_meter, 4);
+      this.look_meter = decrement(this.look_meter, 3);
     }
     this.static_script.setStatic(this.look_meter/10);
     return this.look_meter == 10;

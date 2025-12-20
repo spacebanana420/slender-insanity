@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
       return this.walkSpeed;
     }
     else { //Walk and regenerate stamina
-      if (this.stamina < this.max_stamina) {this.stamina += 0.35f * Time.deltaTime;}
+      if (this.stamina < this.max_stamina) {this.stamina += 0.4f * Time.deltaTime;}
       else {this.stamina = this.max_stamina;}
       return this.walkSpeed;
     }
