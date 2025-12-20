@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class StaticKill : MonoBehaviour
 {
   public StaticEffect static_script;
-  public PagesControl pages_script;
+  public string gameover_text; //e.g 5/8 pages collected
   public BlankScreen black_screen;
   public TextControl text;
   public AudioSource[] music;
@@ -41,7 +41,7 @@ public class StaticKill : MonoBehaviour
     this.black_screen.displayBlackScreen();
     foreach (AudioSource track in music) {track.Stop();}
     yield return new WaitForSeconds(2f);
-    this.text.displayText(this.pages_script.pages_collected+"/8 pages collected\nTry again? (y/n)"); //Placeholder
+    this.text.displayText(this.gameover_text+"\nTry again? (y/n)");
     this.await_user_input = true;
   }
 }

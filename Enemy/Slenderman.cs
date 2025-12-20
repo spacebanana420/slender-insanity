@@ -30,7 +30,6 @@ public class Slenderman : MonoBehaviour
   private float tp_forward_limit = 120;
   private bool can_teleport_forward = false;
   private float look_meter = 0;
-  private float look_limit = 5;
   private float jumpscare_meter = 15;
   private float jumpscare_limit = 15;
   private bool can_be_invisible = true;
@@ -48,13 +47,6 @@ public class Slenderman : MonoBehaviour
     this.teleport_limit = time;
     this.can_teleport_forward = can_tp_forward;
     this.tp_forward_limit = forward_time;
-  }
-
-  //Set Slenderman's difficulty stats
-  public void setLookDamage(float time) {
-    this.look_limit = time;
-    //Avoids the player dying suddenly for making progress (e.g look_meter at 4.5 but look_limit changes from 5 to 4)
-    if (this.look_meter >= time) {this.look_meter = time*0.7f;}
   }
 
   //Set Slenderman's difficulty stats
@@ -84,7 +76,7 @@ public class Slenderman : MonoBehaviour
       return;
     }
     //Kill the player by proximity
-    if (distance < 1.5f) {
+    if (distance < 1.7f) {
       kill();
       return;
     }
@@ -159,7 +151,7 @@ public class Slenderman : MonoBehaviour
       return;
     }
     //Teleporting behind the player isn't worth it if Slender is close to the player
-    if (distance < 8) {return;}
+    if (distance < this.teleport_distance) {return;}
     teleport(distance, false); //Teleport to the player's back
   }
 
@@ -209,18 +201,18 @@ public class Slenderman : MonoBehaviour
   }
 
   //Increases or decreases static, also returns true if the player dies for staring at Slender
-  //Static increase speed is weaker the farther Slender is
-  //Normal speed at 6 distance, 1/2 speed at 12 distance, 6x speed at 1 distance
+  //Static is weaker the farther Slender is
+  //Takes 10/16 seconds to kill the player at 1 distance, time doubles at twice the distance, etc
   bool adjustStatic(float distance) {
     if (this.is_seen && distance <= 18) {
-      float static_speed = 1/(distance/6);
-      this.look_meter = increment(this.look_meter, this.look_limit, static_speed);
+      float static_speed = 16/distance;
+      this.look_meter = increment(this.look_meter, 10, static_speed); //10 is the reference time limit
     }
     else {
-      this.look_meter = decrement(this.look_meter, 0.8f);
+      this.look_meter = decrement(this.look_meter, 4);
     }
-    this.static_script.setStatic(this.look_meter/this.look_limit);
-    return this.look_meter == this.look_limit;
+    this.static_script.setStatic(this.look_meter/10);
+    return this.look_meter == 10;
   }
 
   void kill() {

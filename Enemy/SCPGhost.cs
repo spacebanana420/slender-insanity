@@ -63,7 +63,7 @@ public class SCPGhost : MonoBehaviour
 
   void checkTeleport(float distance, bool is_visible) {
     float count_speed = is_visible ? 2 : 1;
-    if (distance < 8) {return;}
+    if (distance < this.teleport_distance) {return;}
     if (this.teleport_meter > this.teleport_cooldown) {
       this.teleport_meter = 0;
       this.enemy_api.teleport(distance, this.teleport_distance);

@@ -16,8 +16,8 @@ public class Player : MonoBehaviour
   private float running_tempo = 1.3f; //Currently the running SFX speed is 1.3x of the original
   private float walkSpeed = 3f;
   private float sprintSpeed = 6f;
-  private float stamina = 10;
-  private float max_stamina = 10;
+  private float stamina = 12;
+  private float max_stamina = 12;
   private float maxLookAngle = 85f;
 
   private float verticalRotation = 0f;
@@ -89,15 +89,15 @@ public class Player : MonoBehaviour
   float getWalkSpeed() {
     bool is_sprinting = Keyboard.current.leftShiftKey.isPressed;
     if (is_sprinting) {
-      if (this.stamina > 0) {
+      if (this.stamina > 0) { //Run
         this.stamina -= 1f * Time.deltaTime;
         return this.sprintSpeed;
       }
-      this.stamina = 0;
+      this.stamina = 0; //Depleted, walk
       return this.walkSpeed;
     }
-    else {
-      if (this.stamina < this.max_stamina) {this.stamina += 0.5f * Time.deltaTime;}
+    else { //Walk and regenerate stamina
+      if (this.stamina < this.max_stamina) {this.stamina += 0.35f * Time.deltaTime;}
       else {this.stamina = this.max_stamina;}
       return this.walkSpeed;
     }

@@ -8,6 +8,7 @@ public class PagesControl : MonoBehaviour
   public GameObject slenderman;
   public Slenderman slender_script;
   public TextControl text;
+  public StaticKill gameover;
   public Level1Victory l1victory;
 
   //Used for random page placement in map
@@ -22,8 +23,7 @@ public class PagesControl : MonoBehaviour
   //Slenderman's stats, difficulty adjustment
   //One value for each page collected (1 to 7 pages)
   float[] speeds = {1, 1.5f, 2.5f, 3.5f, 4, 4.5f, 4.8f};
-  float[] look_limits = {6, 5.5f, 5, 4.5f, 3.5f, 3.2f, 3};
-
+  
   float[] teleport_distances = {8, 7, 6.2f, 5.8f, 5.5f, 5, 4.8f};
   float[] teleport_limits = {35, 30, 26, 22, 20, 12, 6};
   float[] forward_tp_limits = {100, 100, 100, 60, 40, 25, 20};
@@ -54,7 +54,9 @@ public class PagesControl : MonoBehaviour
   public void collectPage() {
     int i = this.pages_collected;
     this.pages_collected += 1;
-    this.text.displayTemporaryText(this.pages_collected+"/8 pages collected", 4);
+    string text = this.pages_collected+"/8 pages collected";
+    this.text.displayTemporaryText(text, 4);
+    this.gameover.gameover_text = text;
     
     if (this.pages_collected == 8) {
       StartCoroutine(stopMusic());
@@ -62,7 +64,6 @@ public class PagesControl : MonoBehaviour
       return;
     }
     this.slender_script.setChaseSpeed(this.speeds[i]);
-    this.slender_script.setLookDamage(this.look_limits[i]);
     this.slender_script.setTeleportDistance(this.teleport_distances[i]);
     this.slender_script.setTeleportation(this.teleport_limits[i], this.can_tp_forward[i], this.forward_tp_limits[i]);
     this.slender_script.setInvisibility(this.invisible_limits[i], this.can_be_invisible[i]);

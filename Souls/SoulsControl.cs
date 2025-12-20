@@ -11,6 +11,7 @@ public class SoulsControl : MonoBehaviour
   public SCPGhost ghost_script;
   
   public TextControl text;
+  public StaticKill gameover;
   //public Level1Victory l1victory;
 
   //Used for random page placement in map
@@ -47,7 +48,9 @@ public class SoulsControl : MonoBehaviour
   public void releaseSoul() {
     int i = this.souls_released;
     this.souls_released += 1;
-    this.text.displayTemporaryText(this.souls_released+"/10 souls released", 4);
+    string text = this.souls_released+"/10 souls released";
+    this.text.displayTemporaryText(text, 4);
+    this.gameover.gameover_text = text;
     
     if (this.souls_released == 10) {
       StartCoroutine(stopMusic());
@@ -56,7 +59,6 @@ public class SoulsControl : MonoBehaviour
     }
     //Change Slenderman's stats
     this.slender_script.setChaseSpeed(this.slender_stats.speeds[i]);
-    this.slender_script.setLookDamage(this.slender_stats.look_limits[i]);
     this.slender_script.setTeleportDistance(this.slender_stats.teleport_distances[i]);
     this.slender_script.setTeleportation(this.slender_stats.teleport_limits[i], this.slender_stats.can_tp_forward[i], this.slender_stats.forward_tp_limits[i]);
     this.slender_script.setInvisibility(this.slender_stats.invisible_limits[i], this.slender_stats.can_be_invisible[i]);
@@ -132,12 +134,11 @@ public class SoulsControl : MonoBehaviour
 //1 to 9 orbs released out of 10
 class SlenderStats {
   public float[] speeds = {1, 1.5f, 2, 3, 3.5f, 4, 4.5f, 5, 5.2f};
-  public float[] look_limits = {5, 4.8f, 4.6f, 4.4f, 4.2f, 4, 3.8f, 3.6f, 3.4f};
 
   public float[] teleport_distances = {15, 12, 10, 9, 8, 7, 6, 5.5f, 5};
-  public float[] teleport_limits = {45, 42, 38, 36, 32, 25, 20, 15, 10};
+  public float[] teleport_limits = {36, 34, 32, 30, 28, 24, 20, 15, 10};
   public float[] forward_tp_limits = {90, 90, 90, 90, 60, 45, 30, 25, 20};
-  public bool[] can_tp_forward = {false, false, true, true, true, true, true, true, true};
+  public bool[] can_tp_forward = {false, false, false, true, true, true, true, true, true};
 
   public float[] invisible_limits = {40, 80, 100, 110, 120, 120, 120, 120, 120};
   public bool[] can_be_invisible = {true, true, true, true, true, false, false, false, false};
@@ -146,6 +147,6 @@ class SlenderStats {
 class GhostStats {
   public float[] teleport_cooldown = {35, 30, 25, 20, 15, 12, 10, 8, 8};
   public float[] teleport_distances = {20, 19, 18, 17, 16, 15, 14, 14, 14};
-  public float[] speeds = {6.5f, 7, 7.5f, 8, 8.5f, 9, 9.5f, 10, 10.5f};
+  public float[] speeds = {7, 7.5f, 8, 8.5f, 9, 9.5f, 10, 10.5f, 11};
   public float[] invisibility_cooldown = {40, 38, 36, 34, 32, 30, 28, 26, 26};
 }
