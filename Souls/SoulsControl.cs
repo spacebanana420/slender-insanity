@@ -11,8 +11,9 @@ public class SoulsControl : MonoBehaviour
   public SCPGhost ghost_script;
   
   public TextControl text;
+  public StaticEffect static_script;
   public StaticKill gameover;
-  //public Level1Victory l1victory;
+  public Level2Victory victory;
 
   //Used for random page placement in map
   public Transform[] orbs;
@@ -54,7 +55,10 @@ public class SoulsControl : MonoBehaviour
     
     if (this.souls_released == 10) {
       StartCoroutine(stopMusic());
-      //this.l1victory.startVictoryEvent();
+      this.slenderman.active = false;
+      this.ghost.active = false;
+      this.static_script.stopFade(4);
+      this.victory.startVictoryEvent();
       return;
     }
     //Change Slenderman's stats
