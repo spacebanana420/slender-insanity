@@ -8,6 +8,7 @@ public class Level2Victory : MonoBehaviour
   public Transform player;
   public Transform player_cam;
   public Player player_script;
+  public CharacterController player_controller;
   public Pause pause_script;
   
   public SCPGhost ghost;
@@ -40,7 +41,7 @@ public class Level2Victory : MonoBehaviour
     GameObject ghost_obj = this.ghost.gameObject;
     this.ghost.enabled = false;
     yield return new WaitForSeconds(15);
-    //Ghost re-appears
+    //Ghost jumpscare
     ghost_obj.active = true;
     this.ghost_api.teleport(this.ghost_api.getDistance(), 1.8f);
     this.ghost_api.killPlayer();
@@ -50,8 +51,12 @@ public class Level2Victory : MonoBehaviour
     yield return new WaitForSeconds(0.3f);
     this.screen.fadeToBlack(0.1f);
     yield return new WaitForSeconds(7);
+    //Wake up with the 10 orbs floating
     ghost_obj.active = false;
     this.player_script.caught = false;
+    this.player_controller.enabled = false;
+    this.player.position = new Vector3(514.203f, 0.09f, 437.17f); //Pre-defined position, close to the rotating orbs
+    this.player_controller.enabled = true;
     this.screen.fadeFromBlack(10f);
     changeTimeOfDay();
     spawnOrbs();
@@ -60,15 +65,17 @@ public class Level2Victory : MonoBehaviour
     
     yield return new WaitForSeconds(15);
     this.screen.displayBlackScreen();
+    this.player_script.caught = true;
     yield return new WaitForSeconds(3);
     this.text.displayText("Bound to a world where they were left behind...");
-    yield return new WaitForSeconds(5);
+    yield return new WaitForSeconds(6);
     this.text.displayText("Long forgotten, the lost souls have finally found peace");
-    yield return new WaitForSeconds(5);
+    yield return new WaitForSeconds(6);
     this.text.displayText("The terror brought to this small town has come to an end");
-    // this.text.close();
-    // yield return new WaitForSeconds(2);
-    // level_loader.loadScene("Main Menu");
+    yield return new WaitForSeconds(6);
+    this.text.close();
+    yield return new WaitForSeconds(1);
+    level_loader.loadScene("Main Menu");
   }
 
   //Rotate the orbs and eventually make them disappear
@@ -86,7 +93,7 @@ public class Level2Victory : MonoBehaviour
       m.color = c;
     }
     //Orb lights fade out
-    foreach (Light l in this.orbs_l) {l.intensity -= 0.1f * Time.deltaTime;}
+    foreach (Light l in this.orbs_l) {l.intensity -= 0.3f * Time.deltaTime;}
   }
 
   void changeTimeOfDay() {
