@@ -10,7 +10,7 @@ public class Page : MonoBehaviour
   public MeshRenderer page_mesh;
   public AudioSource sound;
 
-  void FixedUpdate() {
+  void Update() {
     if (!this.page_mesh.isVisible) {return;}
     if (!Mouse.current.leftButton.wasPressedThisFrame) {return;}
     if (Vector3.Distance(this.transform.position, this.player_t.position) > 2) {return;}
