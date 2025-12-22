@@ -171,6 +171,7 @@ public class Slenderman : MonoBehaviour
     //Teleport behind the player instead
     else {this.controller.Move(transform.forward * (distance-this.teleport_distance));}
     this.controller.Move(new Vector3(0, -100, 0)); //Gravity
+    this.jumpscare_meter = increment(this.jumpscare_meter, this.jumpscare_limit, 6); //Advance jumpscare meter a bit
     lookAtPlayer();
   }
 
@@ -202,10 +203,10 @@ public class Slenderman : MonoBehaviour
 
   //Increases or decreases static, also returns true if the player dies for staring at Slender
   //Static is weaker the farther Slender is
-  //Takes 10/16 seconds to kill the player at 1 distance, time doubles at twice the distance, etc
+  //Takes 10/18 seconds to kill the player at 1 distance, time doubles at twice the distance, etc
   bool adjustStatic(float distance) {
     if (this.is_seen && distance <= 18) {
-      float static_speed = 16/distance;
+      float static_speed = 18/distance;
       this.look_meter = increment(this.look_meter, 10, static_speed); //10 is the reference time limit
     }
     else {

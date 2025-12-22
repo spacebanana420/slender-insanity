@@ -47,7 +47,7 @@ public class Level2Victory : MonoBehaviour
     jumpscarePlayer(ghost_obj);
     yield return new WaitForSeconds(0.4f);
     this.screen.fadeToBlack(0.3f);
-    yield return new WaitForSeconds(7);
+    yield return new WaitForSeconds(10);
     //Wake up with the 10 orbs floating
     ghost_obj.active = false;
     this.player_script.caught = false;
@@ -64,14 +64,13 @@ public class Level2Victory : MonoBehaviour
     this.screen.displayBlackScreen();
     this.player_script.caught = true;
     yield return new WaitForSeconds(3);
-    this.text.displayText("Bound to a world where they were left behind...");
-    yield return new WaitForSeconds(6);
-    this.text.displayText("Long forgotten, the lost souls have finally found peace");
-    yield return new WaitForSeconds(6);
-    this.text.displayText("The terror brought to this small town has come to an end");
-    yield return new WaitForSeconds(6);
-    this.text.close();
-    yield return new WaitForSeconds(1);
+    string[] ending_text = {
+      "Bound to a world where they were left behind...",
+      "Long forgotten, the lost souls have finally found peace",
+      "The terror brought to this small town has come to an end"
+    };
+    float duration = this.text.startSequence(ending_text);
+    yield return new WaitForSeconds(duration);
     level_loader.loadScene("Main Menu");
   }
 

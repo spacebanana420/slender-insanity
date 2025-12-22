@@ -41,7 +41,7 @@ public class Level2Start : MonoBehaviour
     yield return new WaitForSeconds(1);
     this.flashlight.turnOn();
     yield return new WaitForSeconds(2);
-    text.displayTemporaryText("Collect the 8 pages", 8);
+    text.displayTemporaryText("Release all 10 souls", 8);
     yield return new WaitForSeconds(12);
     this.fade_in = false;
     this.fade_out = true;
