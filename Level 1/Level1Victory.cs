@@ -69,8 +69,20 @@ public class Level1Victory : MonoBehaviour
     this.player_script.caught = true;
     this.blank_screen.displayBlackScreen();
     yield return new WaitForSeconds(3);
-    this.text.displayText("He is free now, and so are you...");
-    yield return new WaitForSeconds(5);
+    string[] ending_text = {
+      "Story repeats itself, the curse continues",
+      "Or so it used to, until now...",
+      "Is the seal finally broken? Will he no longer torment us?",
+      "It seems so at least",
+      "The remnants of the things he destroyed slowly fade away",
+      "Eventually no one is left to tell these stories",
+      "No one will be left to remember and fear him",
+      "He becomes forgotten, buried in the past",
+      "Ready to move on, to leave us behind as we left him",
+      "He becomes free, and so do you..."
+    };
+    float duration = this.text.startSequence(ending_text);
+    yield return new WaitForSeconds(duration);
     this.text.close();
     yield return new WaitForSeconds(2);
     changeTimeOfDay();

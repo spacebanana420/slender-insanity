@@ -9,7 +9,7 @@ public class EnemySelect : MonoBehaviour
   //5% probability of easter egg taking Slenderman's place
   void Awake() {
     float result = Random.value;
-    if (result <= 0.95f) slender.active = true;
+    if (result <= 0.98f) slender.active = true;
     else easteregg.active = true;
   }
 }
