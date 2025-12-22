@@ -203,14 +203,14 @@ public class Slenderman : MonoBehaviour
 
   //Increases or decreases static, also returns true if the player dies for staring at Slender
   //Static is weaker the farther Slender is
-  //Takes 10/18 seconds to kill the player at 1 distance, time doubles at twice the distance, etc
+  //Takes 10/16 seconds to kill the player at 1 distance, time doubles at twice the distance, etc
   bool adjustStatic(float distance) {
     if (this.is_seen && distance <= 18) {
-      float static_speed = 18/distance;
+      float static_speed = 16/distance;
       this.look_meter = increment(this.look_meter, 10, static_speed); //10 is the reference time limit
     }
     else {
-      this.look_meter = decrement(this.look_meter, 3);
+      this.look_meter = decrement(this.look_meter, 2.5f);
     }
     this.static_script.setStatic(this.look_meter/10);
     return this.look_meter == 10;

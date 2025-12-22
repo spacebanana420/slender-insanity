@@ -26,10 +26,10 @@ public class PagesControl : MonoBehaviour
   
   float[] teleport_distances = {8, 7, 6.2f, 5.8f, 5.5f, 5, 4.8f};
   float[] teleport_limits = {35, 30, 26, 22, 20, 12, 6};
-  float[] forward_tp_limits = {100, 100, 100, 60, 40, 25, 20};
+  float[] forward_tp_limits = {100, 100, 100, 60, 35, 22, 18};
   bool[] can_tp_forward = {false, false, true, true, true, true, true};
 
-  float[] invisible_limits = {60, 80, 100, 110, 120, 120, 120};
+  float[] invisible_limits = {50, 70, 90, 110, 120, 120, 120};
   bool[] can_be_invisible = {true, true, true, true, true, false, false};
 
   void Awake() {
