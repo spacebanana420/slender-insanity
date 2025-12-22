@@ -52,6 +52,7 @@ public class EnemyAPI : MonoBehaviour
   public void applyGravity(float gravity = 10) {this.enemy_ctrl.Move(new Vector3(0, -gravity * Time.deltaTime, 0));}
   public void applyInstantGravity(float gravity = 10) {this.enemy_ctrl.Move(new Vector3(0, -gravity, 0));}
 
+  //Simple teleportation, just move very fast
   public void teleport(float teleport_distance) {teleport(getDistance(), teleport_distance);}
   public void teleport(float distance, float teleport_distance) {
     lookAtPlayer();
@@ -59,6 +60,7 @@ public class EnemyAPI : MonoBehaviour
     this.enemy_ctrl.Move(new Vector3(0, -100, 0)); //Gravity    
   }
 
+  //Teleport to where the player is looking at
   public void teleportForward(Terrain terrain = null, float teleport_distance = 6, float height_correction = 1.5f) {
     this.enemy_ctrl.enabled = false; //For manual position changes
     Vector3 new_position = this.player.position + (this.player.forward * teleport_distance);

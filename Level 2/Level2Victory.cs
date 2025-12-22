@@ -34,8 +34,6 @@ public class Level2Victory : MonoBehaviour
   private Vector3 center; //The center of the circle is defined by the first orb's initial position
   private bool rotate = false;
   private bool disappear = false;
-
-  void Start() {startVictoryEvent();}
   
   public void startVictoryEvent() {StartCoroutine(victoryEvent());}
 
@@ -48,7 +46,7 @@ public class Level2Victory : MonoBehaviour
     this.pause_script.can_pause = false;
     jumpscarePlayer(ghost_obj);
     yield return new WaitForSeconds(0.4f);
-    this.screen.fadeToBlack(0.2f);
+    this.screen.fadeToBlack(0.3f);
     yield return new WaitForSeconds(7);
     //Wake up with the 10 orbs floating
     ghost_obj.active = false;
@@ -92,14 +90,15 @@ public class Level2Victory : MonoBehaviour
       m.color = c;
     }
     //Orb lights fade out
-    foreach (Light l in this.orbs_l) {l.intensity -= 0.4f * Time.deltaTime;}
+    foreach (Light l in this.orbs_l) {l.intensity -= 0.3f * Time.deltaTime;}
   }
 
   void jumpscarePlayer(GameObject ghost_obj) {
     ghost_obj.active = true;
     this.ghost_sprite_api.setAlpha(1);
-    this.ghost_api.teleportForward(this.terrain, 1.5f);
-    this.ghost_api.killPlayer();
+    this.ghost_sprite_api.toggleMesh(true);
+    this.ghost_api.teleportForward(this.terrain, 1.8f);
+    this.ghost_api.killPlayer(0.3f);
     this.jumpscare.Play();
   }
 
