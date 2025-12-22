@@ -13,6 +13,7 @@ public class Level2Victory : MonoBehaviour
   
   public SCPGhost ghost;
   public EnemyAPI ghost_api;
+  public SpriteAPI ghost_sprite_api;
   
   public BlankScreen screen;
   public TextControl text;
@@ -21,6 +22,7 @@ public class Level2Victory : MonoBehaviour
   public AudioSource environment;
   public LevelLoad level_loader;
   public Material end_skybox;
+  public Terrain terrain;
 
   //10 orbs rotating around a center
   public Transform orb;
@@ -42,24 +44,21 @@ public class Level2Victory : MonoBehaviour
     this.ghost.enabled = false;
     yield return new WaitForSeconds(15);
     //Ghost jumpscare
-    ghost_obj.active = true;
-    this.ghost_api.teleport(this.ghost_api.getDistance(), 1.8f);
-    this.ghost_api.killPlayer();
-    this.jumpscare.Play();
     this.player_script.caught = true;
     this.pause_script.can_pause = false;
-    yield return new WaitForSeconds(0.3f);
-    this.screen.fadeToBlack(0.1f);
+    jumpscarePlayer(ghost_obj);
+    yield return new WaitForSeconds(0.4f);
+    this.screen.fadeToBlack(0.2f);
     yield return new WaitForSeconds(7);
     //Wake up with the 10 orbs floating
     ghost_obj.active = false;
     this.player_script.caught = false;
     this.player_controller.enabled = false;
-    this.player.position = new Vector3(514.203f, 0.09f, 437.17f); //Pre-defined position, close to the rotating orbs
+    this.player.position = new Vector3(514.203f, 0.09f, 437.17f); //Close to the rotating orbs
     this.player_controller.enabled = true;
-    this.screen.fadeFromBlack(10f);
     changeTimeOfDay();
     spawnOrbs();
+    this.screen.fadeFromBlack(10f);
     yield return new WaitForSeconds(20);
     this.disappear = true;
     
@@ -93,7 +92,15 @@ public class Level2Victory : MonoBehaviour
       m.color = c;
     }
     //Orb lights fade out
-    foreach (Light l in this.orbs_l) {l.intensity -= 0.3f * Time.deltaTime;}
+    foreach (Light l in this.orbs_l) {l.intensity -= 0.4f * Time.deltaTime;}
+  }
+
+  void jumpscarePlayer(GameObject ghost_obj) {
+    ghost_obj.active = true;
+    this.ghost_sprite_api.setAlpha(1);
+    this.ghost_api.teleportForward(this.terrain, 1.5f);
+    this.ghost_api.killPlayer();
+    this.jumpscare.Play();
   }
 
   void changeTimeOfDay() {

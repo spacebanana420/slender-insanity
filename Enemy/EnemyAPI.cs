@@ -50,11 +50,25 @@ public class EnemyAPI : MonoBehaviour
   }
 
   public void applyGravity(float gravity = 10) {this.enemy_ctrl.Move(new Vector3(0, -gravity * Time.deltaTime, 0));}
-
   public void applyInstantGravity(float gravity = 10) {this.enemy_ctrl.Move(new Vector3(0, -gravity, 0));}
 
+  public void teleport(float teleport_distance) {teleport(getDistance(), teleport_distance);}
   public void teleport(float distance, float teleport_distance) {
+    lookAtPlayer();
     this.enemy_ctrl.Move(this.enemy.forward * (distance-teleport_distance));
+    this.enemy_ctrl.Move(new Vector3(0, -100, 0)); //Gravity    
+  }
+
+  public void teleportForward(Terrain terrain = null, float teleport_distance = 6, float height_correction = 1.5f) {
+    this.enemy_ctrl.enabled = false; //For manual position changes
+    Vector3 new_position = this.player.position + (this.player.forward * teleport_distance);
+    //Prevents the possibility of teleporting below ground
+    if (terrain == null) {
+      new_position.y += height_correction;
+    }
+    else {new_position.y = terrain.SampleHeight(new_position)+height_correction;}
+    this.enemy.position = new_position;
+    this.enemy_ctrl.enabled = true;
     this.enemy_ctrl.Move(new Vector3(0, -100, 0)); //Gravity
     lookAtPlayer();
   }
