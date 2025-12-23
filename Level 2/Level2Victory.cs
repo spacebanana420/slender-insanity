@@ -48,7 +48,7 @@ public class Level2Victory : MonoBehaviour
     yield return new WaitForSeconds(0.4f);
     this.screen.fadeToBlack(0.3f);
     yield return new WaitForSeconds(10);
-    //Wake up with the 10 orbs floating
+    //Wake up with the 10 orbs floating around a center
     ghost_obj.active = false;
     this.player_script.caught = false;
     this.player_controller.enabled = false;
@@ -60,17 +60,21 @@ public class Level2Victory : MonoBehaviour
     yield return new WaitForSeconds(20);
     this.disappear = true;
     
-    yield return new WaitForSeconds(15);
-    this.screen.displayBlackScreen();
+    yield return new WaitForSeconds(20);
+    this.screen.fadeToBlack(6);
+    yield return new WaitForSeconds(6);
     this.player_script.caught = true;
     yield return new WaitForSeconds(3);
     string[] ending_text = {
       "Bound to a world where they were left behind...",
-      "Long forgotten, the lost souls have finally found peace",
-      "The terror brought to this small town has come to an end"
+      "The souls have finally found peace",
+      "The terror brought to this small town has come to an end",
+      "Slowly but surely, the destruction these monsters caused is amended",
+      "Another remnant of the past will no longer haunt us",
+      "But it is not over, as Slenderman still roams free"
     };
-    float duration = this.text.startSequence(ending_text);
-    yield return new WaitForSeconds(duration);
+    float duration = this.text.startSequence(ending_text, 6.5f);
+    yield return new WaitForSeconds(duration+1);
     level_loader.loadScene("Main Menu");
   }
 

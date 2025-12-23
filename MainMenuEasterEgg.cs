@@ -1,7 +1,7 @@
 using UnityEngine;
 
 //Used in main menu, chooses whether to show Slenderman looking at the camera or someone else (easter egg)
-public class EnemySelect : MonoBehaviour
+public class MainMenuEasterEgg : MonoBehaviour
 {
   public GameObject slender;
   public GameObject easteregg;

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+//Audio source and audio-related code is unused in this level for now
 public class Level2Start : MonoBehaviour
 {
   public TextControl text;
