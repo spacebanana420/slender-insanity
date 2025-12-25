@@ -156,7 +156,12 @@ public class Config : MonoBehaviour
       + "\n\n# Sets the game's window mode, set it to false to play the game in windowed mode"
       + "\nfullscreen="+opts.fullscreen
 
-      + "\n\n# Sets the game's resolution width and height, minimum supported resolution: 640x480"
+      + "\n\n# Sets the game's resolution percentage, between 25 and 100"
+      + "\n# e.g. 50% of a 1920x1080 screen results in 960x540"
+      + "\nresolution_scale="+opts.resolution_scale
+
+      + "\n\n# Sets the game's resolution width and height manually, minimum supported resolution: 640x480"
+      + "\n# This overrides the resolution_scale option"
       + "\n"+opts.getWidthLine()
       + "\n"+opts.getHeightLine()
 
@@ -188,17 +193,12 @@ public class SaveOptions {
   public int framerate = 60;
   public bool vsync = true;
   public int screenshot_scale = 1;
+  public int resolution_scale = 100;
 
   //Comments the settings for width and height
   public bool comment_resolution = true;
 
-  public string getWidthLine() {
-    string line = "width="+this.width;
-    return comment_resolution ? '#'+line : line;
-  }
+  public string getWidthLine() {return comment_resolution ? "#width="+this.width : "width="+this.width;}
 
-  public string getHeightLine() {
-    string line = "height="+this.height;
-    return comment_resolution ? '#'+line : line;
-  }
+  public string getHeightLine() {return comment_resolution ? "#height="+this.height : "height="+this.height;}
 }
