@@ -4,15 +4,7 @@ using UnityEngine;
 //Includes the following mechanics: static, chasing, teleportation, teleporting to the player's front, kill event, invisibility
 public class Slenderman : MonoBehaviour
 {
-  //Slender's components
-  public CharacterController controller;
-  public MeshRenderer model;
-
-  //Player's components
-  public Transform player;
-  public Transform player_camera;
-  public Player player_controller;
-  public Pause pause_script;
+  public EnemyAPI api;
   
   public AudioSource jumpscare_sound;
   public StaticEffect static_script; //Handles the static effect
@@ -66,9 +58,9 @@ public class Slenderman : MonoBehaviour
   //Slender's primary function, handles all logic from a high level
   //Most functions it calls check for whether he is visible to the player or not
   void Update() {
-    float distance = Vector3.Distance(this.transform.position, this.player.position);
-    this.looking_at = this.model.isVisible; //Slenderman in player's field of view
-    this.is_seen = isSeenByPlayer(); //Slenderman visible from player's field of view
+    float distance = this.api.getDistance();
+    this.looking_at = this.api.isLookedAt(); //Slenderman in player's field of view
+    this.is_seen = this.api.isSeen(); //Slenderman visible (not blocked by any object)
 
     if (isInvisible()) {
       adjustStatic(distance);
@@ -82,8 +74,8 @@ public class Slenderman : MonoBehaviour
     }
     bool stare_death = adjustStatic(distance);
     if (stare_death) { //Kill the player for staring for too long
-      controller.Move(transform.forward * (distance-1.2f)); //Get close to the player to be identical to death by proximity
-      controller.Move(new Vector3(0, -100, 0));
+      this.api.lookAtPlayer();
+      this.api.move(distance-1.7f);
       kill();
       return;
     }
@@ -92,34 +84,10 @@ public class Slenderman : MonoBehaviour
     teleportCheck(distance);
 
     if (!this.looking_at) {
-      lookAtPlayer();
-      Vector3 motion = this.transform.forward * this.speed;
-      motion.y = -10; //Gravity
-      this.controller.Move(motion * Time.deltaTime);
+      this.api.lookAtPlayer();
+      this.api.move(this.speed);
       invisibleCheck();
     }
-  }
-
-  //Raycast to see if Slender is not hidden behind an object
-  //Sends 3 rays, 1 to the center, 1 below center and 1 above center
-  bool isSeenByPlayer() {
-    if (!this.model.isVisible) {return false;}
-    Vector3[] ray_pos = {this.transform.position, this.transform.position, this.transform.position};
-    ray_pos[1].y -= 0.4f;
-    ray_pos[2].y += 0.4f;
-    foreach (Vector3 pos in ray_pos) {
-      RaycastHit hit_info;
-      bool collided = Physics.Raycast(this.player_camera.position, pos-this.player_camera.position, out hit_info, 30);
-      if (!collided) {continue;}
-      if (hit_info.collider.gameObject == this.gameObject) {return true;}
-    }
-    return false;
-  }
-
-  void lookAtPlayer() {
-    Vector3 look_target = this.player.position;
-    look_target.y = this.transform.position.y;
-    this.transform.LookAt(look_target);
   }
 
   void jumpscareCheck(float distance) {
@@ -159,23 +127,16 @@ public class Slenderman : MonoBehaviour
   //If he creeps up behind the player, he simply moves very fast, following collisions properly
   //In forward teleportation, he is manually positioned and then gravity is applied so he doesn't stand mid-air
   void teleport(float distance, bool forward) {
-    //Teleports to the player's front instead
-    if (forward) {
-      this.controller.enabled = false;
-      Vector3 new_position = this.player.position + (this.player.forward * 6);
-      new_position.y = this.terrain.SampleHeight(new_position)+1.5f; //Prevents the possibility of teleporting below ground
-      this.transform.position = new_position;
-      this.controller.enabled = true;
+    if (forward) { //Teleports to the player's front instead
+      this.api.teleportForward(this.terrain);
       this.jumpscare_meter = this.jumpscare_limit;
+      return;
     }
-    //Teleport behind the player instead
-    else {this.controller.Move(transform.forward * (distance-this.teleport_distance));}
-    this.controller.Move(new Vector3(0, -100, 0)); //Gravity
-    this.jumpscare_meter = increment(this.jumpscare_meter, this.jumpscare_limit, 6); //Advance jumpscare meter a bit
-    lookAtPlayer();
+    this.api.teleport(distance, this.teleport_distance);
+    this.jumpscare_meter = increment(this.jumpscare_meter, this.jumpscare_limit, 7); //Advance jumpscare meter a bit
   }
 
-  bool isInvisible() {return !model.enabled;}
+  bool isInvisible() {return !this.api.isMeshEnabled();}
 
   //Count the timer for invisibility or turn invisible
   void invisibleCheck() {
@@ -185,8 +146,8 @@ public class Slenderman : MonoBehaviour
     if (this.invisible_meter != this.invisible_limit) {return;}
     this.is_seen = false;
     this.looking_at = false;
-    this.model.enabled = false;
-    this.controller.enabled = false;
+    this.api.toggleController(false);
+    this.api.toggleMesh(false);
   }
 
   //Invisibility duration countdown, then become visible
@@ -196,8 +157,8 @@ public class Slenderman : MonoBehaviour
     this.invisible_countdown = 18;
     this.invisible_meter = 0;
 
-    this.model.enabled = true;
-    this.controller.enabled = true;
+    this.api.toggleController(true);
+    this.api.toggleMesh(true);
     teleport(distance, false);
   }
 
@@ -218,15 +179,8 @@ public class Slenderman : MonoBehaviour
 
   void kill() {
     foreach (GameObject enemy in this.other_enemies) enemy.active = false; //Avoid conflicts
-    
-    this.pause_script.can_pause = false;
     this.jumpscare_sound.Play();
-    this.player_controller.caught = true;
-    Vector3 slender_pos = this.transform.position;
-    slender_pos.y = this.player_camera.position.y+0.6f; //Make the camera look slightly up
-    this.player_camera.LookAt(slender_pos);
-    lookAtPlayer();
-
+    this.api.killPlayer();
     this.kill_script.enabled = true; //Initiates the game over event
     this.enabled = false;
   }
