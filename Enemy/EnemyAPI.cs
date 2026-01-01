@@ -9,13 +9,21 @@ public class EnemyAPI : MonoBehaviour
   public Transform enemy;
   public MeshRenderer enemy_mesh;
   public CharacterController enemy_ctrl;
+  public GameObject teleportWaypoints; //Optional, for interior levels, pre-defined teleport locations
 
   public Player player_script;
   public Pause pause_script;
 
   private GameObject enemy_object;
+  private bool can_use_waypoints;
+  private Transform[] waypoints;
   
-  void Awake() {this.enemy_object = this.enemy.gameObject;}
+  void Awake() {
+    this.enemy_object = this.enemy.gameObject;
+    this.can_use_waypoints = this.teleportWaypoints != null;
+    if (!this.can_use_waypoints) return;
+    this.waypoints = this.teleportWaypoints.GetComponentsInChildren<Transform>();
+  }
   
   public float getDistance() {return Vector3.Distance(this.enemy.position, this.player.position);}
 
@@ -62,17 +70,43 @@ public class EnemyAPI : MonoBehaviour
 
   //Teleport to where the player is looking at
   public void teleportForward(Terrain terrain = null, float teleport_distance = 6, float height_correction = 1.5f) {
-    this.enemy_ctrl.enabled = false; //For manual position changes
     Vector3 new_position = this.player.position + (this.player.forward * teleport_distance);
     //Prevents the possibility of teleporting below ground
-    if (terrain == null) {
-      new_position.y += height_correction;
-    }
-    else {new_position.y = terrain.SampleHeight(new_position)+height_correction;}
+    if (terrain == null) new_position.y += height_correction;
+    else new_position.y = terrain.SampleHeight(new_position)+height_correction;
+
+    this.enemy_ctrl.enabled = false; //For manual position changes
     this.enemy.position = new_position;
     this.enemy_ctrl.enabled = true;
     this.enemy_ctrl.Move(new Vector3(0, -100, 0)); //Gravity
     lookAtPlayer();
+  }
+
+  public void teleportWaypoint(Transform floor = null, float teleport_distance = 6, float height_correction = 1.5f) {
+    Transform waypoint = findNearestWaypoint(teleport_distance);
+    Vector3 new_position = waypoint.position;
+    if (floor == null) new_position.y += height_correction;
+    else new_position.y = floor.position.y + height_correction;
+    
+    this.enemy_ctrl.enabled = true;
+    this.enemy.position = new_position;
+    this.enemy_ctrl.enabled = true;
+    this.enemy_ctrl.Move(new Vector3(0, -100, 0)); //Gravity
+    lookAtPlayer();
+  }
+
+  private Transform findNearestWaypoint(float min_distance) {
+    Transform nearest = null;
+    float nearest_distance = 0;
+    foreach(Transform waypoint in this.waypoints) {
+      float distance = Vector3.Distance(waypoint.position, this.player.position);
+      if (distance <= min_distance) continue;
+      if (nearest == null || distance < nearest_distance) {
+        nearest = waypoint;
+        nearest_distance = distance;
+      }
+    }
+    return nearest;
   }
 
   public void toggleMesh(bool toggle) {this.enemy_mesh.enabled = toggle;}

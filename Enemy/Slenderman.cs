@@ -9,7 +9,11 @@ public class Slenderman : MonoBehaviour
   public AudioSource jumpscare_sound;
   public StaticEffect static_script; //Handles the static effect
   public StaticKill kill_script; //Rapidly increases static, for the death screen
+
+  //Terrain for outdoor levels, floor for interior ones
+  //Defines the teleportation method
   public Terrain terrain;
+  public Transform floor;
 
   public GameObject[] other_enemies; //Disale all of them when Slender kills the player to avoid conflict
 
@@ -33,6 +37,7 @@ public class Slenderman : MonoBehaviour
   private float teleport_distance = 4;
   private bool looking_at = false;
   private bool is_seen = false;
+  private bool usewaypoints = false;
 
   //Set Slenderman's difficulty stats
   public void setTeleportation(float time, bool can_tp_forward, float forward_time) {
@@ -53,7 +58,10 @@ public class Slenderman : MonoBehaviour
   //Set Slenderman's difficulty stats
   public void setTeleportDistance(float dist) {this.teleport_distance = dist;}
 
-  void Start() {this.static_script.gameObject.active = true;}
+  void Start() {
+    this.static_script.gameObject.active = true;
+    this.usewaypoints = this.terrain == null && this.floor != null;
+  }
 
   //Slender's primary function, handles all logic from a high level
   //Most functions it calls check for whether he is visible to the player or not
@@ -101,26 +109,36 @@ public class Slenderman : MonoBehaviour
     return;
   }
 
-  //Teleportation logic, count the timer or teleport
+  //Teleportation logic, count the timer and eventually teleport
   void teleportCheck(float distance) {
-    if (this.is_seen && distance <= 18) {return;}
-
-    //Slender should teleport earlier if the player looks at him from afar
-    int increment_speed = this.is_seen ? 2 : 1;
+    if (this.is_seen && distance <= 18) return;
+    int increment_speed = this.is_seen ? 2 : 1; //Slender should teleport earlier if the player looks at him from afar
     this.teleport_meter = increment(this.teleport_meter, this.teleport_limit, increment_speed);
     if (this.can_teleport_forward) {this.tp_forward_meter = increment(this.tp_forward_meter, this.tp_forward_limit, increment_speed);}
     
     if (this.teleport_meter != this.teleport_limit) {return;}
     this.teleport_meter = 0;
+    
+    if (this.usewaypoints) teleportCheck_waypoints(distance);
+    else teleportCheck_terrain(distance);
+  }
 
+  //Traditional Slender teleportation, move instantly or go to the player's view
+  void teleportCheck_terrain(float distance) {
     if (this.tp_forward_meter == this.tp_forward_limit) {
       this.tp_forward_meter = 0;
       teleport(distance, true); //Teleport to the player's front
       return;
     }
     //Teleporting behind the player isn't worth it if Slender is close to the player
-    if (distance < this.teleport_distance) {return;}
+    if (distance < this.teleport_distance) return;
     teleport(distance, false); //Teleport to the player's back
+  }
+
+  //Indoor level teleportation, teleport to the nearest waypoint to the player
+  void teleportCheck_waypoints(float distance) {
+    if (distance < this.teleport_distance) return;
+    this.api.teleportWaypoint(this.floor, this.teleport_distance);
   }
 
   //Slenderman can teleport to the player's front or not
