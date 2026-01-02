@@ -26,15 +26,17 @@ public class Level3Objective : MonoBehaviour
   float[] invisible_limits = {40, 60, 80, 100, 100};
   bool[] can_be_invisible = {true, true, true, true, false};
 
-  void Awake() {this.slenderman = this.slender_script.gameObject;}
-  void Start() {StartCoroutine(levelStart());}
+  void Start() {
+    this.slenderman = this.slender_script.gameObject;
+    StartCoroutine(levelStart());
+  }
   
 
   IEnumerator levelStart() {
     yield return new WaitForSeconds(1);
     this.flashlight.turnOn();
     yield return new WaitForSeconds(2);
-    text.displayTemporaryText("Take photographs of 5 ghosts\nUse left mouse button to take a picture", 12);
+    this.text.displayTemporaryText("Take a picture 5 ghosts\nUse the left mouse button to take a picture", 12);
     yield return new WaitForSeconds(15);
     
     //Enable Slenderman from the start, unlike in previous levels
@@ -49,9 +51,7 @@ public class Level3Objective : MonoBehaviour
   //Handles music, Slender's difficulty as well as the level 1 victory event
   public void captureGhost() {
     //Only counts if player successfully takes a picture of a ghost
-    int ghost_i = getValidGhost();
-    if (ghost_i == -1) return;
-    this.ghosts.RemoveAt(ghost_i);
+    if (!getValidGhost()) return;
     
     int i = this.ghosts_captured;
     this.ghosts_captured += 1;
@@ -84,16 +84,20 @@ public class Level3Objective : MonoBehaviour
   }
 
   //Check if the player took a picture of a ghost within a short distance and in the player's field of view
-  int getValidGhost() {
+  bool getValidGhost() {
     for (int i = 0; i < this.ghosts.Count; i++) {
       SpriteAPI ghost = this.ghosts[i];
       if (!ghost.isLookedAt()) continue;
       if (ghost.getDistance() > 4) continue;
+      
       Billboard ghost_b = ghost.gameObject.GetComponent<Billboard>();
-      ghost_b.fadeOut();
-      return i;
+      if (ghost_b == null) ghost.gameObject.active = false; //Orb does not use billboard
+      else ghost_b.fadeOut(3); //2D ghost planes use billboard
+      
+      this.ghosts.RemoveAt(i);
+      return true;
     }
-    return -1;
+    return false;
   }
   
   //Play with a fade-in

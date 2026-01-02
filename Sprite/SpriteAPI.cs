@@ -26,7 +26,7 @@ public class SpriteAPI : MonoBehaviour
   }
 
   public void toggleMesh(bool toggle) {this.mesh.enabled = toggle;}
-
+  
   public Color getColor() {return this.material.color;}
   public float getAlpha() {return this.material.color.a;}
   
