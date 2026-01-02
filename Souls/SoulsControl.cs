@@ -5,7 +5,6 @@ using System.Collections.Generic;
 //Controls difficulty according to the number of souls released
 public class SoulsControl : MonoBehaviour
 {
-  public GameObject slenderman;
   public GameObject ghost;
   public Slenderman slender_script;
   public SCPGhost ghost_script;
@@ -21,13 +20,15 @@ public class SoulsControl : MonoBehaviour
   
   public AudioSource[] music;
   public byte souls_released = 0;
-  
+
+  private GameObject slenderman;
   private SlenderStats slender_stats = new SlenderStats();
   private GhostStats ghost_stats = new GhostStats();
   private float thump_volume; //Preserves original thump volume so it can be played manually from other classes
 
 
   void Awake() {
+    this.slenderman = this.slender_script.gameObject;
     this.thump_volume = this.music[0].volume;
     //Random page placement
     foreach (Transform orb in this.orbs) {

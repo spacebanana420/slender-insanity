@@ -5,7 +5,6 @@ using System.Collections.Generic;
 //Controls difficulty according to the number of collected pages
 public class PagesControl : MonoBehaviour
 {
-  public GameObject slenderman;
   public Slenderman slender_script;
   public TextControl text;
   public StaticKill gameover;
@@ -19,6 +18,7 @@ public class PagesControl : MonoBehaviour
   public byte pages_collected = 0;
 
   private float thump_volume; //Preserves original thump volume so it can be played manually from other classes
+  private GameObject slenderman;
 
   //Slenderman's stats, difficulty adjustment
   //One value for each page collected (1 to 7 pages)
@@ -33,6 +33,7 @@ public class PagesControl : MonoBehaviour
   bool[] can_be_invisible = {true, true, true, true, true, false, false};
 
   void Awake() {
+    this.slenderman = this.slender_script.gameObject;
     this.thump_volume = this.music[0].volume;
     //Random page placement
     foreach (Transform page in this.pages) {
@@ -113,7 +114,6 @@ public class PagesControl : MonoBehaviour
     for(int i = 0; i < this.music.Length; i++) {
       volume_steps[i] = this.music[i].volume * 0.2f; //Get the volume step to reduce every second
     }
-    bool decreasing = true;
     while (true) {
       for (int i = 0; i < this.music.Length; i++) {
         this.music[i].volume -= volume_steps[i] * Time.deltaTime; 
