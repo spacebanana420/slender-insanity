@@ -26,9 +26,9 @@ public class GhostCamera : MonoBehaviour
     bool takepicture = Mouse.current.leftButton.wasPressedThisFrame;
     if (!takepicture) return;
     this.cooldown = 0;
-    this.objective.captureGhost();
     this.camera_sound.Play();
     this.screen.displayWhiteScreen();
-    this.screen.fadeFromWhite(1);
+    this.screen.fadeFromWhite(0.6f);
+    this.objective.captureGhost();
   }
 }
