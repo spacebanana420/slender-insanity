@@ -88,7 +88,7 @@ public class EnemyAPI : MonoBehaviour
     if (floor == null) new_position.y += height_correction;
     else new_position.y = floor.position.y + height_correction;
     
-    this.enemy_ctrl.enabled = true;
+    this.enemy_ctrl.enabled = false;
     this.enemy.position = new_position;
     this.enemy_ctrl.enabled = true;
     this.enemy_ctrl.Move(new Vector3(0, -100, 0)); //Gravity

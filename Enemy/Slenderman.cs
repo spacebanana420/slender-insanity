@@ -60,7 +60,7 @@ public class Slenderman : MonoBehaviour
 
   void Start() {
     this.static_script.gameObject.active = true;
-    this.usewaypoints = this.terrain == null && this.floor != null;
+    this.usewaypoints = this.terrain == null;
   }
 
   //Slender's primary function, handles all logic from a high level

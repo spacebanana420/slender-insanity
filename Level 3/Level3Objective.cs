@@ -36,7 +36,7 @@ public class Level3Objective : MonoBehaviour
     yield return new WaitForSeconds(1);
     this.flashlight.turnOn();
     yield return new WaitForSeconds(2);
-    this.text.displayTemporaryText("Take a picture 5 ghosts\nUse the left mouse button to take a picture", 12);
+    this.text.displayTemporaryText("Take a picture of 5 ghosts\nUse the left mouse button to take a picture", 12);
     yield return new WaitForSeconds(15);
     
     //Enable Slenderman from the start, unlike in previous levels
@@ -90,10 +90,7 @@ public class Level3Objective : MonoBehaviour
       if (!ghost.isLookedAt()) continue;
       if (ghost.getDistance() > 4) continue;
       
-      Billboard ghost_b = ghost.gameObject.GetComponent<Billboard>();
-      if (ghost_b == null) ghost.gameObject.active = false; //Orb does not use billboard
-      else ghost_b.fadeOut(3); //2D ghost planes use billboard
-      
+      ghost.gameObject.active = false;
       this.ghosts.RemoveAt(i);
       return true;
     }
