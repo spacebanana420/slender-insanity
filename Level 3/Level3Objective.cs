@@ -91,7 +91,7 @@ public class Level3Objective : MonoBehaviour
     for (int i = 0; i < this.ghosts.Count; i++) {
       SpriteAPI ghost = this.ghosts[i];
       if (!ghost.isLookedAt()) continue;
-      if (ghost.getDistance() > 4) continue;
+      if (ghost.getDistance() > 4.5f) continue;
       
       ghost.gameObject.active = false;
       this.ghosts.RemoveAt(i);
