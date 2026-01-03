@@ -20,7 +20,7 @@ public class Level3Objective : MonoBehaviour
 
   //Slenderman's stats, difficulty adjustment
   //One value for each ghost captured (1 to 5 ghosts)
-  float[] speeds = {1, 2, 2.5f, 3, 4};
+  float[] speeds = {1.2f, 2.4f, 3.2f, 3.8f, 4.2f};
   float[] teleport_distances = {7.5f, 7, 6.5f, 6, 5};
   float[] teleport_limits = {20, 18, 16, 14, 10};
   float[] invisible_limits = {40, 60, 80, 100, 100};
