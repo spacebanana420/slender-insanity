@@ -55,30 +55,33 @@ public class Level3Objective : MonoBehaviour
     
     int i = this.ghosts_captured;
     this.ghosts_captured += 1;
-    
-    string text = this.ghosts_captured+"/5 ghosts captured";
-    this.text.displayTemporaryText(text, 4);
-    this.gameover.gameover_text = text;
-    
-    // if (remaining_ghosts == 0) {
-    //   StartCoroutine(stopMusic());
-    //   //this.l3victory.startVictoryEvent();
-    //   return;
-    // }
+
+    //Increase difficulty
     this.slender_script.setChaseSpeed(this.speeds[i]);
     this.slender_script.setTeleportDistance(this.teleport_distances[i]);
     this.slender_script.setTeleportation(this.teleport_limits[i], false, 100);
     this.slender_script.setInvisibility(this.invisible_limits[i], this.can_be_invisible[i]);
+
+
+    //Show objective progress
+    string text = this.ghosts_captured+"/5 ghosts captured";
+    this.gameover.gameover_text = text;
+    if (this.ghosts.Count == 0) {
+      //this.l3victory.startVictoryEvent();
+      this.text.displayTemporaryText("All evidence is gathered, go back to the exit!", 6);
+      return;
+    }
+    else this.text.displayTemporaryText(text, 5);
     
     switch (this.ghosts_captured) {
       case 1:
-        StartCoroutine(playGradual(this.music[0]));
+        this.music[0].Play();
         return;
       case 3:
-        StartCoroutine(playGradual(this.music[1]));
+        this.music[1].Play();
         break;
       case 5:
-        StartCoroutine(playGradual(this.music[2]));
+        this.music[2].Play();
         break;
     }
   }
