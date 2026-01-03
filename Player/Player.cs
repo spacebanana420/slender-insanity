@@ -73,17 +73,28 @@ public class Player : MonoBehaviour
     }
     if (running) {
       this.footsteps.Pause();
-      float new_time = this.footsteps_running.time * 1.3f;
-      if (new_time > this.footsteps.clip.length) {new_time = 0;} //Bug fix for going off-bounds
-      this.footsteps.time = new_time;
-      if (this.footsteps_running.isPlaying) {return;}
-      this.footsteps_running.Play();
+      this.footsteps.time = getClipTime(false);
+      if (!this.footsteps_running.isPlaying) this.footsteps_running.Play();
       return;
     }
     this.footsteps_running.Pause();
-    this.footsteps_running.time = this.footsteps.time / 1.3f;
-    if (this.footsteps.isPlaying) {return;}
-    this.footsteps.Play();
+    this.footsteps_running.time = getClipTime(true);
+    if (!this.footsteps.isPlaying) this.footsteps.Play();
+  }
+
+  //Walking and running footstep audio files differ in their speed
+  //When switching between clips, they should play at roughly the same point in the audio file, but without overflowing
+  float getClipTime(bool run) {
+    float new_time;
+    if (run) {
+      new_time = this.footsteps.time / 1.3f;
+      if (new_time > this.footsteps_running.clip.length) {new_time = 0;}
+    }
+    else {
+      new_time = this.footsteps_running.time * 1.3f;
+      if (new_time > this.footsteps.clip.length) {new_time = 0;}
+    }
+    return new_time;
   }
 
   float getWalkSpeed(bool is_moving) {
