@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
     Vector3 motion = this.transform.right * moveInput.x + this.transform.forward * moveInput.y;
 
     bool is_sprinting = Keyboard.current.leftShiftKey.isPressed;
-    float speed = getWalkSpeed();
+    float speed = getWalkSpeed(moving);
     motion.y = -5; //Gravity
     this.controller.Move(motion * speed * Time.deltaTime);
 
@@ -86,7 +86,7 @@ public class Player : MonoBehaviour
     this.footsteps.Play();
   }
 
-  float getWalkSpeed() {
+  float getWalkSpeed(bool is_moving) {
     bool is_sprinting = Keyboard.current.leftShiftKey.isPressed;
     if (is_sprinting) {
       if (this.stamina > 0) { //Run
@@ -97,7 +97,8 @@ public class Player : MonoBehaviour
       return this.walkSpeed;
     }
     else { //Walk and regenerate stamina
-      if (this.stamina < this.max_stamina) {this.stamina += 0.4f * Time.deltaTime;}
+      float regenerate_speed = is_moving ? 0.45f : 0.6f;
+      if (this.stamina < this.max_stamina) {this.stamina += 0.5f * Time.deltaTime;}
       else {this.stamina = this.max_stamina;}
       return this.walkSpeed;
     }
