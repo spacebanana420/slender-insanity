@@ -11,7 +11,7 @@ public class GhostCamera : MonoBehaviour
   public Level3Objective objective;
   
   //Can only take a picture every 5 seconds
-  private float cooldown = 5;
+  private float cooldown = 3; //Not fully charged when the level starts
   private float cooldown_time = 5;
   
   // Update is called once per frame
