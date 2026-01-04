@@ -1,0 +1,16 @@
+using UnityEngine;
+
+//In level 3, the player can exit the building after taking photographs of all ghosts
+public class Level3Door : MonoBehaviour
+{
+  public Transform door;
+  public Transform player;
+  public Level3Objective objective;
+  
+  void Update() {
+    float distance = Vector3.Distance(this.player.position, door.position);
+    if (distance > 3) return;
+    this.objective.triggerVictory();
+    this.enabled = false;
+  }
+}

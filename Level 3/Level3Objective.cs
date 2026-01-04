@@ -5,11 +5,14 @@ using System.Collections.Generic;
 //Handles the start and objective for level 3
 public class Level3Objective : MonoBehaviour
 {
+  public Level3Door door;
   public Flashlight flashlight;
+  public GhostCamera camera;
   public Slenderman slender_script;
+
+  public BlankScreen screen;
   public TextControl text;
   public StaticKill gameover;
-  //public Level3Victory l3victory;
 
   //Used for random page placement in map
   public List<SpriteAPI> ghosts;
@@ -67,7 +70,7 @@ public class Level3Objective : MonoBehaviour
     string text = this.ghosts_captured+"/5 ghosts captured";
     this.gameover.gameover_text = text;
     if (this.ghosts.Count == 0) {
-      //this.l3victory.startVictoryEvent();
+      this.door.enabled = true;
       this.text.displayTemporaryText("All evidence is gathered, go back to the exit!", 6);
       return;
     }
@@ -99,21 +102,16 @@ public class Level3Objective : MonoBehaviour
     }
     return false;
   }
-  
-  //Play with a fade-in
-  IEnumerator playGradual(AudioSource music) {
-    float max_volume = music.volume;
-    float volume_step = max_volume * 0.3f;
-    music.volume = 0;
-    music.Play();
-    while (music.volume < max_volume) {
-      music.volume += volume_step * Time.deltaTime;
-      yield return new WaitForSeconds(0.005f);
-    }
-    music.volume = max_volume; //Clamp
+
+  //Level 3 beaten, triggered by exiting the building after having all ghosts pictured
+  public void triggerVictory() {
+    this.slenderman.active = false;
+    this.camera.enabled = false;
+    this.screen.fadeToBlack(4);
+    StartCoroutine(stopMusic());
   }
 
-  //Gradually decreases the volume of the pages music based on a percentage of their original volume
+  //Gradually decreases the volume of all music tracks based on a percentage of their original volume
   IEnumerator stopMusic() {
     float[] volume_steps = new float[this.music.Length];
     for(int i = 0; i < this.music.Length; i++) {
