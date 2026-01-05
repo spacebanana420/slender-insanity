@@ -11,6 +11,7 @@ public class Level3Objective : MonoBehaviour
   public Slenderman slender_script;
 
   public BlankScreen screen;
+  public StaticEffect static_script;
   public TextControl text;
   public StaticKill gameover;
 
@@ -104,11 +105,26 @@ public class Level3Objective : MonoBehaviour
   }
 
   //Level 3 beaten, triggered by exiting the building after having all ghosts pictured
+  //Unfinished
   public void triggerVictory() {
+    StartCoroutine(stopMusic());
     this.slenderman.active = false;
     this.camera.enabled = false;
     this.screen.fadeToBlack(4);
-    StartCoroutine(stopMusic());
+    this.static_script.stopFade(4);
+
+    string[] ending_text = {
+      "You survive this encounter and leave with your evidence",
+      "You couldn't even believe it, real footage of ghost sightings!",
+      "One of the creatures, however, was notably more hostile",
+      "Ghost hunting and sightings have become very profitable, a new market surges for these things",
+      "But is this profit worth the trouble it causes?",
+      "Does this even help protect our people? Or does it only incite fear in them?",
+      "These beings feed off of the fear and imagination of others",
+      "Now he is after you, hunts you down, living off of the trauma you developed inside that building",
+      "There is no escape now"
+    };
+    float duration = this.text.startSequence(ending_text);
   }
 
   //Gradually decreases the volume of all music tracks based on a percentage of their original volume
