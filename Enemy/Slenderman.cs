@@ -38,6 +38,7 @@ public class Slenderman : MonoBehaviour
   private bool looking_at = false;
   private bool is_seen = false;
   private bool usewaypoints = false;
+  private float static_distance = 15; //Beyond this distance, he cannot attack with static interference
 
   //Set Slenderman's difficulty stats
   public void setTeleportation(float time, bool can_tp_forward, float forward_time) {
@@ -111,8 +112,8 @@ public class Slenderman : MonoBehaviour
 
   //Teleportation logic, count the timer and eventually teleport
   void teleportCheck(float distance) {
-    if (this.is_seen && distance <= 18) return;
-    int increment_speed = this.is_seen ? 2 : 1; //Slender should teleport earlier if the player looks at him from afar
+    if (this.is_seen && distance <= this.static_distance) return;
+    int increment_speed = this.is_seen ? 3 : 1; //Slender should teleport earlier if the player looks at him from afar
     this.teleport_meter = increment(this.teleport_meter, this.teleport_limit, increment_speed);
     if (this.can_teleport_forward) {this.tp_forward_meter = increment(this.tp_forward_meter, this.tp_forward_limit, increment_speed);}
     
@@ -183,11 +184,11 @@ public class Slenderman : MonoBehaviour
   //Increases or decreases static, also returns true if the player dies for staring at Slender
   //Static is weaker the farther Slender is
   bool adjustStatic(float distance) {
-    if (this.is_seen && distance <= 19) {
-      float static_speed = 18/distance; //Takes 10/18 seconds to kill the player at 1 distance, time doubles at twice the distance, etc
-      this.look_meter = increment(this.look_meter, 10, static_speed); //10 is the reference time limit
+    if (this.is_seen && distance <= this.static_distance) {
+      float static_speed = 22/distance; //Takes 10/22 seconds to kill the player at 1 distance
+      this.look_meter = increment(this.look_meter, 10, static_speed);
     }
-    else this.look_meter = decrement(this.look_meter, 2.5f);
+    else this.look_meter = decrement(this.look_meter, 2.4f);
     
     this.static_script.setStatic(this.look_meter/10);
     return this.look_meter == 10;

@@ -40,7 +40,7 @@ public class Level3Objective : MonoBehaviour
     yield return new WaitForSeconds(1);
     this.flashlight.turnOn();
     yield return new WaitForSeconds(2);
-    this.text.displayTemporaryText("Take a picture of 6 ghosts\nUse the left mouse button to take a picture", 12);
+    this.text.displayTemporaryText("Photograph 6 ghosts\nUse the left mouse button to take a picture", 12);
     yield return new WaitForSeconds(15);
     
     //Enable Slenderman from the start, unlike in previous levels
@@ -68,14 +68,13 @@ public class Level3Objective : MonoBehaviour
 
 
     //Show objective progress
-    string text = this.ghosts_captured+"/6 ghosts captured";
+    string text = this.ghosts_captured+"/6 ghosts photographed";
     this.gameover.gameover_text = text;
     if (this.ghosts.Count == 0) {
       this.door.enabled = true;
       this.text.displayTemporaryText("All evidence is gathered, go back to the exit!", 6);
-      return;
     }
-    this.text.displayTemporaryText(text, 5);
+    else this.text.displayTemporaryText(text, 5);
     
     switch (this.ghosts_captured) {
       case 1:
@@ -86,6 +85,9 @@ public class Level3Objective : MonoBehaviour
         break;
       case 5:
         this.music[2].Play();
+        break;
+      case 6:
+        this.music[3].Play();
         break;
     }
   }
