@@ -21,7 +21,7 @@ public class StaticEffect : MonoBehaviour
     this.static_material = this.static_image.material;
     stop();
     //In dark/night levels, static by default is too intense and ruins the experience, this adjusts
-    float c = this.weak_static ? 0.45f : 1;
+    float c = this.weak_static ? 0.4f : 1;
     float t = this.weak_static ? 0.65f : 1;
     this.static_image.color = new Color(c, c, c, t);
   }

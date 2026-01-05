@@ -46,17 +46,11 @@ public class Slenderman : MonoBehaviour
     this.can_teleport_forward = can_tp_forward;
     this.tp_forward_limit = forward_time;
   }
-
-  //Set Slenderman's difficulty stats
   public void setInvisibility(float time, bool can_be_invisible) {
     this.invisible_limit = time;
     this.can_be_invisible = can_be_invisible;
   }
-
-  //Set Slenderman's difficulty stats
   public void setChaseSpeed(float speed) {this.speed = speed;}
-
-  //Set Slenderman's difficulty stats
   public void setTeleportDistance(float dist) {this.teleport_distance = dist;}
 
   void Start() {
@@ -65,7 +59,6 @@ public class Slenderman : MonoBehaviour
   }
 
   //Slender's primary function, handles all logic from a high level
-  //Most functions it calls check for whether he is visible to the player or not
   void Update() {
     float distance = this.api.getDistance();
     this.looking_at = this.api.isLookedAt(); //Slenderman in player's field of view
@@ -81,8 +74,8 @@ public class Slenderman : MonoBehaviour
       kill();
       return;
     }
-    bool stare_death = adjustStatic(distance);
-    if (stare_death) { //Kill the player for staring for too long
+    bool killed = adjustStatic(distance);
+    if (killed) { //Kill the player for staring for too long
       this.api.lookAtPlayer();
       this.api.move(distance-1.7f);
       kill();
@@ -124,7 +117,7 @@ public class Slenderman : MonoBehaviour
     else teleportCheck_terrain(distance);
   }
 
-  //Traditional Slender teleportation, move instantly or go to the player's view
+  //Outdoor map teleportation, move instantly or go to the player's view
   void teleportCheck_terrain(float distance) {
     if (this.tp_forward_meter == this.tp_forward_limit) {
       this.tp_forward_meter = 0;
@@ -136,10 +129,11 @@ public class Slenderman : MonoBehaviour
     teleport(distance, false); //Teleport to the player's back
   }
 
-  //Indoor level teleportation, teleport to the nearest waypoint to the player
+  //Indoor map teleportation, teleport to the nearest waypoint to the player
   void teleportCheck_waypoints(float distance) {
     if (distance < this.teleport_distance) return;
     this.api.teleportWaypoint(this.floor, this.teleport_distance);
+    this.jumpscare_meter = increment(this.jumpscare_meter, this.jumpscare_limit, 7); //Advance jumpscare meter a bit
   }
 
   //Slenderman can teleport to the player's front or not
@@ -188,7 +182,7 @@ public class Slenderman : MonoBehaviour
       float static_speed = 22/distance; //Takes 10/22 seconds to kill the player at 1 distance
       this.look_meter = increment(this.look_meter, 10, static_speed);
     }
-    else this.look_meter = decrement(this.look_meter, 2.4f);
+    else this.look_meter = decrement(this.look_meter, 2.2f);
     
     this.static_script.setStatic(this.look_meter/10);
     return this.look_meter == 10;
