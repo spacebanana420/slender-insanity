@@ -45,7 +45,7 @@ public class Level3Ending : MonoBehaviour
     };
     float duration = this.text.startSequence(dialogue);
     yield return new WaitForSeconds(duration+2);
-    this.billboard.fadeOut(6);
+    this.billboard.fadeOut(6, false);
     yield return new WaitForSeconds(8);
     this.screen.fadeToBlack(8);
     yield return new WaitForSeconds(8);

@@ -9,13 +9,15 @@ public class Billboard : MonoBehaviour
   
   private float fade_speed;
   private bool fade_out = false;
+  private bool disable_on_fade = false;
   private bool sound_exists;
 
   void Awake() {this.sound_exists = this.sound != null;}
   
-  public void fadeOut(float time = 4) {
+  public void fadeOut(float time = 4, bool disableObject = true) {
     this.fade_speed = 1/time;
     this.fade_out = true;
+    this.disable_on_fade = disableObject;
   }
   
   void Update() {
@@ -25,7 +27,8 @@ public class Billboard : MonoBehaviour
     float alpha = this.spriteapi.getAlpha() - step;
     
     if (alpha <= 0) {
-      this.gameObject.active = false;
+      if (this.disable_on_fade) this.gameObject.active = false;
+      else this.enabled = false;
       return;
     }
     this.spriteapi.setAlpha(alpha);
