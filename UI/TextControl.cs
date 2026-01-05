@@ -36,5 +36,5 @@ public class TextControl : MonoBehaviour
     close();
   }
   
-  float getLineDuration(string line) {return Mathf.Clamp(line.Length/10, 3.5f, 20);}
+  float getLineDuration(string line) {return Mathf.Clamp(line.Length/10, 3.5f, 8);}
 }
