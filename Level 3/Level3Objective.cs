@@ -23,12 +23,12 @@ public class Level3Objective : MonoBehaviour
   private GameObject slenderman;
 
   //Slenderman's stats, difficulty adjustment
-  //One value for each ghost captured (1 to 5 ghosts)
-  float[] speeds = {1.2f, 2.4f, 3.2f, 3.8f, 4.2f};
-  float[] teleport_distances = {7.5f, 7, 6.5f, 6, 5};
-  float[] teleport_limits = {20, 18, 16, 14, 10};
-  float[] invisible_limits = {40, 60, 80, 100, 100};
-  bool[] can_be_invisible = {true, true, true, true, false};
+  //One value for each ghost captured (1 to 6 ghosts)
+  float[] speeds = {1.2f, 2.4f, 3.2f, 3.8f, 4.2f, 4.4f};
+  float[] teleport_distances = {9, 8, 7, 6.5f, 6, 5.5f};
+  float[] teleport_limits = {24, 20, 18, 16, 14, 12};
+  float[] invisible_limits = {40, 60, 80, 100, 100, 100};
+  bool[] can_be_invisible = {true, true, true, true, false, false};
 
   void Start() {
     this.slenderman = this.slender_script.gameObject;
@@ -40,12 +40,12 @@ public class Level3Objective : MonoBehaviour
     yield return new WaitForSeconds(1);
     this.flashlight.turnOn();
     yield return new WaitForSeconds(2);
-    this.text.displayTemporaryText("Take a picture of 5 ghosts\nUse the left mouse button to take a picture", 12);
+    this.text.displayTemporaryText("Take a picture of 6 ghosts\nUse the left mouse button to take a picture", 12);
     yield return new WaitForSeconds(15);
     
     //Enable Slenderman from the start, unlike in previous levels
-    this.slender_script.setChaseSpeed(0.4f);
-    this.slender_script.setTeleportDistance(9);
+    this.slender_script.setChaseSpeed(0.8f);
+    this.slender_script.setTeleportDistance(12);
     this.slender_script.setTeleportation(30, false, 100);
     this.slender_script.setInvisibility(40, true);
     this.slenderman.active = true;
@@ -68,14 +68,14 @@ public class Level3Objective : MonoBehaviour
 
 
     //Show objective progress
-    string text = this.ghosts_captured+"/5 ghosts captured";
+    string text = this.ghosts_captured+"/6 ghosts captured";
     this.gameover.gameover_text = text;
     if (this.ghosts.Count == 0) {
       this.door.enabled = true;
       this.text.displayTemporaryText("All evidence is gathered, go back to the exit!", 6);
       return;
     }
-    else this.text.displayTemporaryText(text, 5);
+    this.text.displayTemporaryText(text, 5);
     
     switch (this.ghosts_captured) {
       case 1:
