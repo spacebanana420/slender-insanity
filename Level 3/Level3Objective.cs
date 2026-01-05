@@ -25,7 +25,7 @@ public class Level3Objective : MonoBehaviour
   //Slenderman's stats, difficulty adjustment
   //One value for each ghost captured (1 to 6 ghosts)
   float[] speeds = {1.2f, 2.4f, 3.2f, 3.8f, 4.2f, 4.4f};
-  float[] teleport_distances = {9, 8, 7, 6.5f, 6, 5.5f};
+  float[] teleport_distances = {10, 9, 8, 7, 6.5f, 6};
   float[] teleport_limits = {24, 20, 18, 16, 14, 12};
   float[] invisible_limits = {40, 60, 80, 100, 100, 100};
   bool[] can_be_invisible = {true, true, true, true, false, false};
@@ -45,7 +45,7 @@ public class Level3Objective : MonoBehaviour
     
     //Enable Slenderman from the start, unlike in previous levels
     this.slender_script.setChaseSpeed(0.8f);
-    this.slender_script.setTeleportDistance(12);
+    this.slender_script.setTeleportDistance(13);
     this.slender_script.setTeleportation(30, false, 100);
     this.slender_script.setInvisibility(40, true);
     this.slenderman.active = true;
