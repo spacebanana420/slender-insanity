@@ -48,6 +48,7 @@ public class Level3Ending : MonoBehaviour
     this.billboard.fadeOut(6);
     yield return new WaitForSeconds(8);
     this.screen.fadeToBlack(8);
+    yield return new WaitForSeconds(8);
     this.level_loader.loadMainMenu();
   }
 }

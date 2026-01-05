@@ -73,7 +73,7 @@ public class Level2Victory : MonoBehaviour
       "Another remnant of the past will no longer haunt us",
       "But it is not over, as Slenderman still roams free"
     };
-    float duration = this.text.startSequence(ending_text, 6.5f);
+    float duration = this.text.startSequence(ending_text);
     yield return new WaitForSeconds(duration+1);
     level_loader.loadScene("Main Menu");
   }
