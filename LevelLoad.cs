@@ -5,6 +5,12 @@ using UnityEngine.SceneManagement;
 public class LevelLoad : MonoBehaviour
 {
   public Pause pause;
+
+  public void loadMainMenu() {loadScene(0);}
+  public void loadLevel1() {loadScene(1);}
+  public void loadLevel2() {loadScene(2);}
+  public void loadLevel3() {loadScene(3);}
+  public void loadLevel3_end() {loadScene(4);}
   
   public void loadScene(string name) {
     if (this.pause != null) this.pause.unpauseLoad();
