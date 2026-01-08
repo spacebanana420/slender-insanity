@@ -113,8 +113,8 @@ public class Level3Objective : MonoBehaviour
     StartCoroutine(stopMusic());
     this.slenderman.active = false;
     this.camera.enabled = false;
-    this.screen.fadeToBlack(4);
-    this.static_script.stopFade(4);
+    this.screen.fadeToBlack(2);
+    this.static_script.stopFade(2);
     StartCoroutine(loadEndingScene());
   }
 
@@ -123,7 +123,6 @@ public class Level3Objective : MonoBehaviour
     string[] ending_text = {
       "You survive this encounter and leave with your evidence",
       "You couldn't even believe it, real footage of ghost sightings!",
-      "One of the creatures, however, was notably more hostile",
       "Ghost hunting and sightings have become very profitable, a new market surges for these things",
       "But is this profit worth the trouble it causes?",
     };

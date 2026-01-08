@@ -9,6 +9,11 @@ public class Level3Ending : MonoBehaviour
   public LevelLoad level_loader;
   //public AudioSource[] audio;
   private bool triggered = false;
+
+  void Awake() {
+    this.screen.displayBlackScreen();
+    this.screen.fadeFromBlack(7);
+  }
   
   void OnTriggerEnter() {
     if (this.triggered) return;
