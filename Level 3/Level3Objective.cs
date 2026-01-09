@@ -28,8 +28,8 @@ public class Level3Objective : MonoBehaviour
   float[] speeds = {1.5f, 2.4f, 3.2f, 4, 4.4f, 4.6f};
   float[] teleport_distances = {10, 9, 8, 7, 6.5f, 6};
   float[] teleport_limits = {24, 20, 18, 15, 12, 10};
-  float[] invisible_limits = {40, 60, 80, 100, 100, 100};
-  bool[] can_be_invisible = {true, true, true, true, false, false};
+  float[] invisible_limits = {40, 50, 60, 70, 80, 80};
+  bool[] can_be_invisible = {true, true, true, true, true, false};
 
   void Start() {
     this.slenderman = this.slender_script.gameObject;

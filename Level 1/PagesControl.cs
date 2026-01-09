@@ -24,12 +24,12 @@ public class PagesControl : MonoBehaviour
   //One value for each page collected (1 to 7 pages)
   float[] speeds = {1, 1.5f, 2.5f, 3.5f, 4, 4.4f, 4.8f};
   
-  float[] teleport_distances = {8, 7, 6.2f, 5.8f, 5.5f, 5.2f, 5};
+  float[] teleport_distances = {9, 8, 7, 6.5f, 6.2f, 6, 6};
   float[] teleport_limits = {35, 30, 26, 22, 20, 12, 10};
   float[] forward_tp_limits = {100, 100, 100, 60, 35, 22, 18};
   bool[] can_tp_forward = {false, false, true, true, true, true, true};
 
-  float[] invisible_limits = {50, 70, 90, 110, 120, 120, 120};
+  float[] invisible_limits = {50, 60, 70, 80, 90, 90, 90};
   bool[] can_be_invisible = {true, true, true, true, true, false, false};
 
   void Awake() {
