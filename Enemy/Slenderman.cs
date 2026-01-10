@@ -182,7 +182,7 @@ public class Slenderman : MonoBehaviour
       float static_speed = 22/distance; //Takes 10/22 seconds to kill the player at 1 distance
       this.look_meter = increment(this.look_meter, 10, static_speed);
     }
-    else this.look_meter = decrement(this.look_meter, 2.2f);
+    else this.look_meter = decrement(this.look_meter, 1.8f);
     
     this.static_script.setStatic(this.look_meter/10);
     return this.look_meter == 10;
