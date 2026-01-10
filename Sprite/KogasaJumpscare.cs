@@ -18,7 +18,8 @@ public class KogasaJumpscare : MonoBehaviour
 
   void Update() {
     if (this.jumpscare) {jumpscarePlayer();}
-    else if (this.waitForPlayer) { //Kogasa waits for player to look
+    else if (this.waitForPlayer) {
+      //Kogasa waits for player to look to jumpscare
       if (!this.sprite_kogasa.isLookedAt()) return;
       this.jumpscare_sound.Play();
       this.jumpscare = true;
@@ -27,7 +28,7 @@ public class KogasaJumpscare : MonoBehaviour
     else checkTrigger();
   }
 
-  //Player needs to stare at the drawing from up close for 2 seconds
+  //Player needs to stare at the drawing from up close for 1 second
   void checkTrigger() {
     if (this.sprite_drawing.getDistance() > 4.5f) return;
     if (this.sprite_drawing.isLookedAt()) this.look_time += 1 * Time.deltaTime;
