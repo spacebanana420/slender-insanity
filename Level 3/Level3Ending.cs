@@ -7,6 +7,7 @@ public class Level3Ending : MonoBehaviour
   public TextControl text;
   public BlankScreen screen;
   public LevelLoad level_loader;
+  public GameObject easterEgg;
   //public AudioSource[] audio;
   private bool triggered = false;
 
@@ -19,6 +20,7 @@ public class Level3Ending : MonoBehaviour
     if (this.triggered) return;
     
     this.triggered = true;
+    this.easterEgg.active = false;
     StartCoroutine(ending());
   }
 
