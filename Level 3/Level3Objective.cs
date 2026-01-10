@@ -40,18 +40,18 @@ public class Level3Objective : MonoBehaviour
   
 
   IEnumerator levelStart() {
-    yield return new WaitForSeconds(1);
-    this.flashlight.turnOn();
-    yield return new WaitForSeconds(2);
-    this.text.displayTemporaryText("Photograph 6 ghosts\nUse the left mouse button to take a picture", 12);
-    yield return new WaitForSeconds(15);
-    
-    //Enable Slenderman from the start, unlike in previous levels
+    //Slender's stats before the first ghost is photographed
     this.slender_script.setChaseSpeed(0.8f);
     this.slender_script.setTeleportDistance(13);
     this.slender_script.setTeleportation(30, false, 100);
     this.slender_script.setInvisibility(40, true);
-    this.slenderman.active = true;
+    
+    yield return new WaitForSeconds(1);
+    this.flashlight.turnOn();
+    yield return new WaitForSeconds(2);
+    this.text.displayTemporaryText("Photograph 6 ghosts\nUse the left mouse button to take a picture", 10);
+    yield return new WaitForSeconds(20);
+    this.slenderman.active = true; //Enable Slenderman from the start unlike in previous levels
   }
 
   //Each page calls this function when it's collected
@@ -81,6 +81,7 @@ public class Level3Objective : MonoBehaviour
     
     switch (this.ghosts_captured) {
       case 1:
+        this.slenderman.active = true;
         this.music[0].Play();
         return;
       case 3:
