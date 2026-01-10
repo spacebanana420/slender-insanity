@@ -91,6 +91,7 @@ public class Level3Objective : MonoBehaviour
         this.music[2].Play();
         break;
       case 6:
+        this.music[3].time = 0.6f; //Skip slow introduction
         this.music[3].Play();
         break;
     }

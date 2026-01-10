@@ -86,6 +86,7 @@ public class SoulsControl : MonoBehaviour
         StartCoroutine(playGradual(this.music[2]));
         break;
       case 9:
+        this.music[3].time = 0.6f; //Skip slow introduction
         this.music[3].Play();
         break;
     }
