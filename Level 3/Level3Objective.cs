@@ -5,6 +5,8 @@ using System.Collections.Generic;
 //Handles the start and objective for level 3
 public class Level3Objective : MonoBehaviour
 {
+  public Player player;
+  public Pause pause;
   public Level3Door door;
   public Flashlight flashlight;
   public GhostCamera camera;
@@ -113,8 +115,10 @@ public class Level3Objective : MonoBehaviour
     StartCoroutine(stopMusic());
     this.slenderman.active = false;
     this.camera.enabled = false;
-    this.screen.fadeToBlack(2);
-    this.static_script.stopFade(2);
+    this.player.caught = true;
+    this.pause.can_pause = false;
+    this.screen.fadeToBlack(1);
+    this.static_script.stopFade(3);
     StartCoroutine(loadEndingScene());
   }
 
