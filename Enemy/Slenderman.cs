@@ -38,7 +38,7 @@ public class Slenderman : MonoBehaviour
   private bool looking_at = false;
   private bool is_seen = false;
   private bool usewaypoints = false;
-  private float static_distance = 15; //Beyond this distance, he cannot attack with static interference
+  private float static_distance = 18; //Beyond this distance, he cannot attack with static interference
 
   //Set Slenderman's difficulty stats
   public void setTeleportation(float time, bool can_tp_forward, float forward_time) {
