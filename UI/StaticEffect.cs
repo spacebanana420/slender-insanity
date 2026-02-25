@@ -84,7 +84,7 @@ public class StaticEffect : MonoBehaviour
     while (alpha > 0) {
       alpha -= speed * Time.deltaTime;
       setStatic_strong(alpha);
-      yield return new null;
+      yield return null;
     }
   }
 
