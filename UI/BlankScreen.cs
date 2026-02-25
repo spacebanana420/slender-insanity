@@ -35,7 +35,7 @@ public class BlankScreen : MonoBehaviour
       transparency += step * Time.deltaTime;
       this.screen.color = new Color(color, color, color, transparency);
       old_color = this.screen.color;
-      yield return new WaitForSeconds(0.01f);
+      yield return null;
     }
   }
 }

@@ -109,7 +109,7 @@ public class SoulsControl : MonoBehaviour
     music.Play();
     while (music.volume < max_volume) {
       music.volume += volume_step * Time.deltaTime;
-      yield return new WaitForSeconds(0.005f);
+      yield return null;
     }
     music.volume = max_volume; //Clamp
   }
@@ -129,8 +129,8 @@ public class SoulsControl : MonoBehaviour
       foreach (AudioSource m in this.music) {
         if (m.volume > 0) {all_done = false; break;}
       }
-      if (all_done) {break;}
-      yield return new WaitForSeconds(0.005f);
+      if (all_done) break;
+      yield return null;
     }
   }
 }
