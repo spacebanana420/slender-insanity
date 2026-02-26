@@ -7,9 +7,13 @@ public class Level1Ending : MonoBehaviour
   public TextControl text;
   public BlankScreen screen;
   public LevelLoad level_loader;
+  public Light light;
+
+  private float lightStep;
   private bool triggered = false;
 
   void Start() {
+    this.lightStep = this.light.intensity / 12;
     this.screen.displayBlackScreen();
     this.screen.fadeFromBlack(7);
   }
@@ -27,16 +31,24 @@ public class Level1Ending : MonoBehaviour
       "You possess them, you can get rid of them and break the seal.",
       "Will this free that monster that has caused you so much trouble?",
       "Maybe it won't, maybe he has developed attachment through other means.",
-      "This happens when rumors spread, and the widespread fear of a ghost feeds its manifestation.",
+      "This happens when rumors spread, and the widespread fear of a ghost can feed its manifestation.",
       "Nonetheless, getting rid of these papers is useful to silence rumors."
     };
     float duration = this.text.startSequence(dialogue);
     yield return new WaitForSeconds(duration+2);
+    StartCoroutine(fadeLight());
     this.billboard.fadeOut(6, false);
     yield return new WaitForSeconds(8);
     this.screen.fadeToBlack(8);
     yield return new WaitForSeconds(8);
     this.level_loader.loadMainMenu();
+  }
+
+  IEnumerator fadeLight() {
+    while (this.light.intensity > 0) {
+      this.light.intensity -= this.lightStep * Time.deltaTime;
+      yield return null;
+    }
   }
 }
 
