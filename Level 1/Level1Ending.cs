@@ -7,15 +7,12 @@ public class Level1Ending : MonoBehaviour
   public TextControl text;
   public BlankScreen screen;
   public LevelLoad level_loader;
-  public Light light;
 
-  private float lightStep;
   private bool triggered = false;
 
   void Start() {
-    this.lightStep = this.light.intensity / 6;
     this.screen.displayBlackScreen();
-    this.screen.fadeFromBlack(7);
+    this.screen.fadeFromBlack(4);
   }
   
   void OnTriggerEnter() {
@@ -36,19 +33,11 @@ public class Level1Ending : MonoBehaviour
     };
     float duration = this.text.startSequence(dialogue);
     yield return new WaitForSeconds(duration+2);
-    StartCoroutine(fadeLight());
     this.billboard.fadeOut(6, false);
     yield return new WaitForSeconds(8);
     this.screen.fadeToBlack(8);
     yield return new WaitForSeconds(8);
     this.level_loader.loadMainMenu();
-  }
-
-  IEnumerator fadeLight() {
-    while (this.light.intensity > 0) {
-      this.light.intensity -= this.lightStep * Time.deltaTime;
-      yield return null;
-    }
   }
 }
 

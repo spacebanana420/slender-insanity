@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 //Library code for functions which are useful for 2D sprites inside a 3D scene
 public class SpriteAPI : MonoBehaviour
@@ -26,6 +27,15 @@ public class SpriteAPI : MonoBehaviour
 
   //Whether the enemy is inside the player's field of view, even if hidden behind an object
   public bool isLookedAt() {return this.mesh.isVisible;}
+
+  public void enableBillboard() {StartCoroutine(billboardLoop());}
+
+  IEnumerator billboardLoop() {
+    while (true) {
+      lookAtPlayer();
+      yield return null;
+    }
+  }
   
   public void lookAtPlayer() {
     Vector3 look_target = this.player.position;

@@ -13,7 +13,7 @@ public class Level3Ending : MonoBehaviour
 
   void Start() {
     this.screen.displayBlackScreen();
-    this.screen.fadeFromBlack(7);
+    this.screen.fadeFromBlack(4);
   }
   
   void OnTriggerEnter() {
