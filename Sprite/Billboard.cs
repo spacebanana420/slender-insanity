@@ -9,15 +9,15 @@ public class Billboard : MonoBehaviour
   public AudioSource sound;
   public Light light;
   
-  private float fade_speed;
-  private bool fade_out = false;
-  private bool disable_on_fade = false;
   private bool sound_exists;
   private bool light_exists;
+  private float lightMaxBrightness;
 
   void Awake() {
     this.sound_exists = this.sound != null;
-    this.light_exists = this.light != null;
+    if (this.light == null) return;
+    this.light_exists = true;
+    this.lightMaxBrightness = this.light.intensity;
   }
   void Start() {this.spriteapi.enableBillboard();}
   
@@ -32,15 +32,16 @@ public class Billboard : MonoBehaviour
 
     while (true) {
       float alpha = this.spriteapi.getAlpha() - spriteStep * Time.deltaTime;
+      alpha = Mathf.Clamp01(alpha);
       
       this.spriteapi.setAlpha(alpha);
       bool allDone = alpha <= 0;
       if (this.sound_exists) {
-        this.sound.volume -= soundStep * Time.deltaTime;
+        this.sound.volume -= Mathf.Clamp01(soundStep * Time.deltaTime);
         allDone = allDone && this.sound.volume == 0;
       }
       if (this.light_exists) {
-        this.light.intensity -= lightStep * Time.deltaTime;
+        this.light.intensity -= Mathf.Clamp(lightStep * Time.deltaTime, 0, this.lightMaxBrightness);
         allDone = allDone && this.light.intensity == 0;
       }
       if (allDone) break;
