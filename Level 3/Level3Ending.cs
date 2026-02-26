@@ -11,7 +11,7 @@ public class Level3Ending : MonoBehaviour
   //public AudioSource[] audio;
   private bool triggered = false;
 
-  void Awake() {
+  void Start() {
     this.screen.displayBlackScreen();
     this.screen.fadeFromBlack(7);
   }

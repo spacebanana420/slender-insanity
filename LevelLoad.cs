@@ -6,11 +6,12 @@ public class LevelLoad : MonoBehaviour
 {
   public Pause pause;
 
-  public void loadMainMenu() {loadScene(0);}
-  public void loadLevel1() {loadScene(1);}
-  public void loadLevel2() {loadScene(2);}
-  public void loadLevel3() {loadScene(3);}
-  public void loadLevel3_end() {loadScene(4);}
+  public void loadMainMenu() {loadScene("Main Menu");}
+  public void loadLevel1() {loadScene("Level 1");}
+  public void loadLevel1_end() {loadScene("Level1Ending");}
+  public void loadLevel2() {loadScene("Level2");}
+  public void loadLevel3() {loadScene("Level3");}
+  public void loadLevel3_end() {loadScene("Level3Ending");}
   
   public void loadScene(string name) {
     if (this.pause != null) this.pause.unpauseLoad();

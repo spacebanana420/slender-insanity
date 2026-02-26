@@ -54,7 +54,7 @@ public class Level1Victory : MonoBehaviour
     //Slender disappears, orb appears
     this.player_script.caught = false;
     releaseSoul(this.slender, this.orb);
-    this.thunder.time=0.1f; //Remove tiny silent moment before lightning
+    this.thunder.time=0.1f; //Skip silent part in audio
     this.thunder.Play();    
     this.static_script.stopFade_strong(4);
     this.blank_screen.displayWhiteScreen();
@@ -70,29 +70,28 @@ public class Level1Victory : MonoBehaviour
     this.blank_screen.displayBlackScreen();
     yield return new WaitForSeconds(3);
     string[] ending_text = {
-      "Story repeats itself, the curse continues",
+      "Story repeats itself, the curse continues.",
       "Or so it used to, until now...",
-      "Is the seal finally broken? Will he no longer torment us?",
-      "It seems so at least",
-      "The remnants of the things he destroyed slowly fade away",
-      "Eventually no one is left to tell these stories",
-      "No one will be left to remember and fear him",
-      "He becomes forgotten, buried in the past",
-      "Ready to move on, to leave us behind as we left him",
+      "Will he no longer torment us?",
+      "The remnants of the things he destroyed slowly fade away.",
+      "Eventually no one is left to tell these stories.",
+      "No one will be left to remember and fear him.",
+      "He becomes forgotten, buried in the past.",
+      "Ready to move on, to leave us behind as we left him.",
       "He becomes free, and so do you..."
     };
     float duration = this.text.startSequence(ending_text);
     yield return new WaitForSeconds(duration);
     this.text.close();
     yield return new WaitForSeconds(2);
-    changeTimeOfDay();
-    this.player.gameObject.active = false;
-    this.end_camera.active = true;
-    this.blank_screen.fadeFromBlack(7);
-    yield return new WaitForSeconds(20);
-    this.blank_screen.fadeToBlack(10);
-    yield return new WaitForSeconds(13);
-    level_loader.loadScene("Main Menu");
+    level_loader.loadLevel1_end();
+    // changeTimeOfDay();
+    // this.player.gameObject.active = false;
+    // this.end_camera.active = true;
+    // this.blank_screen.fadeFromBlack(7);
+    // yield return new WaitForSeconds(20);
+    // this.blank_screen.fadeToBlack(10);
+    // yield return new WaitForSeconds(13);
   }
 
   void changeTimeOfDay() {

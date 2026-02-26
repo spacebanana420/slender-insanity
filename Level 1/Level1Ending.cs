@@ -9,7 +9,7 @@ public class Level1Ending : MonoBehaviour
   public LevelLoad level_loader;
   private bool triggered = false;
 
-  void Awake() {
+  void Start() {
     this.screen.displayBlackScreen();
     this.screen.fadeFromBlack(7);
   }
