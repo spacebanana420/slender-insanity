@@ -75,7 +75,7 @@ public class Level2Victory : MonoBehaviour
     };
     float duration = this.text.startSequence(ending_text);
     yield return new WaitForSeconds(duration+1);
-    level_loader.loadScene("Main Menu");
+    level_loader.loadMainMenu();
   }
 
   //Rotate the orbs and eventually make them disappear

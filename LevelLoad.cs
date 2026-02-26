@@ -12,13 +12,15 @@ public class LevelLoad : MonoBehaviour
   public void loadLevel2() {loadScene("Level2");}
   public void loadLevel3() {loadScene("Level3");}
   public void loadLevel3_end() {loadScene("Level3Ending");}
+
+  public void reloadThisScene() {loadScene(SceneManager.GetActiveScene().buildIndex);}
   
-  public void loadScene(string name) {
+  private void loadScene(string name) {
     if (this.pause != null) this.pause.unpauseLoad();
     SceneManager.LoadScene(name);
   }
 
-  public void loadScene(int index) {
+  private void loadScene(int index) {
     if (this.pause != null) this.pause.unpauseLoad();
     SceneManager.LoadScene(index);
   }
