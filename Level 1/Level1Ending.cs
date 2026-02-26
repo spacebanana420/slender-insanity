@@ -13,7 +13,7 @@ public class Level1Ending : MonoBehaviour
   private bool triggered = false;
 
   void Start() {
-    this.lightStep = this.light.intensity / 12;
+    this.lightStep = this.light.intensity / 6;
     this.screen.displayBlackScreen();
     this.screen.fadeFromBlack(7);
   }
