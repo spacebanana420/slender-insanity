@@ -8,9 +8,7 @@ public class SpriteAPI : MonoBehaviour
   public MeshRenderer mesh;
   public bool movesInScene = false;
   
-  private Transform sprite_t;
   private CharacterController sprite_ctrl;
-  
   private Color original_color;
   private Material material;
   
@@ -19,7 +17,6 @@ public class SpriteAPI : MonoBehaviour
     this.material = this.mesh.material;
     
     if (!this.movesInScene) return;
-    this.sprite_t = this.gameObject.GetComponent<Transform>();
     this.sprite_ctrl = this.gameObject.GetComponent<CharacterController>();
   }
   
@@ -58,7 +55,7 @@ public class SpriteAPI : MonoBehaviour
 
   //Motion-based functions, requires movesInScene set to true and requires a Transform and CharacterController components
   public void move(float speed, float gravity = -10) {    
-    Vector3 motion = this.sprite_t.forward * speed;
+    Vector3 motion = this.transform.forward * speed;
     motion.y = gravity;
     this.sprite_ctrl.Move(motion * Time.deltaTime);
   }
@@ -72,7 +69,7 @@ public class SpriteAPI : MonoBehaviour
     else new_position.y = terrain.SampleHeight(new_position)+height_correction;
 
     this.sprite_ctrl.enabled = false; //For manual position changes
-    this.sprite_t.position = new_position;
+    this.transform.position = new_position;
     this.sprite_ctrl.enabled = true;
     this.sprite_ctrl.Move(new Vector3(0, -100, 0)); //Gravity
     lookAtPlayer();
