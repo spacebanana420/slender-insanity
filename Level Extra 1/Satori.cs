@@ -6,7 +6,13 @@ public class Satori : MonoBehaviour
 {
   public SpriteAPI api;
   public TextControl text;
+  public Texture face_neutral;
+  public Texture face_pensive;
+  public Texture face_smug;
+  private Material meshMaterial;
 
+  void Awake() {this.meshMaterial = this.api.mesh.material;}
+  
   void Start() {
     this.api.enableBillboard();
     StartCoroutine(enableDialogue());
@@ -15,7 +21,7 @@ public class Satori : MonoBehaviour
   IEnumerator enableDialogue() {
     while (this.api.getDistance() > 5 || !this.api.isLookedAt()) {yield return null;}
 
-    string[] dialogue = {
+    string[] text = {
       "Well, hello.",
       "Looks like you're another human curious enough to go on a hike here.",
       "My name is Satori Komeiji.",
@@ -30,6 +36,12 @@ public class Satori : MonoBehaviour
       "My sister is roaming that place. Don't mind her, I think it will be fine.",
       "I wish you the best of luck."
     };
+    CharDialogue dialogue = new CharDialogue(text, this.meshMaterial);
+    dialogue.setFace(6, this.face_smug);
+    dialogue.setFace(7, this.face_neutral);
+    dialogue.setFace(11, this.face_smug);
+    dialogue.setFace(12, this.face_neutral);
+    
     float duration = this.text.startSequence(dialogue);
     yield return new WaitForSeconds(duration);
   }
