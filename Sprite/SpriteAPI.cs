@@ -53,9 +53,21 @@ public class SpriteAPI : MonoBehaviour
     this.material.color = c;
   }
 
-  //Motion-based functions, requires movesInScene set to true and requires a Transform and CharacterController components
+  //Motion-based functions below, requires movesInScene set to true and requires a Transform and CharacterController components
   public void move(float speed, float gravity = -10) {    
     Vector3 motion = this.transform.forward * speed;
+    motion.y = gravity;
+    this.sprite_ctrl.Move(motion * Time.deltaTime);
+  }
+
+  public void moveToDirection(float speed, Vector3 direction, float gravity = -10) {
+    Vector3 motion = direction * speed;
+    motion.y = gravity;
+    this.sprite_ctrl.Move(motion * Time.deltaTime);
+  }
+  
+  public void moveToPoint(float speed, Vector3 worldPosition, float gravity = -10) {
+    Vector3 motion = worldPosition-this.transform.position * speed;
     motion.y = gravity;
     this.sprite_ctrl.Move(motion * Time.deltaTime);
   }
