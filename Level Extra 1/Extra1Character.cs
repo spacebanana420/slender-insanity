@@ -64,7 +64,7 @@ public class Extra1Character : MonoBehaviour
     Vector3 fleeDirection = new Vector3(Random.Range(-10f, 10), 0, Random.Range(-10, 10));
     float timer = 0;
     while (timer < 10) {
-      timer += 1 * Time.deltaTime;
+      timer += Time.deltaTime;
       this.api.moveToDirection(3, fleeDirection);
       yield return null;
     }
@@ -79,7 +79,7 @@ public class Extra1Character : MonoBehaviour
     yield return new WaitForSeconds(2);
     float timer = 0;
     while (timer < 5) {
-      timer += 1 * Time.deltaTime;
+      timer += Time.deltaTime;
       this.api.move(0, 15);
       yield return null;
     }
