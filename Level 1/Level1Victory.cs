@@ -49,7 +49,7 @@ public class Level1Victory : MonoBehaviour
     while (intensity < 1) {
       this.static_script.setStatic_strong(intensity);
       intensity += 0.6f * Time.deltaTime;
-      yield return new WaitForSeconds(0.005f);
+      yield return null;
     }
     //Slender disappears, orb appears
     this.player_script.caught = false;
@@ -94,12 +94,12 @@ public class Level1Victory : MonoBehaviour
     // yield return new WaitForSeconds(13);
   }
 
-  void changeTimeOfDay() {
-    RenderSettings.skybox = this.end_skybox;
-    RenderSettings.ambientLight = new Color32(60, 60, 80, 255);
-    RenderSettings.fogDensity /= 15;
-    RenderSettings.fogColor = new Color32(39, 44, 52, 255);
-  }
+  // void changeTimeOfDay() {
+  //   RenderSettings.skybox = this.end_skybox;
+  //   RenderSettings.ambientLight = new Color32(60, 60, 80, 255);
+  //   RenderSettings.fogDensity /= 15;
+  //   RenderSettings.fogColor = new Color32(39, 44, 52, 255);
+  // }
 
   //Positions Slender and the player as if the player had been caught
   //Inspired by Slenderman.kill() and other parts of Slender's class
