@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Rendering;
 
-//Pre-defined event for level 2 victory
+//Victory event for level 2
+//This is used when the player beats the level after releasing all souls
 public class Level2Victory : MonoBehaviour
 {
   public Transform player;
@@ -11,12 +12,14 @@ public class Level2Victory : MonoBehaviour
   public CharacterController player_controller;
   public Pause pause_script;
   
-  public SCPGhost ghost;
+  public SCPGhost ghost; //The SCP-like enemy
   public EnemyAPI ghost_api;
   public SpriteAPI ghost_sprite_api;
+  public SpriteAPI echoGhost; //Friendly ghost that talks to player
   
   public BlankScreen screen;
   public TextControl text;
+  public TextControl dialogue; //Text that is more appropriate for dialogues, near the bottom of the screen
   
   public AudioSource jumpscare;
   public AudioSource environment;
@@ -37,6 +40,7 @@ public class Level2Victory : MonoBehaviour
   
   public void startVictoryEvent() {StartCoroutine(victoryEvent());}
 
+  //Very linear, top-down code, less algorithmic and more cluttered, but needed for the event
   IEnumerator victoryEvent() {
     GameObject ghost_obj = this.ghost.gameObject;
     this.ghost.enabled = false;
@@ -56,22 +60,36 @@ public class Level2Victory : MonoBehaviour
     this.player_controller.enabled = true;
     changeTimeOfDay();
     spawnOrbs();
-    this.screen.fadeFromBlack(10f);
-    yield return new WaitForSeconds(20);
+    this.screen.fadeFromBlack(6f);
+    yield return new WaitForSeconds(15);
     this.disappear = true;
     
-    yield return new WaitForSeconds(20);
+    yield return new WaitForSeconds(11);
+    this.echoGhost.gameObject.active = true;
+    this.echoGhost.enableBillboard();
+    this.echoGhost.fadeIn(4);
+    yield return new WaitForSeconds(5);
+    string[] ghost_text = {
+      "Phantoms are the bodiless manifestation of our soul, our purest form.",
+      "Ghosts are the manifestation of death.",
+      "A horrible curse to be burdened with.",
+      "A limbo, in which you are not alive, but neither have moved on.",
+      "Containing the power to hold others back as well...",
+      "You have freed many of this chain.",
+      "I am extremely grateful for your efforts."
+    };
+    float dialogue_duration = this.dialogue.startSequence(ghost_text);
+    yield return new WaitForSeconds(dialogue_duration+1);
+    this.echoGhost.fadeOut(4);
+    yield return new WaitForSeconds(5);
     this.screen.fadeToBlack(6);
     yield return new WaitForSeconds(6);
     this.player_script.caught = true;
-    yield return new WaitForSeconds(3);
+    yield return new WaitForSeconds(2);
     string[] ending_text = {
       "Bound to a world where they were left behind...",
       "The souls have finally found peace",
-      "The terror brought to this small town has come to an end",
-      "Slowly but surely, the destruction these monsters caused is amended",
-      "Another remnant of the past will no longer haunt us",
-      "But it is not over, as Slenderman still roams free"
+      "The terror brought to this small town has come to an end"
     };
     float duration = this.text.startSequence(ending_text);
     yield return new WaitForSeconds(duration+1);

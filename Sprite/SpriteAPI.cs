@@ -61,6 +61,7 @@ public class SpriteAPI : MonoBehaviour
 
   public void fadeIn(float time) {
     float step = 1/time;
+    setAlpha(0);
     StartCoroutine(fadeInLoop(step));
   }
 
