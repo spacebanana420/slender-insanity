@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-//Library code for functions which are useful for 2D sprites inside a 3D scene
+//Library code for functions which are useful for 2D sprites and portraits inside a 3D scene
+//Used for ghosts, characters, 2D props, billboards, etc
 public class SpriteAPI : MonoBehaviour
 {
   public Transform player;
@@ -53,6 +54,33 @@ public class SpriteAPI : MonoBehaviour
     this.material.color = c;
   }
 
+  public void fadeOut(float time) {
+    float step = getAlpha() / time;
+    StartCoroutine(fadeOutLoop(step));
+  }
+
+  public void fadeIn(float time) {
+    float step = 1/time;
+    StartCoroutine(fadeInLoop(step));
+  }
+
+  IEnumerator fadeOutLoop(float step) {
+    while (getAlpha() > 0) {
+      float newAlpha = Mathf.Clamp(getAlpha()-step*Time.deltaTime, 0, 1);
+      setAlpha(newAlpha);
+      yield return null;
+    }
+  }
+
+  //Unlike fadeOut, fadeIn starts from alpha value 0
+  IEnumerator fadeInLoop(float step) {
+    while (getAlpha() < 1) {
+      float newAlpha = Mathf.Clamp(getAlpha()+step*Time.deltaTime, 0, 1);
+      setAlpha(newAlpha);
+      yield return null;
+    }
+  }
+  
   //Motion-based functions below, requires movesInScene set to true and requires a Transform and CharacterController components
   public void move(float speed, float gravity = -10) {    
     Vector3 motion = this.transform.forward * speed;

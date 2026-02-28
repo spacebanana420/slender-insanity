@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 //Simple billboard code to make an object stare at the player camera
-//SpriteAPI can also run in billboard mode, but it does not have light and audio support
+//SpriteAPI can also run in billboard mode and fade in/out, but it does not have light and audio support
 public class Billboard : MonoBehaviour
 {
   public SpriteAPI spriteapi;
