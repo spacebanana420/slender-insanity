@@ -1,7 +1,8 @@
 using UnityEngine;
 
 //Class for storing character dialogue information
-//Can be passed to TextControl.startSequence() to start a dialogue in which the character changes facial expressions
+//Can be passed to TextControl.startSequence() to start a dialogue with a character
+// The character can optionally change facial expressions
 public class CharDialogue
 {
   public string[] text;
@@ -9,7 +10,7 @@ public class CharDialogue
   private Material material;
   private Texture[] faces;
   private int[] face_index;
-  
+
   public CharDialogue(string[] dialogue, Material material) {
     this.text = dialogue;
     this.material = material;

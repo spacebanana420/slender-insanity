@@ -3,11 +3,11 @@ using System.Collections;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-//Game over class, handles static and game over logic
+//Handles the game over event when Slenderman gets you
 public class StaticKill : MonoBehaviour
 {
   public StaticEffect static_script;
-  public string gameover_text; //e.g 5/8 pages collected
+  public string gameover_text; //Varies between levels, could be for example "5/8 pages collected"
   public BlankScreen black_screen;
   public TextControl text;
   public AudioSource[] music;
@@ -24,7 +24,7 @@ public class StaticKill : MonoBehaviour
       if (yes) level_loader.reloadThisScene();
       else if (no) level_loader.loadMainMenu();
     }
-    if (stop_check) {return;}
+    if (stop_check) return;
     if (this.intensity < 1) {
       this.static_script.setStatic_strong(this.intensity);
       this.intensity += 0.6f * Time.deltaTime;
