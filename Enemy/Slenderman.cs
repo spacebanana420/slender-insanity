@@ -44,7 +44,7 @@ public class Slenderman : MonoBehaviour
   //Difficulty level from 0.1 to 1 (10% to 100%) which adjusts Slenderman's stats and difficulty automatically
   //Values are clamped so they don't exceed reasonable limits
   public void setDifficulty(float percentage) {
-    if (percentage == 0) percentage = 0.1f;
+    if (percentage < 0.1f) percentage = 0.1f;
     float speed = Mathf.Clamp(4.8f*percentage, 0.8f, 4.8f);
     float teleportDistance = Mathf.Clamp(6f/percentage, 6, 12);
     float teleportCooldown = Mathf.Clamp(10f/percentage, 10, 40);
