@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+//The ending dialogue seen in level 1
 public class Level1Ending : MonoBehaviour
 {
   public Billboard billboard;
@@ -24,12 +25,15 @@ public class Level1Ending : MonoBehaviour
 
   IEnumerator ending() {
     string[] dialogue = {
+      "When rumors spread, the widespread fear of a ghost can feed its manifestation.",
+      "Its physical presence becomes stronger and more destructive.",
       "Eight pieces of paper, serving as the seal of a horrible curse.",
       "You possess them, you can get rid of them and break the seal.",
-      "Will this free that monster that has caused you so much trouble?",
-      "Maybe it won't, maybe he has developed attachment through other means.",
-      "This happens when rumors spread, and the widespread fear of a ghost can feed its manifestation.",
-      "Nonetheless, getting rid of these papers is useful to silence rumors."
+      "The seal binds him, without it his reason to stay fades away.",
+      "Now, why these papers are so meaningful, we don't know...",
+      "Have you noticed what happened after you obtained them all?",
+      "His violent manifestation weakens, becomes similar to the others...",
+      "Is this enough to free him, and free you from him? We will see.",
     };
     float duration = this.text.startSequence(dialogue);
     yield return new WaitForSeconds(duration+2);

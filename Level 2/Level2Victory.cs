@@ -71,12 +71,12 @@ public class Level2Victory : MonoBehaviour
     yield return new WaitForSeconds(5);
     string[] ghost_text = {
       "Phantoms are the bodiless manifestation of our soul, our purest form.",
-      "Ghosts are the manifestation of death.",
+      "They are a perpetuity of our death.",
       "A horrible curse to be burdened with.",
       "A limbo, in which you are not alive, but neither have moved on.",
       "Containing the power to hold others back as well...",
       "You have freed many of this chain.",
-      "I am extremely grateful for your efforts."
+      "I am very grateful for what you did."
     };
     float dialogue_duration = this.dialogue.startSequence(ghost_text);
     yield return new WaitForSeconds(dialogue_duration+1);
@@ -88,8 +88,8 @@ public class Level2Victory : MonoBehaviour
     yield return new WaitForSeconds(2);
     string[] ending_text = {
       "Bound to a world where they were left behind...",
-      "The souls have finally found peace",
-      "The terror brought to this small town has come to an end"
+      "The souls have finally found peace.",
+      "The terror brought to this small town has come to an end."
     };
     float duration = this.text.startSequence(ending_text);
     yield return new WaitForSeconds(duration+1);
