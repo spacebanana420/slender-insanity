@@ -127,10 +127,9 @@ public class Level3Objective : MonoBehaviour
   IEnumerator loadEndingScene() {
     yield return new WaitForSeconds(5);
     string[] ending_text = {
-      "You survive this encounter and leave with your evidence",
+      "You survive this encounter and leave with your evidence.",
       "You couldn't even believe it, real footage of ghost sightings!",
-      "Ghost hunting and sightings have become very profitable, a new market surges for these things",
-      "But is this profit worth the trouble it causes?",
+      "Ghost hunting has become very profitable, but is this profit worth the trouble it causes?"
     };
     float duration = this.text.startSequence(ending_text);
     yield return new WaitForSeconds(duration+1);

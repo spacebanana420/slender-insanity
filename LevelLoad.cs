@@ -7,7 +7,7 @@ public class LevelLoad : MonoBehaviour
   public Pause pause;
 
   public void loadMainMenu() {loadScene("Main Menu");}
-  public void loadLevel1() {loadScene("Level 1");}
+  public void loadLevel1() {loadScene("Level1");}
   public void loadLevel1_end() {loadScene("Level1Ending");}
   public void loadLevel2() {loadScene("Level2");}
   public void loadLevel3() {loadScene("Level3");}
