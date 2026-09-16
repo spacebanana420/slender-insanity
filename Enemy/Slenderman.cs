@@ -45,31 +45,22 @@ public class Slenderman : MonoBehaviour
   //Values are clamped so they don't exceed reasonable limits
   public void setDifficulty(float percentage) {
     if (percentage == 0) percentage = 0.1f;
-    float speed = Mathf.Clamp(4.8f*percentage, 1, 4.8f);
+    float speed = Mathf.Clamp(4.8f*percentage, 0.8f, 4.8f);
     float teleportDistance = Mathf.Clamp(6f/percentage, 6, 12);
-    float teleportCooldown = Mathf.Clamp(10/percentage, 10, 40);
-    float forwardTeleportCooldown = Mathf.Clamp(18/percentage, 18, 100);
-    float invisibleCooldown = Mathf.Clamp(90*percentage, 50, 90);
+    float teleportCooldown = Mathf.Clamp(10f/percentage, 10, 40);
+    float forwardTeleportCooldown = Mathf.Clamp(18f/percentage, 18, 100);
+    float invisibleCooldown = Mathf.Clamp(90f*percentage, 40, 90);
     bool canBeInvisible = percentage <= 0.8f;
     bool canTeleportForward = percentage >= 0.75f;
 
-    setChaseSpeed(speed);
-    setTeleportation(teleportCooldown, canTeleportForward, forwardTeleportCooldown);
-    setTeleportDistance(teleportDistance);
-    setInvisibility(invisibleCooldown, canBeInvisible);
+    this.speed = speed;
+    this.teleport_limit = teleportCooldown;
+    this.can_teleport_forward = canTeleportForward;
+    this.tp_forward_limit = forwardTeleportCooldown;
+    this.teleport_distance = teleportDistance;
+    this.invisible_limit = invisibleCooldown;
+    this.can_be_invisible = canBeInvisible;
   }
-
-  private void setTeleportation(float time, bool can_tp_forward, float forward_time) {
-    this.teleport_limit = time;
-    this.can_teleport_forward = can_tp_forward;
-    this.tp_forward_limit = forward_time;
-  }
-  private void setInvisibility(float time, bool can_be_invisible) {
-    this.invisible_limit = time;
-    this.can_be_invisible = can_be_invisible;
-  }
-  private void setChaseSpeed(float speed) {this.speed = speed;}
-  private void setTeleportDistance(float dist) {this.teleport_distance = dist;}
 
   void Start() {
     this.static_script.gameObject.active = true;
