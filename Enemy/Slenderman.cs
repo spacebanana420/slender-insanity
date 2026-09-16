@@ -21,25 +21,27 @@ public class Slenderman : MonoBehaviour
   //e.g jumpscare_limit=15 means that it takes 15 seconds for the counter to end
   //Some timers count faster (e.g. teleport_meter counting faster when Slender is seen from afar)
   private float teleport_meter = 0;
-  private float teleport_limit = 60;
   private float tp_forward_meter = 0;
-  private float tp_forward_limit = 120;
-  private bool can_teleport_forward = false;
   private float look_meter = 0;
   private float jumpscare_meter = 15;
   private float jumpscare_limit = 15;
-  private bool can_be_invisible = true;
   private float invisible_meter = 0;
-  private float invisible_limit = 120;
-  private float invisible_countdown = 18;
-
-  //Slender's stats, affects how aggressive he is
-  private float speed = 2f;
-  private float teleport_distance = 4;
-  private bool looking_at = false;
-  private bool is_seen = false;
-  private bool usewaypoints = false;
+  private float invisible_countdown = 18; //Hardcoded time in which Slender stays invisible
+  
+  private bool looking_at = false; //Slender is in player's FOV
+  private bool is_seen = false; //Slender is not hidden behind an object
+  private bool usewaypoints = false; //To choose between normal teleportation or waypoint-based
   private float static_distance = 18; //Beyond this distance, he cannot attack with static interference
+
+
+  //Slender's stats, affects his aggression/difficulty
+  private float speed = 2f;
+  private float teleport_limit = 60;
+  private float teleport_distance = 4;
+  private float tp_forward_limit = 120;
+  private bool can_teleport_forward = false;
+  private bool can_be_invisible = true;
+  private float invisible_limit = 120;
 
   //Difficulty level from 0.1 to 1 (10% to 100%) which adjusts Slenderman's stats and difficulty automatically
   //Values are clamped so they don't exceed reasonable limits
