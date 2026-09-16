@@ -20,18 +20,6 @@ public class PagesControl : MonoBehaviour
   private float thump_volume; //Preserves original thump volume so it can be played manually from other classes
   private GameObject slenderman;
 
-  //Slenderman's stats, difficulty adjustment
-  //One value for each page collected (1 to 7 pages)
-  float[] speeds = {1, 1.5f, 2.5f, 3.5f, 4, 4.4f, 4.8f};
-  
-  float[] teleport_distances = {9, 8, 7, 6.5f, 6.2f, 6, 6};
-  float[] teleport_limits = {35, 30, 26, 22, 20, 12, 10};
-  float[] forward_tp_limits = {100, 100, 100, 60, 35, 22, 18};
-  bool[] can_tp_forward = {false, false, true, true, true, true, true};
-
-  float[] invisible_limits = {50, 60, 70, 80, 90, 90, 90};
-  bool[] can_be_invisible = {true, true, true, true, true, false, false};
-
   void Awake() {
     this.slenderman = this.slender_script.gameObject;
     this.thump_volume = this.music[0].volume;
@@ -53,7 +41,6 @@ public class PagesControl : MonoBehaviour
   //Each page calls this function when it's collected
   //Handles music, Slender's difficulty as well as the level 1 victory event
   public void collectPage() {
-    int i = this.pages_collected;
     this.pages_collected += 1;
     string text = this.pages_collected+"/8 pages collected";
     this.text.displayTemporaryText(text, 4);
@@ -64,10 +51,7 @@ public class PagesControl : MonoBehaviour
       this.l1victory.startVictoryEvent();
       return;
     }
-    this.slender_script.setChaseSpeed(this.speeds[i]);
-    this.slender_script.setTeleportDistance(this.teleport_distances[i]);
-    this.slender_script.setTeleportation(this.teleport_limits[i], this.can_tp_forward[i], this.forward_tp_limits[i]);
-    this.slender_script.setInvisibility(this.invisible_limits[i], this.can_be_invisible[i]);
+    this.slender_script.setDifficulty(this.pages_collected/7); //Slender difficulty set in percentage
     
     switch (this.pages_collected) {
       case 1:

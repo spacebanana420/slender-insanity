@@ -22,7 +22,6 @@ public class SoulsControl : MonoBehaviour
   public byte souls_released = 0;
 
   private GameObject slenderman;
-  private SlenderStats slender_stats = new SlenderStats();
   private GhostStats ghost_stats = new GhostStats();
   private float thump_volume; //Preserves original thump volume so it can be played manually from other classes
 
@@ -62,11 +61,8 @@ public class SoulsControl : MonoBehaviour
       this.victory.startVictoryEvent();
       return;
     }
-    //Change Slenderman's stats
-    this.slender_script.setChaseSpeed(this.slender_stats.speeds[i]);
-    this.slender_script.setTeleportDistance(this.slender_stats.teleport_distances[i]);
-    this.slender_script.setTeleportation(this.slender_stats.teleport_limits[i], this.slender_stats.can_tp_forward[i], this.slender_stats.forward_tp_limits[i]);
-    this.slender_script.setInvisibility(this.slender_stats.invisible_limits[i], this.slender_stats.can_be_invisible[i]);
+    //Change Slenderman's stats in percentage
+    this.slender_script.setDifficulty(this.souls_released/9);
 
     //Change ghost's stats
     this.ghost_script.setTeleport(this.ghost_stats.teleport_distances[i], this.ghost_stats.teleport_cooldown[i]);
@@ -136,20 +132,8 @@ public class SoulsControl : MonoBehaviour
 }
 
 
-//Enemy stats for Slender and the ghost are written in separate classes here to not clutter the main class
+//Enemy stats for the Ghost are written in separate classes here to not clutter the main class
 //1 to 9 orbs released out of 10
-class SlenderStats {
-  public float[] speeds = {1, 1.5f, 2, 3, 3.5f, 4, 4.4f, 4.6f, 4.8f};
-
-  public float[] teleport_distances = {12, 10, 9, 8.5f, 8, 7, 6, 5.5f, 5.5f};
-  public float[] teleport_limits = {36, 34, 32, 30, 28, 24, 20, 15, 10};
-  public float[] forward_tp_limits = {90, 90, 90, 80, 45, 30, 26, 20, 15};
-  public bool[] can_tp_forward = {false, false, false, true, true, true, true, true, true};
-
-  public float[] invisible_limits = {40, 50, 60, 70, 80, 90, 90, 90, 90};
-  public bool[] can_be_invisible = {true, true, true, true, true, true, false, false, false};
-}
-
 class GhostStats {
   public float[] teleport_cooldown = {35, 30, 25, 20, 15, 12, 10, 8, 8};
   public float[] teleport_distances = {20, 19, 18, 17, 16, 15, 14, 14, 14};

@@ -25,14 +25,6 @@ public class Level3Objective : MonoBehaviour
   private int ghosts_captured = 0;
   private GameObject slenderman;
 
-  //Slenderman's stats, difficulty adjustment
-  //One value for each ghost captured (1 to 6 ghosts)
-  float[] speeds = {1.5f, 2.4f, 3.2f, 4, 4.4f, 4.8f};
-  float[] teleport_distances = {10, 9, 8, 7, 6.5f, 6};
-  float[] teleport_limits = {24, 20, 18, 15, 12, 10};
-  float[] invisible_limits = {40, 50, 60, 70, 80, 80};
-  bool[] can_be_invisible = {true, true, true, true, true, false};
-
   void Start() {
     this.slenderman = this.slender_script.gameObject;
     StartCoroutine(levelStart());
@@ -40,12 +32,7 @@ public class Level3Objective : MonoBehaviour
   
 
   IEnumerator levelStart() {
-    //Slender's stats before the first ghost is photographed
-    this.slender_script.setChaseSpeed(0.8f);
-    this.slender_script.setTeleportDistance(13);
-    this.slender_script.setTeleportation(30, false, 100);
-    this.slender_script.setInvisibility(40, true);
-    
+    this.slender_script.setDifficulty(0.1f); //Very passive Slenderman since he spawns before the first ghost capture
     yield return new WaitForSeconds(1);
     this.flashlight.turnOn();
     yield return new WaitForSeconds(2);
@@ -59,16 +46,10 @@ public class Level3Objective : MonoBehaviour
   public void captureGhost() {
     //Only counts if player successfully takes a picture of a ghost
     if (!getValidGhost()) return;
-    
-    int i = this.ghosts_captured;
     this.ghosts_captured += 1;
 
-    //Increase difficulty
-    this.slender_script.setChaseSpeed(this.speeds[i]);
-    this.slender_script.setTeleportDistance(this.teleport_distances[i]);
-    this.slender_script.setTeleportation(this.teleport_limits[i], false, 100);
-    this.slender_script.setInvisibility(this.invisible_limits[i], this.can_be_invisible[i]);
-
+    //Increase difficulty based on percentage
+    this.slender_script.setDifficulty(this.ghosts_captured/6);
 
     //Show objective progress
     string text = this.ghosts_captured+"/6 ghosts photographed";

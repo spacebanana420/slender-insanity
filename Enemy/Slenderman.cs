@@ -33,6 +33,7 @@ public class Slenderman : MonoBehaviour
   private float invisible_limit = 120;
   private float invisible_countdown = 18;
 
+  //Slender's stats, affects how aggressive he is
   private float speed = 2f;
   private float teleport_distance = 4;
   private bool looking_at = false;
@@ -40,18 +41,35 @@ public class Slenderman : MonoBehaviour
   private bool usewaypoints = false;
   private float static_distance = 18; //Beyond this distance, he cannot attack with static interference
 
-  //Set Slenderman's difficulty stats
-  public void setTeleportation(float time, bool can_tp_forward, float forward_time) {
+  //Difficulty level from 0.1 to 1 (10% to 100%) which adjusts Slenderman's stats and difficulty automatically
+  //Values are clamped so they don't exceed reasonable limits
+  public void setDifficulty(float percentage) {
+    if (percentage == 0) percentage = 0.1f;
+    float speed = Mathf.Clamp(4.8f*percentage, 1, 4.8f);
+    float teleportDistance = Mathf.Clamp(6f/percentage, 6, 12);
+    float teleportCooldown = Mathf.Clamp(10/percentage, 10, 40);
+    float forwardTeleportCooldown = Mathf.Clamp(18/percentage, 18, 100);
+    float invisibleCooldown = Mathf.Clamp(90*percentage, 50, 90);
+    bool canBeInvisible = percentage <= 0.8f;
+    bool canTeleportForward = percentage >= 0.75f;
+
+    setChaseSpeed(speed);
+    setTeleportation(teleportCooldown, canTeleportForward, forwardTeleportCooldown);
+    setTeleportDistance(teleportDistance);
+    setInvisibility(invisibleCooldown, canBeInvisible);
+  }
+
+  private void setTeleportation(float time, bool can_tp_forward, float forward_time) {
     this.teleport_limit = time;
     this.can_teleport_forward = can_tp_forward;
     this.tp_forward_limit = forward_time;
   }
-  public void setInvisibility(float time, bool can_be_invisible) {
+  private void setInvisibility(float time, bool can_be_invisible) {
     this.invisible_limit = time;
     this.can_be_invisible = can_be_invisible;
   }
-  public void setChaseSpeed(float speed) {this.speed = speed;}
-  public void setTeleportDistance(float dist) {this.teleport_distance = dist;}
+  private void setChaseSpeed(float speed) {this.speed = speed;}
+  private void setTeleportDistance(float dist) {this.teleport_distance = dist;}
 
   void Start() {
     this.static_script.gameObject.active = true;
