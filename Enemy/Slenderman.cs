@@ -52,8 +52,8 @@ public class Slenderman : MonoBehaviour
     float teleportCooldown = Mathf.Clamp(10f/percentage, 10, 40);
     float forwardTeleportCooldown = Mathf.Clamp(18f/percentage, 18, 100);
     float invisibleCooldown = Mathf.Clamp(90f*percentage, 40, 90);
-    bool canBeInvisible = percentage <= 0.8f;
-    bool canTeleportForward = percentage >= 0.75f;
+    bool canBeInvisible = percentage <= 0.75f;
+    bool canTeleportForward = percentage >= 0.4f;
 
     this.speed = speed;
     this.teleport_limit = teleportCooldown;
