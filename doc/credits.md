@@ -1,15 +1,15 @@
 ## Game Credits
 
-# Asset Credits
+### Asset Credits
 Touhou characters and their portraits by ZUN
 Monk portrait from Rain World
 Tux artwork by Larry Ewing
 SCP-087-1 face: https://scp-wiki.wikidot.com/scp-087
 
-# Music Credits
+### Music Credits
 Performance of "Toccata and Fugue in D minor, BWV 565" by Hans Otto
 
-# Sound Credits
+### Sound Credits
 https://freesound.org/people/Incarnadine/sounds/16997/
 https://freesound.org/people/Percy%20Duke/sounds/23503/
 https://freesound.org/people/TreyHolton/sounds/238306/
