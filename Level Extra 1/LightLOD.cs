@@ -14,7 +14,7 @@ public class LightLOD : MonoBehaviour
   void Awake(){
     this.light = this.gameObject.GetComponent<Light>();
     this.maxIntensity = this.light.intensity;
-    this.step = this.maxIntensity * 1.8f;
+    this.step = this.maxIntensity * 2f;
   }
   void Update() {
     bool renderLight = getDistance() < this.maxDistance;
