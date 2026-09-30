@@ -2,80 +2,78 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-//Controls difficulty according to the number of collected pages
-public class PagesControl : MonoBehaviour
+//Controls difficulty according to the number of collected pumpkins
+public class PumpkinControl : MonoBehaviour
 {
   public Slenderman slender_script;
   public TextControl text;
   public StaticKill gameover;
-  public Level1Victory l1victory;
 
-  //Used for random page placement in map
-  public Transform[] pages;
-  public List<Transform> page_placements;
+  //Used for random pumpkin placement in map
+  public Transform[] pumpkins;
+  public List<Transform> pumpkin_placements;
   public AudioSource[] music;
+  public LevelExtra1Victory victory;
 
-  public byte pages_collected = 0;
+  private byte collected = 0; //How many pumpkins have been collected
 
-  private float thump_volume; //Preserves original thump volume so it can be played manually from other classes
   private GameObject slenderman;
+  private byte thumpFrequency = 8; //Frequency increases with more pumpkins collected
 
   void Awake() {
     this.slenderman = this.slender_script.gameObject;
-    this.thump_volume = this.music[0].volume;
     //Random page placement
-    foreach (Transform page in this.pages) {
-      int i = Random.Range(0, this.page_placements.Count);
-      page.position = this.page_placements[i].position;
-      page.rotation = this.page_placements[i].rotation;
-      this.page_placements.RemoveAt(i);
+    foreach (Transform pumpkin in this.pumpkins) {
+      int i = Random.Range(0, this.pumpkin_placements.Count);
+      pumpkin.position = this.pumpkin_placements[i].position;
+      pumpkin.rotation = this.pumpkin_placements[i].rotation;
+      this.pumpkin_placements.RemoveAt(i);
     }
-  }
-
-  //External classes can play this sound, it's a nice sound to use in some parts of the game
-  public void playThump() {
-    this.music[0].volume = this.thump_volume;
-    this.music[0].Play();
   }
 
   //Each page calls this function when it's collected
   //Handles music, Slender's difficulty as well as the level 1 victory event
-  public void collectPage() {
-    this.pages_collected += 1;
-    string text = this.pages_collected+"/8 pages collected";
+  public void collectPumpkin() {
+    this.collected += 1;
+    string text = this.collected+"/12 pumpkins collected";
     this.text.displayTemporaryText(text, 4);
     this.gameover.gameover_text = text;
     
-    if (this.pages_collected == 8) {
+    if (this.collected == 12) {
       StartCoroutine(stopMusic());
-      this.l1victory.startVictoryEvent();
+      this.victory.startVictoryEvent();
       return;
     }
-    this.slender_script.setDifficulty((float)this.pages_collected/7); //Slender difficulty set in percentage
+    this.slender_script.setDifficulty((float)this.collected/11); //Slender difficulty set in percentage
     
-    switch (this.pages_collected) {
+    switch (this.collected) {
       case 1:
         this.slenderman.active = true;
-        StartCoroutine(firstMusic(this.music[0]));
-        return;
-      case 3:
+        StartCoroutine(playThump(this.music[0]));
+        break;
+      case 2:
+        this.thumpFrequency = 6;
+        break;
+      case 4:
         StartCoroutine(playGradual(this.music[1]));
         break;
-      case 5:
+      case 6:
+        this.thumpFrequency = 4;
+        break;
+      case 8:
         StartCoroutine(playGradual(this.music[2]));
         break;
-      case 7:
+      case 10:
         StartCoroutine(playGradual(this.music[3]));
         break;
     }
   }
 
   //For the thump sound, more granular control over how frequently it's heard
-  IEnumerator firstMusic(AudioSource music) {
-    music.Play();
-    while (this.pages_collected < 8) {
-      yield return new WaitForSeconds(4);
-      music.time = 0; //Alternative to constant Play() calls, allows external scripts to stop the music
+  IEnumerator playThump(AudioSource music) {
+    while (this.collected < 12) {
+      music.Play();
+      yield return new WaitForSeconds(this.thumpFrequency);
     }
   }
 

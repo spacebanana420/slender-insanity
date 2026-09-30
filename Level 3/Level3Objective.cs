@@ -49,7 +49,7 @@ public class Level3Objective : MonoBehaviour
     this.ghosts_captured += 1;
 
     //Increase difficulty based on percentage
-    this.slender_script.setDifficulty(this.ghosts_captured/6);
+    this.slender_script.setDifficulty((float)this.ghosts_captured/6);
 
     //Show objective progress
     string text = this.ghosts_captured+"/6 ghosts photographed";

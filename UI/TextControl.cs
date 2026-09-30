@@ -11,6 +11,7 @@ public class TextControl : MonoBehaviour
   public void displayText(string text) {this.text_ui.text = text;}
   public void close() {this.text_ui.text = "";}
 
+  public void displayTemporaryText(string text) {displayTemporaryText(text, getLineDuration(text));} //Todo: use this in level 1, 2, 3 objective text
   public void displayTemporaryText(string text, float time) {StartCoroutine(showText_seconds(text, time));}
   IEnumerator showText_seconds(string text, float time) {
     this.text_ui.text = text;

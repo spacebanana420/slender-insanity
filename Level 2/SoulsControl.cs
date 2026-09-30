@@ -62,7 +62,7 @@ public class SoulsControl : MonoBehaviour
       return;
     }
     //Change Slenderman's stats in percentage
-    this.slender_script.setDifficulty(this.souls_released/9);
+    this.slender_script.setDifficulty((float)this.souls_released/9);
 
     //Change ghost's stats
     this.ghost_script.setTeleport(this.ghost_stats.teleport_distances[i], this.ghost_stats.teleport_cooldown[i]);

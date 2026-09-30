@@ -31,7 +31,7 @@ public class Slenderman : MonoBehaviour
   private bool looking_at = false; //Slender is in player's FOV
   private bool is_seen = false; //Slender is not hidden behind an object
   private bool usewaypoints = false; //To choose between normal teleportation or waypoint-based
-  private float static_distance = 18; //Beyond this distance, he cannot attack with static interference
+  private float static_distance = 20; //Beyond this distance, he cannot attack with static interference
 
 
   //Slender's stats, affects his aggression/difficulty
@@ -43,15 +43,17 @@ public class Slenderman : MonoBehaviour
   private bool can_be_invisible = true;
   private float invisible_limit = 120;
 
-  //Difficulty level from 0.1 to 1 (10% to 100%) which adjusts Slenderman's stats and difficulty automatically
+  //Difficulty level from 0.01 to 1 (1% to 100%) which adjusts Slenderman's stats and difficulty automatically
   //Values are clamped so they don't exceed reasonable limits
   public void setDifficulty(float percentage) {
-    if (percentage < 0.1f) percentage = 0.1f;
+    if (percentage < 0.01f) percentage = 0.01f;
+    else if (percentage > 1) percentage = 1f;
+    
     float speed = Mathf.Clamp(4.8f*percentage, 0.8f, 4.8f);
-    float teleportDistance = Mathf.Clamp(6f/percentage, 6, 12);
-    float teleportCooldown = Mathf.Clamp(10f/percentage, 10, 40);
+    float teleportDistance = Mathf.Clamp(6f/percentage, 6, 14);
+    float teleportCooldown = Mathf.Clamp(12f/percentage, 12, 45);
     float forwardTeleportCooldown = Mathf.Clamp(18f/percentage, 18, 100);
-    float invisibleCooldown = Mathf.Clamp(90f*percentage, 40, 90);
+    float invisibleCooldown = Mathf.Clamp(100f*percentage, 40, 100);
     bool canBeInvisible = percentage <= 0.75f;
     bool canTeleportForward = percentage >= 0.4f;
 
@@ -108,7 +110,7 @@ public class Slenderman : MonoBehaviour
       this.jumpscare_meter = increment(this.jumpscare_meter, this.jumpscare_limit, 1);
       return;
     }
-    if (this.jumpscare_meter < this.jumpscare_limit || distance > 8f) {return;}
+    if (this.jumpscare_meter < this.jumpscare_limit || distance > 8f) return;
     this.jumpscare_meter = 0;
     this.jumpscare_sound.Play();
     return;
@@ -167,7 +169,7 @@ public class Slenderman : MonoBehaviour
     if (!this.can_be_invisible) {return;}
     this.invisible_meter = increment(this.invisible_meter, this.invisible_limit, 1);
 
-    if (this.invisible_meter != this.invisible_limit) {return;}
+    if (this.invisible_meter != this.invisible_limit) return;
     this.is_seen = false;
     this.looking_at = false;
     this.api.toggleController(false);
@@ -177,7 +179,7 @@ public class Slenderman : MonoBehaviour
   //Invisibility duration countdown, then become visible
   void visibleCheck(float distance) {
     this.invisible_countdown = decrement(this.invisible_countdown, 1);
-    if (this.invisible_countdown != 0) {return;}
+    if (this.invisible_countdown != 0) return;
     this.invisible_countdown = 18;
     this.invisible_meter = 0;
 
