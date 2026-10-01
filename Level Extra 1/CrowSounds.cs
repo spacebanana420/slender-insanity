@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-//Spawns a random crow sound close to the player
+// Spawns a random crow sound close to the player
 // Position relative to the player and frequency of crow sounds are random
 public class CrowSounds : MonoBehaviour
 {
@@ -18,7 +18,7 @@ public class CrowSounds : MonoBehaviour
     while(true) {
       yield return new WaitForSeconds(Random.Range(3, 25));
       Vector3 playerPos = this.player.position;
-      Vector3 soundPos = new Vector3(playerPos.x+Random.Range(-20, 20), playerPos.y+Random.Range(3, 10), playerPos.z+Random.Range(-20, 20));
+      Vector3 soundPos = new Vector3(playerPos.x+Random.Range(-25, 25), playerPos.y+Random.Range(5, 12), playerPos.z+Random.Range(-25, 25));
       this.transform.position = soundPos;
       this.sound.clip = this.crowSounds[Random.Range(0, this.crowSounds.Length-1)];
       this.sound.Play();
