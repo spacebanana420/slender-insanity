@@ -20,7 +20,7 @@ public class LightLOD : MonoBehaviour
     bool renderLight = getDistance() < this.maxDistance;
     float step = this.step * Time.deltaTime;
     if (!renderLight) step = -step;
-    this.light.intensity = Mathf.Clamp(this.light.intensity+step, 0, 1);
+    this.light.intensity = Mathf.Clamp(this.light.intensity+step, 0, this.maxIntensity);
     this.light.enabled = renderLight || this.light.intensity > 0;
   }
   private float getDistance() {return Vector3.Distance(this.transform.position, this.player.position);}
