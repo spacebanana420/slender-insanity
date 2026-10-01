@@ -34,3 +34,7 @@ Performance of "Toccata and Fugue in D minor, BWV 565" by Hans Otto
 * https://freesound.org/people/dimbark1/sounds/316797/
 * https://freesound.org/people/kMoon/sounds/90792/
 * https://freesound.org/people/sleepCircle/sounds/22331/
+* https://freesound.org/people/hardwareshaba/sounds/577870/
+* https://freesound.org/people/deadrobotmusic/sounds/673553/
+* https://freesound.org/people/InspectorJ/sounds/418262/
+* https://freesound.org/people/Mish7913/sounds/741366/

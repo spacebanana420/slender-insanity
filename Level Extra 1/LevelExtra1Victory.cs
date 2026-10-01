@@ -10,10 +10,9 @@ public class LevelExtra1Victory : MonoBehaviour
   public Player player_script;
   public Pause pause_script;
   
-  public GameObject slender;
   public Slenderman slender_script;
   public Orb orb_script;
-  public GameObject orb;
+  public GameObject pumpkin;
   
   public StaticEffect static_script;
   public BlankScreen blank_screen;
@@ -23,9 +22,10 @@ public class LevelExtra1Victory : MonoBehaviour
   public AudioSource thunder;
 
   public LevelLoad level_loader;
+  
+  private GameObject slender;
 
-  public Material end_skybox;
-  public GameObject end_camera;
+  void Awake() {this.slender = this.slender_script.gameObject;}
   
   public void startVictoryEvent() {StartCoroutine(victoryEvent());}
 
@@ -53,7 +53,7 @@ public class LevelExtra1Victory : MonoBehaviour
     }
     //Slender disappears, orb appears
     this.player_script.caught = false;
-    releaseSoul(this.slender, this.orb);
+    turnIntoAPumpkin(this.slender, this.pumpkin);
     this.thunder.time=0.1f; //Skip silent part in audio
     this.thunder.Play();    
     this.static_script.stopFade_strong(4);
@@ -70,40 +70,18 @@ public class LevelExtra1Victory : MonoBehaviour
     this.blank_screen.displayBlackScreen();
     yield return new WaitForSeconds(3);
     string[] ending_text = {
-      "Story repeats itself, the curse continues.",
-      "Or so it used to, until now...",
-      "Will he no longer torment us?",
-      "The remnants of the things he destroyed slowly fade away.",
-      "Eventually no one is left to tell these stories.",
-      "No one will be left to remember and fear him.",
-      "He becomes forgotten, buried in the past.",
-      "Ready to move on, to leave us behind as we left him.",
-      "He becomes free, and so do you..."
+      "placeholder"
     };
     float duration = this.text.startSequence(ending_text);
     yield return new WaitForSeconds(duration);
     this.text.close();
     yield return new WaitForSeconds(2);
-    level_loader.loadLevel1_end();
-    // changeTimeOfDay();
-    // this.player.gameObject.active = false;
-    // this.end_camera.active = true;
-    // this.blank_screen.fadeFromBlack(7);
-    // yield return new WaitForSeconds(20);
-    // this.blank_screen.fadeToBlack(10);
-    // yield return new WaitForSeconds(13);
+    level_loader.loadMainMenu();
   }
-
-  // void changeTimeOfDay() {
-  //   RenderSettings.skybox = this.end_skybox;
-  //   RenderSettings.ambientLight = new Color32(60, 60, 80, 255);
-  //   RenderSettings.fogDensity /= 15;
-  //   RenderSettings.fogColor = new Color32(39, 44, 52, 255);
-  // }
 
   //Positions Slender and the player as if the player had been caught
   //Inspired by Slenderman.kill() and other parts of Slender's class
-  void emulateDeath(Transform slender, Transform player, Transform player_cam) {
+  static void emulateDeath(Transform slender, Transform player, Transform player_cam) {
     //Move Slender next to the player, keep height the same
     Vector3 player_pos = player.position;
     player_pos.y = slender.position.y;
@@ -120,12 +98,12 @@ public class LevelExtra1Victory : MonoBehaviour
     slender.LookAt(player_target);    
   }
 
-  //Replaces Slenderman with a soul orb
-  void releaseSoul(GameObject slender, GameObject orb) {
+  //Replaces Slenderman with a pumpkin
+  static void turnIntoAPumpkin(GameObject slender, GameObject pumpkin) {
     slender.active = false;
     Vector3 slender_pos = slender.transform.position;
-    slender_pos.y = orb.transform.position.y;
-    orb.transform.position = slender_pos;
-    orb.active = true;
+    slender_pos.y = pumpkin.transform.position.y;
+    pumpkin.transform.position = slender_pos;
+    pumpkin.active = true;
   }
 }
