@@ -16,9 +16,9 @@ public class CrowSounds : MonoBehaviour
 
   IEnumerator crowNoises() {
     while(true) {
-      yield return new WaitForSeconds(Random.Range(3, 25));
+      yield return new WaitForSeconds(Random.Range(6, 30));
       Vector3 playerPos = this.player.position;
-      Vector3 soundPos = new Vector3(playerPos.x+Random.Range(-25, 25), playerPos.y+Random.Range(5, 12), playerPos.z+Random.Range(-25, 25));
+      Vector3 soundPos = new Vector3(playerPos.x+Random.Range(-60, 60), playerPos.y+Random.Range(12, 60), playerPos.z+Random.Range(-60, 60));
       this.transform.position = soundPos;
       this.sound.clip = this.crowSounds[Random.Range(0, this.crowSounds.Length-1)];
       this.sound.Play();
