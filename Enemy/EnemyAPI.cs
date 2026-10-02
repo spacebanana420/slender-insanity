@@ -6,7 +6,6 @@ public class EnemyAPI : MonoBehaviour
 {
   public Transform player;
   public Transform player_camera;
-  public Transform enemy;
   public MeshRenderer enemy_mesh;
   public CharacterController enemy_ctrl;
   public GameObject teleportWaypoints; //Optional, for interior levels, pre-defined teleport locations
@@ -14,18 +13,16 @@ public class EnemyAPI : MonoBehaviour
   public Player player_script;
   public Pause pause_script;
 
-  private GameObject enemy_object;
   private bool can_use_waypoints;
   private Transform[] waypoints;
   
   void Awake() {
-    this.enemy_object = this.enemy.gameObject;
     this.can_use_waypoints = this.teleportWaypoints != null;
     if (!this.can_use_waypoints) return;
     this.waypoints = this.teleportWaypoints.GetComponentsInChildren<Transform>();
   }
   
-  public float getDistance() {return Vector3.Distance(this.enemy.position, this.player.position);}
+  public float getDistance() {return Vector3.Distance(this.transform.position, this.player.position);}
 
   //Whether the enemy is inside the player's field of view, even if hidden behind an object
   public bool isLookedAt() {return this.enemy_mesh.isVisible;}
@@ -33,26 +30,26 @@ public class EnemyAPI : MonoBehaviour
   //Whether the enemy is seen without being hidden behind an object
   public bool isSeen() {
     if (!isLookedAt()) {return false;}
-    Vector3[] ray_pos = {this.enemy.position, this.enemy.position, this.enemy.position};
+    Vector3[] ray_pos = {this.transform.position, this.transform.position, this.transform.position};
     ray_pos[1].y -= 0.4f;
     ray_pos[2].y += 0.4f;
     foreach (Vector3 pos in ray_pos) {
       RaycastHit hit_info;
       bool collided = Physics.Raycast(this.player_camera.position, pos-this.player_camera.position, out hit_info, 30);
-      if (!collided) {continue;}
-      if (hit_info.collider.gameObject == this.enemy_object) {return true;}
+      if (!collided) continue;
+      if (hit_info.collider.gameObject == this.gameObject) return true;
     }
     return false;
   }
   
   public void lookAtPlayer() {
     Vector3 look_target = this.player.position;
-    look_target.y = this.enemy.position.y; //Do not rotate vertically
-    this.enemy.LookAt(look_target);
+    look_target.y = this.transform.position.y; //Do not rotate vertically
+    this.transform.LookAt(look_target);
   }
 
   public void move(float speed, float gravity = -10) {
-    Vector3 motion = this.enemy.forward * speed;
+    Vector3 motion = this.transform.forward * speed;
     motion.y = gravity;
     this.enemy_ctrl.Move(motion * Time.deltaTime);  
   }
@@ -64,7 +61,7 @@ public class EnemyAPI : MonoBehaviour
   public void teleport(float teleport_distance) {teleport(getDistance(), teleport_distance);}
   public void teleport(float distance, float teleport_distance) {
     lookAtPlayer();
-    this.enemy_ctrl.Move(this.enemy.forward * (distance-teleport_distance));
+    this.enemy_ctrl.Move(this.transform.forward * (distance-teleport_distance));
     this.enemy_ctrl.Move(new Vector3(0, -100, 0)); //Gravity    
   }
 
@@ -76,7 +73,7 @@ public class EnemyAPI : MonoBehaviour
     else new_position.y = terrain.SampleHeight(new_position)+height_correction;
 
     this.enemy_ctrl.enabled = false; //For manual position changes
-    this.enemy.position = new_position;
+    this.transform.position = new_position;
     this.enemy_ctrl.enabled = true;
     this.enemy_ctrl.Move(new Vector3(0, -100, 0)); //Gravity
     lookAtPlayer();
@@ -89,7 +86,7 @@ public class EnemyAPI : MonoBehaviour
     else new_position.y = floor.position.y + height_correction;
     
     this.enemy_ctrl.enabled = false;
-    this.enemy.position = new_position;
+    this.transform.position = new_position;
     this.enemy_ctrl.enabled = true;
     this.enemy_ctrl.Move(new Vector3(0, -100, 0)); //Gravity
     lookAtPlayer();
@@ -118,7 +115,7 @@ public class EnemyAPI : MonoBehaviour
   public void killPlayer(float look_offset = 0.6f) {
     this.pause_script.can_pause = false;
     this.player_script.caught = true;
-    Vector3 enemy_pos = this.enemy.position;
+    Vector3 enemy_pos = this.transform.position;
     enemy_pos.y = this.player_camera.position.y + look_offset; //Make the camera look slightly up
     this.player_camera.LookAt(enemy_pos);
     lookAtPlayer();

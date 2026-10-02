@@ -18,7 +18,6 @@ public class LevelExtra1Victory : MonoBehaviour
   public BlankScreen blank_screen;
   public TextControl text;
   
-  public AudioSource jumpscare;
   public AudioSource thunder;
 
   public LevelLoad level_loader;
@@ -41,7 +40,7 @@ public class LevelExtra1Victory : MonoBehaviour
     yield return new WaitForSeconds(0.5f);
     this.static_script.stop();
     this.slender.active = true;
-    this.jumpscare.Play();
+    this.slender_script.jumpscare_sound.Play();
     this.player_script.caught = true;
     emulateDeath(this.slender.transform, this.player, this.player_cam);
 
