@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class PumpkinControl : MonoBehaviour
 {
   public Slenderman slender_script;
+  public SCPGhost ghost;
   public TextControl text;
   public StaticKill gameover;
 
@@ -44,7 +45,9 @@ public class PumpkinControl : MonoBehaviour
       this.victory.startVictoryEvent();
       return;
     }
-    this.slender_script.setDifficulty((float)this.collected/11); //Slender difficulty set in percentage
+    float enemyDifficulty = (float)this.collected/11;
+    this.slender_script.setDifficulty(enemyDifficulty); //Slender difficulty set in percentage
+    this.ghost.setDifficulty(enemyDifficulty/2);// Ghost's difficulty is reduced by half for balancing
     
     switch (this.collected) {
       case 1:
@@ -56,6 +59,7 @@ public class PumpkinControl : MonoBehaviour
         break;
       case 4:
         StartCoroutine(playGradual(this.music[1]));
+        this.ghost.gameObject.active = true;
         break;
       case 6:
         this.thumpFrequency = 4;
