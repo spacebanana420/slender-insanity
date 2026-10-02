@@ -31,7 +31,7 @@ public class Slenderman : MonoBehaviour
   private bool looking_at = false; //Slender is in player's FOV
   private bool is_seen = false; //Slender is not hidden behind an object
   private bool usewaypoints = false; //To choose between normal teleportation or waypoint-based
-  private float static_distance = 20; //Beyond this distance, he cannot attack with static interference
+  private float static_distance = 22; //Beyond this distance, he cannot attack with static interference
 
 
   //Slender's stats, affects his aggression/difficulty
@@ -49,13 +49,13 @@ public class Slenderman : MonoBehaviour
     if (percentage < 0.01f) percentage = 0.01f;
     else if (percentage > 1) percentage = 1f;
     
-    float speed = Mathf.Clamp(4.8f*percentage, 0.8f, 4.8f);
+    float speed = Mathf.Clamp(4.5f*percentage, 0.8f, 4.5f);
     float teleportDistance = Mathf.Clamp(6f/percentage, 6, 14);
     float teleportCooldown = Mathf.Clamp(12f/percentage, 12, 45);
-    float forwardTeleportCooldown = Mathf.Clamp(18f/percentage, 18, 100);
+    float forwardTeleportCooldown = Mathf.Clamp(15f/percentage, 15, 80);
     float invisibleCooldown = Mathf.Clamp(100f*percentage, 40, 100);
     bool canBeInvisible = percentage <= 0.75f;
-    bool canTeleportForward = percentage >= 0.4f;
+    bool canTeleportForward = percentage >= 0.35f;
 
     this.speed = speed;
     this.teleport_limit = teleportCooldown;
@@ -195,7 +195,7 @@ public class Slenderman : MonoBehaviour
       float static_speed = 22/distance; //Takes 10/22 seconds to kill the player at 1 distance
       this.look_meter = increment(this.look_meter, 10, static_speed);
     }
-    else this.look_meter = decrement(this.look_meter, 1.8f);
+    else this.look_meter = decrement(this.look_meter, 1.5f);
     
     this.static_script.setStatic(this.look_meter/10);
     return this.look_meter == 10;
