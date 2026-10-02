@@ -16,8 +16,8 @@ public class Player : MonoBehaviour
   private float running_tempo = 1.3f; //Currently the running SFX speed is 1.3x of the original
   private float walkSpeed = 3f;
   private float sprintSpeed = 6f;
-  private float stamina = 14;
-  private float max_stamina = 14;
+  private float stamina = 12;
+  private float max_stamina = 12;
   private float maxLookAngle = 85f;
 
   private float verticalRotation = 0f;
