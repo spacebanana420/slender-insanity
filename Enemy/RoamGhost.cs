@@ -27,10 +27,10 @@ public class RoamGhost : MonoBehaviour
      IEnumerator idle() {
       while (true) {
         float moveDuration = Random.Range(2, 4);
-        float waitDuration = Random.Range(3, 8);
+        float waitDuration = Random.Range(0, 0.5f);
         float elapsedTime = 0;
-        float xSpeed = Random.Range(-3, 3);
-        float zSpeed = Random.Range(-3, 3);
+        float xSpeed = Random.Range(-2, 2);
+        float zSpeed = Random.Range(-2, 2);
         Vector3 direction = new Vector3(xSpeed, 0, zSpeed);
         while (elapsedTime < moveDuration) {
           if (this.chasingPlayer || playerIsCaught()) { //Don't move randomly while chasing or if someone else caught the player
@@ -50,7 +50,7 @@ public class RoamGhost : MonoBehaviour
     IEnumerator chase() {
       while (true) {
         yield return null;
-        if (this.api.getDistance() > 8) continue;
+        if (this.api.getDistance() > 10) continue;
 
         float elapsedTime = 0;
         this.sound.Play();
@@ -61,7 +61,7 @@ public class RoamGhost : MonoBehaviour
             continue;
           }
           float playerDistance = this.api.getDistance();
-          if (elapsedTime > 6 && playerDistance > 6) break;
+          if (elapsedTime > 5 && playerDistance > 10) break;
           if (playerDistance < 2) break; //todo kill player
           this.api.move(4);
           elapsedTime += Time.deltaTime;
