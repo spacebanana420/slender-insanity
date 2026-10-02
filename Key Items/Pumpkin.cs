@@ -6,6 +6,7 @@ public class Pumpkin : MonoBehaviour
 {
   public PumpkinControl pumpkin_control;
   public Player player;
+  public GameObject light;
 
   private Transform player_transform;
   private MeshRenderer mesh;
@@ -25,6 +26,8 @@ public class Pumpkin : MonoBehaviour
     
     if (this.sound != null) this.sound.Play();
     this.pumpkin_control.collectPumpkin();
-    this.gameObject.active = false;
+    this.mesh.enabled = false;
+    this.light.active = false;
+    this.enabled = false;
   }
 }
