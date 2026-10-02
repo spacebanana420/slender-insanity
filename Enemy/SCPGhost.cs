@@ -26,12 +26,20 @@ public class SCPGhost : MonoBehaviour
 
   private bool stunning_player = false;
 
-  public void setTeleport(float distance, float cooldown) {
-    this.teleport_distance = distance;
-    this.teleport_cooldown = cooldown;
+  public void setDifficulty(float percentage) {
+    if (percentage < 0.01f) percentage = 0.01f;
+    else if (percentage > 1) percentage = 1f;
+    
+    float speed = Mathf.Clamp(11f*percentage, 6.5f, 11);
+    float teleportDistance = Mathf.Clamp(14f/percentage, 14, 20);
+    float teleportCooldown = Mathf.Clamp(8f/percentage, 8, 35);
+    float invisibleCooldown = Mathf.Clamp(40f*percentage, 26, 40);
+
+    this.speed = speed;
+    this.teleport_cooldown = teleportCooldown;
+    this.teleport_distance = teleportDistance;
+    this.invisible_cooldown = invisibleCooldown;
   }
-  public void setSpeed(float speed) {this.speed = speed;}
-  public void setInvisibilityCooldown(float cooldown) {this.invisible_cooldown = cooldown;}
 
   //Preserve original max volume
   void Awake() {this.sound_loop_volume = this.sound_loop.volume;}

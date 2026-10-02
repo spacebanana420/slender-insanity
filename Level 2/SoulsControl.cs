@@ -22,7 +22,6 @@ public class SoulsControl : MonoBehaviour
   public byte souls_released = 0;
 
   private GameObject slenderman;
-  private GhostStats ghost_stats = new GhostStats();
   private float thump_volume; //Preserves original thump volume so it can be played manually from other classes
 
 
@@ -61,13 +60,10 @@ public class SoulsControl : MonoBehaviour
       this.victory.startVictoryEvent();
       return;
     }
-    //Change Slenderman's stats in percentage
-    this.slender_script.setDifficulty((float)this.souls_released/9);
-
-    //Change ghost's stats
-    this.ghost_script.setTeleport(this.ghost_stats.teleport_distances[i], this.ghost_stats.teleport_cooldown[i]);
-    this.ghost_script.setSpeed(this.ghost_stats.speeds[i]);
-    this.ghost_script.setInvisibilityCooldown(this.ghost_stats.invisibility_cooldown[i]);
+    //Change Slenderman and ghost stats in percentage
+    float difficultyPercentage = (float)this.souls_released/9;
+    this.slender_script.setDifficulty(difficultyPercentage);
+    this.ghost_script.setDifficulty(difficultyPercentage);
     
     switch (this.souls_released) {
       case 1:
@@ -129,14 +125,4 @@ public class SoulsControl : MonoBehaviour
       yield return null;
     }
   }
-}
-
-
-//Enemy stats for the Ghost are written in separate classes here to not clutter the main class
-//1 to 9 orbs released out of 10
-class GhostStats {
-  public float[] teleport_cooldown = {35, 30, 25, 20, 15, 12, 10, 8, 8};
-  public float[] teleport_distances = {20, 19, 18, 17, 16, 15, 14, 14, 14};
-  public float[] speeds = {7, 7.5f, 8, 8.5f, 9, 9.5f, 10, 10.5f, 11};
-  public float[] invisibility_cooldown = {40, 38, 36, 34, 32, 30, 28, 26, 26};
 }
