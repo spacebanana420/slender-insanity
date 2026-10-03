@@ -1,9 +1,9 @@
 ## Slender: Insanity
 
-Slender: Insanity is a scary game that plays out similarly to most Slender games:
+Slender: Insanity is a videogame that plays out similarly to most Slender games:
 You must fulfill the level's objective while Slenderman is after you, but compared to similar games it adds variety, a different story perspective and an extra twist.
 
-The game is composed of currently 3 levels, with the first extra level to come by October hopefully.
+The game is composed of currently 3 levels, with the first extra level to come by October.
 All levels are unlocked from the start so they can be enjoyed without limitation
 
 <div align="center">
@@ -13,6 +13,7 @@ All levels are unlocked from the start so they can be enjoyed without limitation
 ## Links
 
 * [**Game page and download**](https://gamejolt.com/games/slenderinsanity/229607)
+* [**Game Manual**](doc/manual.md)
 * [**Credits**](doc/credits.md)
 
 ## Requirements

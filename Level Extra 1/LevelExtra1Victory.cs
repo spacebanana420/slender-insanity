@@ -7,11 +7,10 @@ public class LevelExtra1Victory : MonoBehaviour
 {
   public Transform player;
   public Transform player_cam;
-  public Player player_script;
-  public Pause pause_script;
   
   public Slenderman slender_script;
   public GameObject pumpkin;
+  public GameObject[] enemyGhosts;
   
   public StaticEffect static_script;
   public BlankScreen blank_screen;
@@ -22,8 +21,17 @@ public class LevelExtra1Victory : MonoBehaviour
   public LevelLoad level_loader;
   
   private GameObject slender;
+  private Player player_script;
+  private Pause pause_script;
+  private AudioSource pumpkinSound;
 
-  void Awake() {this.slender = this.slender_script.gameObject;}
+  void Awake() {
+    this.player_script = this.player.gameObject.GetComponent<Player>();
+    this.pause_script = this.player.gameObject.GetComponent<Pause>();
+    this.slender = this.slender_script.gameObject;
+    this.pumpkinSound = this.pumpkin.GetComponent<AudioSource>();
+  }
+
   
   public void startVictoryEvent() {StartCoroutine(victoryEvent());}
 
@@ -31,6 +39,7 @@ public class LevelExtra1Victory : MonoBehaviour
     //Slender vanishes
     this.slender.active = false;
     this.slender_script.enabled = false;
+    foreach (GameObject ghost in this.enemyGhosts) {ghost.active = false;}
     this.static_script.stopFade(4);
     yield return new WaitForSeconds(15);
     //Slender re-appears
@@ -60,7 +69,7 @@ public class LevelExtra1Victory : MonoBehaviour
     yield return new WaitForSeconds(0.5f);
     this.blank_screen.fadeFromWhite(4);
 
-    //Orb levitates and level ends
+    //Pumpkin levitates and level ends
     yield return new WaitForSeconds(15);
     StartCoroutine(levitatePumpkin());
     yield return new WaitForSeconds(12);
@@ -69,7 +78,7 @@ public class LevelExtra1Victory : MonoBehaviour
     this.blank_screen.displayBlackScreen();
     yield return new WaitForSeconds(3);
     string[] ending_text = {
-      "placeholder"
+      "Placeholder"
     };
     float duration = this.text.startSequence(ending_text);
     yield return new WaitForSeconds(duration);
@@ -102,23 +111,24 @@ public class LevelExtra1Victory : MonoBehaviour
     slender.active = false;
     Vector3 slender_pos = slender.transform.position;
     slender_pos.y = pumpkin.transform.position.y;
-    pumpkin.transform.position = slender_pos;
+    pumpkin.transform.position = slender.transform.position + new Vector3(0, 0.25f, 0);
     pumpkin.active = true;
   }
 
   IEnumerator rotatePumpkin() {
     while (true) {
-      this.pumpkin.transform.Rotate(0, Time.deltaTime, 0);
+      this.pumpkin.transform.Rotate(0, 40*Time.deltaTime, 0);
       yield return null;
     }
   }
 
   IEnumerator levitatePumpkin() {
     float elapsedTime = 0;
-    float speed = 1;
+    float speed = 0;
+    this.pumpkinSound.Play();
     while (elapsedTime < 20) {
       this.pumpkin.transform.Translate(0, speed * Time.deltaTime, 0);
-      speed += 0.5f * Time.deltaTime;
+      speed += 4f * Time.deltaTime;
       yield return null;
     }
   }
