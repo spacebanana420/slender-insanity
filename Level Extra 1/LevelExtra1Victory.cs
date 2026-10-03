@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-//Pre-defined event for level 1 victory
-//Slenderman jumpscares the player but does not kill him, revealing his "soul orb" instead
+//Pre-defined event for extra level 1 victory
+//Slenderman jumpscares the player but turns into a pumpkin instead
 public class LevelExtra1Victory : MonoBehaviour
 {
   public Transform player;
@@ -11,7 +11,6 @@ public class LevelExtra1Victory : MonoBehaviour
   public Pause pause_script;
   
   public Slenderman slender_script;
-  public Orb orb_script;
   public GameObject pumpkin;
   
   public StaticEffect static_script;
@@ -50,9 +49,10 @@ public class LevelExtra1Victory : MonoBehaviour
       intensity += 0.6f * Time.deltaTime;
       yield return null;
     }
-    //Slender disappears, orb appears
+    //Slender disappears, turns into a pumpkin
     this.player_script.caught = false;
     turnIntoAPumpkin(this.slender, this.pumpkin);
+    StartCoroutine(rotatePumpkin());
     this.thunder.time=0.1f; //Skip silent part in audio
     this.thunder.Play();    
     this.static_script.stopFade_strong(4);
@@ -62,7 +62,7 @@ public class LevelExtra1Victory : MonoBehaviour
 
     //Orb levitates and level ends
     yield return new WaitForSeconds(15);
-    this.orb_script.levitateOrb();
+    StartCoroutine(levitatePumpkin());
     yield return new WaitForSeconds(12);
     this.pause_script.can_pause = false;
     this.player_script.caught = true;
@@ -104,5 +104,22 @@ public class LevelExtra1Victory : MonoBehaviour
     slender_pos.y = pumpkin.transform.position.y;
     pumpkin.transform.position = slender_pos;
     pumpkin.active = true;
+  }
+
+  IEnumerator rotatePumpkin() {
+    while (true) {
+      this.pumpkin.transform.Rotate(0, Time.deltaTime, 0);
+      yield return null;
+    }
+  }
+
+  IEnumerator levitatePumpkin() {
+    float elapsedTime = 0;
+    float speed = 1;
+    while (elapsedTime < 20) {
+      this.pumpkin.transform.Translate(0, speed * Time.deltaTime, 0);
+      speed += 0.5f * Time.deltaTime;
+      yield return null;
+    }
   }
 }
