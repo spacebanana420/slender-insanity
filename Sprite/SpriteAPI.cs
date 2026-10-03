@@ -22,6 +22,7 @@ public class SpriteAPI : MonoBehaviour
   }
   
   public float getDistance() {return Vector3.Distance(this.transform.position, this.player.position);}
+  public float getDistance(Vector3 point) {return Vector3.Distance(this.transform.position, point);}
 
   //Whether the enemy is inside the player's field of view, even if hidden behind an object
   public bool isLookedAt() {return this.mesh.isVisible;}
@@ -111,6 +112,14 @@ public class SpriteAPI : MonoBehaviour
 
     this.sprite_ctrl.enabled = false; //For manual position changes
     this.transform.position = new_position;
+    this.sprite_ctrl.enabled = true;
+    this.sprite_ctrl.Move(new Vector3(0, -100, 0)); //Gravity
+    lookAtPlayer();
+  }
+  
+  public void teleportToPoint(Vector3 point) {
+    this.sprite_ctrl.enabled = false; //For manual position changes
+    this.transform.position = point;
     this.sprite_ctrl.enabled = true;
     this.sprite_ctrl.Move(new Vector3(0, -100, 0)); //Gravity
     lookAtPlayer();
