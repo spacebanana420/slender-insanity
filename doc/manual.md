@@ -45,13 +45,26 @@ These ghosts do not do any harm as long as you don't get too close.
 If you get too close, they chase you for a while until you are far enough and enough time has passed.
 If they catch you, they stun you similarly to the other ghost.
 
+## Controls
+
+* **WASD**: Move
+* **Mouse movement**: Look around
+* **Left shift**: sprint
+* **Left mouse button**: interact
+* **Left mouse button (level 3)**: take a picture
+* **F or right mouse button**: toggle light source
+* **P**: take screenshot
+* **ESC**: pause/unpause game
+
+AZERTY keyboard mode is planned for a future game update but not released yet.
+
 ## Tips
 
-## Distant Slender
+### Distant Slender
 If too far, Slenderman cannot harm you for looking at him.
 However, doing so makes him teleport more often. 
 
-## Light source
+### Light source
 Your light source lasts indefinitely, use it as much as you want.
 
 ### Stamina
