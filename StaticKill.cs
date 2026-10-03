@@ -13,28 +13,19 @@ public class StaticKill : MonoBehaviour
   public AudioSource[] music;
   public LevelLoad level_loader;
   
-  float intensity = 0.1f;
-  bool await_user_input = false;
-  bool stop_check = false;
- 
-  void Update() {
-    if (await_user_input) {
-      bool yes = Keyboard.current.yKey.wasPressedThisFrame;
-      bool no = Keyboard.current.nKey.wasPressedThisFrame;
-      if (yes) level_loader.reloadThisScene();
-      else if (no) level_loader.loadMainMenu();
+  public void kill() {StartCoroutine(staticKill());}
+
+  IEnumerator staticKill() {
+    float staticIntensity = 0.1f;
+    while (staticIntensity < 1) {
+      staticIntensity += 0.6f * Time.deltaTime;
+      this.static_script.setStatic_strong(staticIntensity);
+      yield return null;
     }
-    if (stop_check) return;
-    if (this.intensity < 1) {
-      this.static_script.setStatic_strong(this.intensity);
-      this.intensity += 0.6f * Time.deltaTime;
-    }
-    else {
-      StartCoroutine(gameOver());
-      this.stop_check = true;
-    }
+    StartCoroutine(gameOver());
   }
 
+  //The game over screen with black background
   IEnumerator gameOver() {
     this.static_script.stop();
     this.static_script.enabled = false;
@@ -42,6 +33,12 @@ public class StaticKill : MonoBehaviour
     foreach (AudioSource track in music) {track.Stop();}
     yield return new WaitForSeconds(2f);
     this.text.displayText(this.gameover_text+"\nTry again? (y/n)");
-    this.await_user_input = true;
+    while (true) {
+      bool yes = Keyboard.current.yKey.wasPressedThisFrame;
+      bool no = Keyboard.current.nKey.wasPressedThisFrame;
+      if (yes) level_loader.reloadThisScene();
+      else if (no) level_loader.loadMainMenu();
+      yield return null;
+    }
   }
 }

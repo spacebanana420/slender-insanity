@@ -205,7 +205,7 @@ public class Slenderman : MonoBehaviour
     foreach (GameObject enemy in this.other_enemies) enemy.active = false; //Avoid conflicts
     this.jumpscare_sound.Play();
     this.api.killPlayer();
-    this.kill_script.enabled = true; //Initiates the game over event
+    this.kill_script.kill(); //Initiates the game over event
     this.enabled = false;
   }
 

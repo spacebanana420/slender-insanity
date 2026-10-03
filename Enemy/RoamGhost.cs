@@ -6,6 +6,7 @@ using System.Collections;
 public class RoamGhost : MonoBehaviour
 {
     public Player player;
+    public BlankScreen screen;
     
     private SpriteAPI api;
     private AudioSource sound;
@@ -29,7 +30,7 @@ public class RoamGhost : MonoBehaviour
       while (true) {
         if (this.api.getDistance(this.originalPosition) > 40) { //Too far, get back to spawn
           StartCoroutine(teleportToStart());
-          yield return new WaitForSeconds(2); //The fade in + fade out time
+          yield return new WaitForSeconds(2.5f); //The fade in + fade out time
         }
         float moveDuration = Random.Range(2, 4);
         float waitDuration = Random.Range(0, 0.5f);
@@ -51,9 +52,10 @@ public class RoamGhost : MonoBehaviour
     }
 
     //If the ghost strays too far from its spawn point, it teleports back to it 
-    IEnumerator teleportToStart() {
+    IEnumerator teleportToStart(bool waitToSpawn = false) {
       this.api.fadeOut(1);
-      yield return new WaitForSeconds(1);
+      if (waitToSpawn) yield return new WaitForSeconds(10); //Cooldown for when the ghost gets the player
+      else yield return new WaitForSeconds(1.5f);
       this.api.teleportToPoint(this.originalPosition);
       this.api.fadeIn(1);
     }
@@ -74,13 +76,24 @@ public class RoamGhost : MonoBehaviour
           }
           float playerDistance = this.api.getDistance();
           if (elapsedTime > 6 && playerDistance > 8) break;
-          if (playerDistance < 2) break; //todo kill player
+          if (playerDistance < 2) {
+            StartCoroutine(stunPlayer());
+            yield return new WaitForSeconds(11); //Ghost despawns after stunning player, wait to respawn
+            break;
+          }
           this.api.move(4);
           elapsedTime += Time.deltaTime;
           yield return null;
         }
         this.chasingPlayer = false;
       }
+    }
+
+    IEnumerator stunPlayer() {
+      this.screen.fadeToBlack(0.1f);
+      StartCoroutine(teleportToStart(true)); //Despawn
+      yield return new WaitForSeconds(3);
+      this.screen.fadeFromBlack(5);
     }
 
     private bool playerIsCaught() {return this.player.caught;}
