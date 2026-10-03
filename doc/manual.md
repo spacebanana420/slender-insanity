@@ -42,8 +42,8 @@ The ghost seen in level 2 is seen here, eventually spawning but less aggressive 
 There are also other dangerous ghosts which wander around the town.
 Their faces resemble the faces seen in jack-o'-lanterns.
 These ghosts do not do any harm as long as you don't get too close.
-If you approach them, they chase you for a while until you are far enough and enough time has passed.
-
+If you get too close, they chase you for a while until you are far enough and enough time has passed.
+If they catch you, they stun you similarly to the other ghost.
 
 ## Tips
 
@@ -59,9 +59,11 @@ You have limited stamina, preserve it while it's safe, and use it in your most c
 To speed up your progress, you can also moderately use stamina.
 Your stamina recharges when you are not running, but it recharges even faster if you stand still.
 
-### Level 2 audio cues
+### Audio cues
 The ghost seen in level 2 whispers quietly, you eventually hear it if he gets close.
 Use this to know when he's nearby.
+
+The other ghosts in extra level 1 emit a bell sound when they spot you and start chasing you.
 
 ### Dangerous rooms
 Some places might be dangerous to visit, such as the abandoned house in level 2 or smaller rooms in level 3, because they corner you with no way to escape if Slender is near.
