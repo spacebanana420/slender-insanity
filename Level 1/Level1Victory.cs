@@ -62,7 +62,7 @@ public class Level1Victory : MonoBehaviour
     this.blank_screen.fadeFromWhite(4);
 
     //Orb levitates and level ends
-    yield return new WaitForSeconds(15);
+    yield return new WaitForSeconds(10);
     this.orb_script.levitateOrb();
     yield return new WaitForSeconds(12);
     this.pause_script.can_pause = false;

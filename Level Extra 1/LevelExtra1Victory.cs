@@ -70,7 +70,7 @@ public class LevelExtra1Victory : MonoBehaviour
     this.blank_screen.fadeFromWhite(4);
 
     //Pumpkin levitates and level ends
-    yield return new WaitForSeconds(15);
+    yield return new WaitForSeconds(10);
     StartCoroutine(levitatePumpkin());
     yield return new WaitForSeconds(12);
     this.pause_script.can_pause = false;
