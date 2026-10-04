@@ -128,7 +128,7 @@ public class LevelExtra1Victory : MonoBehaviour
     this.pumpkinSound.Play();
     while (elapsedTime < 20) {
       this.pumpkin.transform.Translate(0, speed * Time.deltaTime, 0);
-      speed += 4f * Time.deltaTime;
+      speed += 6f * Time.deltaTime;
       yield return null;
     }
   }
