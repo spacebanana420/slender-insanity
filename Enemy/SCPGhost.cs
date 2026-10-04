@@ -130,6 +130,6 @@ public class SCPGhost : MonoBehaviour
     this.turnInvisible(true);
     this.enemy_api.releasePlayer();
     this.stunning_player = false;
-    this.screen.fadeFromBlack(20);
+    this.screen.fadeFromBlack(15);
   }
 }
