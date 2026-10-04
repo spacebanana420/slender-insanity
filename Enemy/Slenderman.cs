@@ -26,7 +26,7 @@ public class Slenderman : MonoBehaviour
   private float jumpscare_meter = 15;
   private float jumpscare_limit = 15;
   private float invisible_meter = 0;
-  private float invisible_countdown = 18; //Hardcoded time in which Slender stays invisible
+  private float invisible_countdown = 12; //Hardcoded time in which Slender stays invisible
   
   private bool looking_at = false; //Slender is in player's FOV
   private bool is_seen = false; //Slender is not hidden behind an object
@@ -49,13 +49,13 @@ public class Slenderman : MonoBehaviour
     if (percentage < 0.01f) percentage = 0.01f;
     else if (percentage > 1) percentage = 1f;
     
-    float speed = Mathf.Clamp(4.5f*percentage, 0.8f, 4.5f);
+    float speed = Mathf.Clamp(4.4f*percentage, 0.8f, 4.4f);
     float teleportDistance = Mathf.Clamp(6f/percentage, 6, 12);
-    float teleportCooldown = Mathf.Clamp(12f/percentage, 12, 45);
-    float forwardTeleportCooldown = Mathf.Clamp(14f/percentage, 14, 80);
-    float invisibleCooldown = Mathf.Clamp(100f*percentage, 40, 100);
-    bool canBeInvisible = percentage <= 0.7f;
-    bool canTeleportForward = percentage >= 0.3f;
+    float teleportCooldown = Mathf.Clamp(8f/percentage, 8, 30);
+    float forwardTeleportCooldown = Mathf.Clamp(12f/percentage, 12, 65);
+    float invisibleCooldown = Mathf.Clamp(100f*percentage, 35, 100);
+    bool canBeInvisible = percentage <= 0.75f;
+    bool canTeleportForward = percentage >= 0.25f;
 
     this.speed = speed;
     this.teleport_limit = teleportCooldown;
@@ -180,7 +180,7 @@ public class Slenderman : MonoBehaviour
   void visibleCheck(float distance) {
     this.invisible_countdown = decrement(this.invisible_countdown, 1);
     if (this.invisible_countdown != 0) return;
-    this.invisible_countdown = 18;
+    this.invisible_countdown = 12;
     this.invisible_meter = 0;
 
     this.api.toggleController(true);
