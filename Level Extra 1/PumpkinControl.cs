@@ -47,7 +47,7 @@ public class PumpkinControl : MonoBehaviour
     }
     float enemyDifficulty = (float)this.collected/11;
     this.slender_script.setDifficulty(enemyDifficulty); //Slender difficulty set in percentage
-    this.ghost.setDifficulty(enemyDifficulty/2.5f);// Ghost's difficulty is reduced for balancing
+    this.ghost.setDifficulty(enemyDifficulty/2);// Ghost's difficulty is reduced for balancing
     
     switch (this.collected) {
       case 1:
