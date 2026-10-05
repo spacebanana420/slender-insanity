@@ -16,6 +16,7 @@ public class StaticKill : MonoBehaviour
   public void kill() {StartCoroutine(staticKill());}
 
   IEnumerator staticKill() {
+    this.black_screen.hideScreen(); //In case the player got stunned, this removes the blind effect
     float staticIntensity = 0.1f;
     while (staticIntensity < 1) {
       staticIntensity += 0.6f * Time.deltaTime;
