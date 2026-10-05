@@ -31,8 +31,8 @@ public class Level1Victory : MonoBehaviour
 
   IEnumerator victoryEvent() {
     //Slender vanishes
+    this.slender_script.disable();
     this.slender.active = false;
-    this.slender_script.enabled = false;
     this.static_script.stopFade(4);
     yield return new WaitForSeconds(15);
     //Slender re-appears
