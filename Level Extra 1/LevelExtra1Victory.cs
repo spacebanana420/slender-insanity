@@ -78,7 +78,11 @@ public class LevelExtra1Victory : MonoBehaviour
     this.blank_screen.displayBlackScreen();
     yield return new WaitForSeconds(3);
     string[] ending_text = {
-      "Placeholder"
+      "The spirit of Halloween flourishes in us.",
+      "Exciting trick or treat, endless corn fields, levitating pumpkins, and more.",
+      "The souls of the damned thrive tonight, but so do we.",
+      "Halloween is now clean of the devious green pumpkins and the trickers that come with them.",
+      "The everlasting night awaits us, the perfect October dream..."
     };
     float duration = this.text.startSequence(ending_text);
     yield return new WaitForSeconds(duration);
