@@ -16,7 +16,8 @@ public class Slenderman : MonoBehaviour
   public Transform floor;
 
   public GameObject[] other_enemies; //Disale all of them when Slender kills the player to avoid conflict
-
+  public MeshRenderer[] accessories; //If slender has any accessories on him (like a witch hat), make sure to also make them invisible
+  
   //Variables used for counting timers
   //e.g jumpscare_limit=15 means that it takes 15 seconds for the counter to end
   //Some timers count faster (e.g. teleport_meter counting faster when Slender is seen from afar)
@@ -166,7 +167,7 @@ public class Slenderman : MonoBehaviour
 
   //Count the timer for invisibility or turn invisible
   void invisibleCheck() {
-    if (!this.can_be_invisible) {return;}
+    if (!this.can_be_invisible) return;
     this.invisible_meter = increment(this.invisible_meter, this.invisible_limit, 1);
 
     if (this.invisible_meter != this.invisible_limit) return;
@@ -174,6 +175,7 @@ public class Slenderman : MonoBehaviour
     this.looking_at = false;
     this.api.toggleController(false);
     this.api.toggleMesh(false);
+    this.api.toggleMesh(this.accessories, false);
   }
 
   //Invisibility duration countdown, then become visible
@@ -185,6 +187,7 @@ public class Slenderman : MonoBehaviour
 
     this.api.toggleController(true);
     this.api.toggleMesh(true);
+    this.api.toggleMesh(this.accessories, true);
     teleport(distance, false);
   }
 

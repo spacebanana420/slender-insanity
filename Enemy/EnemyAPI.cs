@@ -107,6 +107,7 @@ public class EnemyAPI : MonoBehaviour
   }
 
   public void toggleMesh(bool toggle) {this.enemy_mesh.enabled = toggle;}
+  public void toggleMesh(MeshRenderer[] meshes, bool toggle) {foreach (MeshRenderer mesh in meshes) {mesh.enabled = toggle;}}
   public void toggleController(bool toggle) {this.enemy_ctrl.enabled = toggle;}
   public bool isMeshEnabled() {return this.enemy_mesh.enabled;}
   public bool isControllerEnabled() {return this.enemy_ctrl.enabled;}
