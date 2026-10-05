@@ -37,8 +37,8 @@ public class LevelExtra1Victory : MonoBehaviour
 
   IEnumerator victoryEvent() {
     //Slender vanishes
+    this.slender_script.disable();
     this.slender.active = false;
-    this.slender_script.enabled = false;
     foreach (GameObject ghost in this.enemyGhosts) {ghost.active = false;}
     this.static_script.stopFade(4);
     yield return new WaitForSeconds(15);
@@ -81,7 +81,7 @@ public class LevelExtra1Victory : MonoBehaviour
       "The spirit of Halloween flourishes in us.",
       "Exciting trick or treat, endless corn fields, levitating pumpkins, and more.",
       "The souls of the damned thrive tonight, but so do we.",
-      "Halloween is now clean of the devious green pumpkins and the trickers that come with them.",
+      "Halloween is now clean of the devious green pumpkins and the tricksters that come with them.",
       "The everlasting night awaits us, the perfect October dream..."
     };
     float duration = this.text.startSequence(ending_text);

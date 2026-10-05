@@ -67,6 +67,12 @@ public class Slenderman : MonoBehaviour
     this.can_be_invisible = canBeInvisible;
   }
 
+  //For disabling Slender's code but keeping the model for use in endings
+  public void disable() {
+    this.api.toggleController(false);
+    this.enabled = false;
+  }
+
   void Start() {
     this.static_script.gameObject.active = true;
     this.usewaypoints = this.terrain == null;
