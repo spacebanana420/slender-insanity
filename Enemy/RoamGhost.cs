@@ -93,7 +93,7 @@ public class RoamGhost : MonoBehaviour
       this.screen.fadeToBlack(0.1f);
       StartCoroutine(teleportToStart(true)); //Despawn
       yield return new WaitForSeconds(3);
-      this.screen.fadeFromBlack(5);
+      this.screen.fadeFromBlack(8);
     }
 
     private bool playerIsCaught() {return this.player.caught;}

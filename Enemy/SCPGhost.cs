@@ -123,13 +123,14 @@ public class SCPGhost : MonoBehaviour
     this.jumpscare.Play();
     yield return new WaitForSeconds(0.35f);
     this.screen.fadeToBlack(0.1f);
-    yield return new WaitForSeconds(0.16f);
+    yield return new WaitForSeconds(0.1f);
+    this.enemy_api.releasePlayer();
+    yield return new WaitForSeconds(3);
     this.invisible_meter = 0;
     this.visible_percentage = 0;
     this.sound_loop.volume = 0;
     this.turnInvisible(true);
-    this.enemy_api.releasePlayer();
     this.stunning_player = false;
-    this.screen.fadeFromBlack(15);
+    this.screen.fadeFromBlack(8);
   }
 }
