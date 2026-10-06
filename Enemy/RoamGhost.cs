@@ -7,14 +7,15 @@ public class RoamGhost : MonoBehaviour
 {
     public Player player;
     public BlankScreen screen;
+    public AudioSource jumpscareSound;
     
     private SpriteAPI api;
-    private AudioSource sound;
+    private AudioSource alertSound;
     private Vector3 originalPosition;
     private bool chasingPlayer = false;
 
     void Awake() {
-      this.sound = this.gameObject.GetComponent<AudioSource>();
+      this.alertSound = this.gameObject.GetComponent<AudioSource>();
       this.api = this.gameObject.GetComponent<SpriteAPI>();
       this.originalPosition = this.transform.position;
     }
@@ -67,7 +68,7 @@ public class RoamGhost : MonoBehaviour
         if (this.api.getDistance() > 8) continue;
 
         float elapsedTime = 0;
-        this.sound.Play();
+        this.alertSound.Play();
         this.chasingPlayer = true;
         while (true) {
           if (playerIsCaught()){
@@ -90,6 +91,7 @@ public class RoamGhost : MonoBehaviour
     }
 
     IEnumerator stunPlayer() {
+      this.jumpscareSound.Play();
       this.screen.fadeToBlack(0.1f);
       StartCoroutine(teleportToStart(true)); //Despawn
       yield return new WaitForSeconds(3);
