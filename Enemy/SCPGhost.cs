@@ -120,6 +120,7 @@ public class SCPGhost : MonoBehaviour
 
   //Freezes player, disappears and hinders player visibility
   IEnumerator stunPlayer() {
+    this.screen.hideScreen(); //To remove the blindness other ghosts caused
     this.jumpscare.Play();
     yield return new WaitForSeconds(0.35f);
     this.screen.fadeToBlack(0.1f);
