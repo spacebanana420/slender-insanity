@@ -3,7 +3,7 @@
 Slender: Insanity is a videogame that plays out similarly to most Slender games:
 You must fulfill the level's objective while Slenderman is after you, but compared to similar games it adds variety, a different story perspective and an extra twist.
 
-The game is composed of currently 3 levels, with the first extra level to come by October.
+The game is composed of currently 4 levels.
 All levels are unlocked from the start so they can be enjoyed without limitation
 
 <div align="center">
