@@ -202,17 +202,32 @@ public class SaveOptions {
   public bool fullscreen = true;
   public int width = 1920;
   public int height = 1080;
-  public string quality = "high";
   public int framerate = 60;
   public bool vsync = true;
   public int screenshot_scale = 1;
   public int resolution_scale = 100;
+  
+  public string quality = "high"; //high medium low
   public string difficulty = "normal"; //easy normal hard
+  public int quality_int = 0;
+  public int difficulty_int = 1;
+
+  private string[] qualityLevels = {"high", "medium", "low"};
+  private string[] difficultyLevels = {"easy", "normal", "hard"};
 
   //Comments the settings for width and height
   public bool comment_resolution = true;
 
-  public string getWidthLine() {return comment_resolution ? "#width="+this.width : "width="+this.width;}
+  public void setQuality(int value) {
+    this.quality_int = value;
+    this.quality = this.qualityLevels[value];
+  }
+  
+  public void setDifficulty(int value) {
+      this.difficulty_int = value;
+      this.difficulty = this.difficultyLevels[value];
+  }
 
+  public string getWidthLine() {return comment_resolution ? "#width="+this.width : "width="+this.width;}
   public string getHeightLine() {return comment_resolution ? "#height="+this.height : "height="+this.height;}
 }
