@@ -22,11 +22,21 @@ public class Config : MonoBehaviour
   public int readQualityLevel() {
     string[] quality_levels = {"high", "medium", "low"};
     string quality = readSetting("quality");
-    if (quality == null) {return 0;}
+    if (quality == null) return 0;
     for (int i = 0; i < quality_levels.Length; i++) {
-      if (quality.Equals(quality_levels[i])) {return i;}
+      if (quality.Equals(quality_levels[i])) return i;
     }
     return 0;
+  }
+
+  public int readDifficultyLevel() {
+    string[] levels = {"easy", "normal", "hard"};
+    string difficulty = readSetting("difficulty");
+    if (difficulty == null) return 1;
+    for (int i = 0; i < levels.Length; i++) {
+      if (difficulty.Equals(levels[i])) return i;
+    }
+    return 1;
   }
 
   public int readInt(string setting, int default_val, int min_val, int max_val) {
@@ -176,6 +186,9 @@ public class Config : MonoBehaviour
 
       + "\n\n# When taking screenshots, this sets the upscaling factor. Supported values range between 1 and 5"
       + "\nscreenshot_scale="+opts.screenshot_scale
+
+      + "\n\n# The game's difficulty, affects enemy aggression level. Supported values are easy, normal and hard"
+      +"\ndifficulty="+opts.difficulty
     ;
     File.WriteAllText("config.txt", default_config);
   }
@@ -194,6 +207,7 @@ public class SaveOptions {
   public bool vsync = true;
   public int screenshot_scale = 1;
   public int resolution_scale = 100;
+  public string difficulty = "normal"; //easy normal hard
 
   //Comments the settings for width and height
   public bool comment_resolution = true;

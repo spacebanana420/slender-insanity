@@ -44,28 +44,40 @@ public class Slenderman : MonoBehaviour
   private bool can_be_invisible = true;
   private float invisible_limit = 120;
 
+  private float baseDifficulty = 1; //The difficulty the player can set, a multiplier for setDifficulty()
+
   //Difficulty level from 0.01 to 1 (1% to 100%) which adjusts Slenderman's stats and difficulty automatically
   //Values are clamped so they don't exceed reasonable limits
   public void setDifficulty(float percentage) {
     if (percentage < 0.01f) percentage = 0.01f;
     else if (percentage > 1) percentage = 1f;
     
-    float speed = Mathf.Clamp(4.4f*percentage, 0.8f, 4.4f);
+    float speed = Mathf.Clamp(4.2f*percentage, 0.8f, 4.2f) * this.baseDifficulty;
     float teleportDistance = Mathf.Clamp(5.5f/percentage, 5.5f, 12);
     float teleportCooldown = Mathf.Clamp(7f/percentage, 7, 30);
     float forwardTeleportCooldown = Mathf.Clamp(12f/percentage, 12, 65);
     float invisibleCooldown = Mathf.Clamp(100f*percentage, 35, 100);
-    bool canBeInvisible = percentage <= 0.75f;
-    bool canTeleportForward = percentage >= 0.25f;
+
+    if (this.baseDifficulty < 1) { //Hard mode has no effect on these
+      teleportDistance /= this.baseDifficulty;
+      teleportCooldown /= this.baseDifficulty;
+      forwardTeleportCooldown /= this.baseDifficulty;
+    }
+    else if (this.baseDifficulty > 1) { //Easy mode has no effect on these
+      invisibleCooldown /= this.baseDifficulty;
+    }
 
     this.speed = speed;
     this.teleport_limit = teleportCooldown;
-    this.can_teleport_forward = canTeleportForward;
+    this.can_teleport_forward = percentage >= 0.25f;
     this.tp_forward_limit = forwardTeleportCooldown;
     this.teleport_distance = teleportDistance;
     this.invisible_limit = invisibleCooldown;
-    this.can_be_invisible = canBeInvisible;
+    this.can_be_invisible = percentage <= 0.75f;;
   }
+
+  public void setEasyMode() {this.baseDifficulty = 0.8f;}
+  public void setHardMode() {this.baseDifficulty = 1.2f;}
 
   //For disabling Slender's code but keeping the model for use in endings
   public void disable() {

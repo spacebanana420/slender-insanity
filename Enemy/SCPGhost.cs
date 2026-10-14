@@ -24,22 +24,27 @@ public class SCPGhost : MonoBehaviour
   private float invisible_cooldown = 20;
   private float invisible_meter = 0;
 
+  private float baseDifficulty = 1; //The difficulty the player can set, a multiplier for setDifficulty()
+
   private bool stunning_player = false;
 
   public void setDifficulty(float percentage) {
     if (percentage < 0.01f) percentage = 0.01f;
     else if (percentage > 1) percentage = 1f;
     
-    float speed = Mathf.Clamp(11f*percentage, 6.5f, 11);
-    float teleportDistance = Mathf.Clamp(14f/percentage, 14, 20);
+    float speed = Mathf.Clamp(11f*percentage, 6.5f, 11) * baseDifficulty;
+    float teleportDistance = Mathf.Clamp(14f/percentage, 14, 20) / baseDifficulty;
     float teleportCooldown = Mathf.Clamp(8f/percentage, 8, 35);
-    float invisibleCooldown = Mathf.Clamp(40f*percentage, 26, 40);
+    float invisibleCooldown = Mathf.Clamp(40f*percentage, 26, 40) / baseDifficulty;
 
     this.speed = speed;
     this.teleport_cooldown = teleportCooldown;
     this.teleport_distance = teleportDistance;
     this.invisible_cooldown = invisibleCooldown;
   }
+
+  public void setEasyMode() {this.baseDifficulty = 0.7f;}
+  public void setHardMode() {this.baseDifficulty = 1.3f;}
 
   //Preserve original max volume
   void Awake() {this.sound_loop_volume = this.sound_loop.volume;}

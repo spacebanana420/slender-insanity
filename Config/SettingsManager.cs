@@ -8,6 +8,8 @@ public class SettingsManager : MonoBehaviour
 {
   public Player player;
   public Screenshooter screenshooter;
+  public Slenderman slender;
+  public SCPGhost[] ghosts;
   public Config config;
 
   //Settings UI elements
@@ -20,6 +22,7 @@ public class SettingsManager : MonoBehaviour
   public TMP_Dropdown quality;
   public Toggle vsync;
   public Toggle fullscreen;
+  public TMP_Dropdown difficulty;
   
   //Set the game options on startup based on the config file
   //Todo: implement camera antialiasing
@@ -65,6 +68,10 @@ public class SettingsManager : MonoBehaviour
     float sensitivity = config.readFloat("sensitivity", 2f, 0.1f, 20);
     setSensitivity(sensitivity);
     this.sensitivity.value = sensitivity;
+
+    int difficulty = config.readDifficultyLevel();
+    setDifficulty(difficulty);
+    if (this.difficulty != null) this.difficulty.value = difficulty;
   }
 
   //Called by the settings UI
@@ -79,6 +86,7 @@ public class SettingsManager : MonoBehaviour
     
     SaveOptions opts = new SaveOptions(); //Part of Config.cs
     string[] quality_levels = {"high", "medium", "low"}; //Duplicate code in Config.cs
+    string[] difficulty_levels = {"easy", "normal", "hard"}; //Duplicate code in Config.cs
 
     //Save new config.txt file
     opts.framerate = (int)this.fps.value;
@@ -92,6 +100,10 @@ public class SettingsManager : MonoBehaviour
     opts.height = Screen.height;
     opts.comment_resolution = this.resolution.interactable;
     opts.screenshot_scale = (int)this.screenshot_scale.value;
+    if (this.difficulty != null) {
+      setDifficulty(this.difficulty.value);
+      opts.difficulty = difficulty_levels[this.difficulty.value];
+    }
     Config.deleteConfig();
     Config.createConfig(opts);
   }
@@ -119,4 +131,19 @@ public class SettingsManager : MonoBehaviour
     Screen.SetResolution(width, height, fullscreen);
   }
   void setResolution(int width, int height, bool fullscreen) {Screen.SetResolution(width, height, fullscreen);}
+
+  void setDifficulty(int value) {
+    bool easy = value == 0;
+    bool hard = value == 2;
+    if (this.slender != null) {
+      if (easy) this.slender.setEasyMode();
+      else if (hard) this.slender.setHardMode();
+    }
+
+    if (this.ghosts == null) return;
+    foreach (SCPGhost ghost in this.ghosts) {
+      if (easy) ghost.setEasyMode();
+      else if (hard) ghost.setHardMode();
+    }
+  }
 }
