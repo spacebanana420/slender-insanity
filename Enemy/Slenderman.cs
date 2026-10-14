@@ -44,7 +44,8 @@ public class Slenderman : MonoBehaviour
   private bool can_be_invisible = true;
   private float invisible_limit = 120;
 
-  private float baseDifficulty = 1; //The difficulty the player can set, a multiplier for setDifficulty()
+  private bool easyMode = false;
+  private bool hardMode = false;
 
   //Difficulty level from 0.01 to 1 (1% to 100%) which adjusts Slenderman's stats and difficulty automatically
   //Values are clamped so they don't exceed reasonable limits
@@ -52,19 +53,25 @@ public class Slenderman : MonoBehaviour
     if (percentage < 0.01f) percentage = 0.01f;
     else if (percentage > 1) percentage = 1f;
     
-    float speed = Mathf.Clamp(4.2f*percentage, 0.8f, 4.2f) * this.baseDifficulty;
+    float speed = Mathf.Clamp(4.2f*percentage, 0.8f, 4.2f);
     float teleportDistance = Mathf.Clamp(5.5f/percentage, 5.5f, 12);
     float teleportCooldown = Mathf.Clamp(7f/percentage, 7, 30);
     float forwardTeleportCooldown = Mathf.Clamp(12f/percentage, 12, 65);
     float invisibleCooldown = Mathf.Clamp(100f*percentage, 35, 100);
 
-    if (this.baseDifficulty < 1) { //Hard mode has no effect on these
-      teleportDistance /= this.baseDifficulty;
-      teleportCooldown /= this.baseDifficulty;
-      forwardTeleportCooldown /= this.baseDifficulty;
+    if (this.easyMode) {
+      speed *= 0.8f;
+      teleportDistance *= 1.2f;
+      teleportCooldown *= 1.2f;
+      forwardTeleportCooldown *= 1.2f;
+      invisibleCooldown *= 0.9f;
     }
-    else if (this.baseDifficulty > 1) { //Easy mode has no effect on these
-      invisibleCooldown /= this.baseDifficulty;
+    else if (this.hardMode) {
+      speed *= 1.2f;
+      teleportDistance *= 0.9f;
+      teleportCooldown *= 0.8f;
+      forwardTeleportCooldown *= 0.75f;
+      invisibleCooldown *= 1.5f;
     }
 
     this.speed = speed;
@@ -76,8 +83,8 @@ public class Slenderman : MonoBehaviour
     this.can_be_invisible = percentage <= 0.75f;;
   }
 
-  public void setEasyMode() {this.baseDifficulty = 0.8f;}
-  public void setHardMode() {this.baseDifficulty = 1.2f;}
+  public void setEasyMode() {this.easyMode = true;}
+  public void setHardMode() {this.hardMode = true;}
 
   //For disabling Slender's code but keeping the model for use in endings
   public void disable() {
