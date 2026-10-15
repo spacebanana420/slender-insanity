@@ -107,7 +107,7 @@ public class Slenderman : MonoBehaviour
   void Update() {
     float distance = this.api.getDistance();
     this.looking_at = this.api.isLookedAt(); //Slenderman in player's field of view
-    this.is_seen = this.api.isSeen(); //Slenderman visible (not blocked by any object)
+    this.is_seen = this.looking_at && this.api.isSeen(); //Slenderman visible (not blocked by any object)
 
     if (isInvisible()) {
       adjustStatic(distance);
@@ -130,8 +130,8 @@ public class Slenderman : MonoBehaviour
     jumpscareCheck(distance);
     teleportCheck(distance);
 
+    if (!this.is_seen) this.api.lookAtPlayer();
     if (!this.looking_at) {
-      this.api.lookAtPlayer();
       this.api.move(this.speed);
       invisibleCheck();
     }
