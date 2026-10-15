@@ -36,10 +36,12 @@ public class Slenderman : MonoBehaviour
 
 
   //Slender's stats, affects his aggression/difficulty
+  //These values are overriden, the defaults don't really matter
   private float speed = 2f;
   private float teleport_limit = 60;
-  private float teleport_distance = 4;
+  private float teleport_distance = 10;
   private float tp_forward_limit = 120;
+  private float tp_forward_distance = 10;
   private bool can_teleport_forward = false;
   private bool can_be_invisible = true;
   private float invisible_limit = 120;
@@ -57,6 +59,7 @@ public class Slenderman : MonoBehaviour
     float teleportDistance = Mathf.Clamp(5.5f/percentage, 5.5f, 12);
     float teleportCooldown = Mathf.Clamp(7f/percentage, 7, 30);
     float forwardTeleportCooldown = Mathf.Clamp(12f/percentage, 12, 65);
+    float forwardTeleportDistance = Mathf.Clamp(6f/percentage, 6, 12);
     float invisibleCooldown = Mathf.Clamp(100f*percentage, 35, 100);
 
     if (this.easyMode) {
@@ -64,6 +67,7 @@ public class Slenderman : MonoBehaviour
       teleportDistance *= 1.2f;
       teleportCooldown *= 1.2f;
       forwardTeleportCooldown *= 1.2f;
+      forwardTeleportDistance *= 1.2f;
       invisibleCooldown *= 0.9f;
     }
     else if (this.hardMode) {
@@ -71,6 +75,7 @@ public class Slenderman : MonoBehaviour
       teleportDistance *= 0.9f;
       teleportCooldown *= 0.8f;
       forwardTeleportCooldown *= 0.75f;
+      forwardTeleportDistance *= 0.9f;
       invisibleCooldown *= 1.5f;
     }
 
@@ -78,6 +83,7 @@ public class Slenderman : MonoBehaviour
     this.teleport_limit = teleportCooldown;
     this.can_teleport_forward = percentage >= 0.25f;
     this.tp_forward_limit = forwardTeleportCooldown;
+    this.tp_forward_distance = forwardTeleportDistance;
     this.teleport_distance = teleportDistance;
     this.invisible_limit = invisibleCooldown;
     this.can_be_invisible = percentage <= 0.75f;;
@@ -180,7 +186,7 @@ public class Slenderman : MonoBehaviour
   //In forward teleportation, he is manually positioned and then gravity is applied so he doesn't stand mid-air
   void teleport(float distance, bool forward) {
     if (forward) { //Teleports to the player's front instead
-      this.api.teleportForward(this.terrain);
+      this.api.teleportForward(this.terrain, this.tp_forward_distance);
       this.jumpscare_meter = this.jumpscare_limit;
       return;
     }
