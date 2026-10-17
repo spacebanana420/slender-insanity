@@ -33,7 +33,7 @@ public class KogasaJumpscare : MonoBehaviour
     if (this.sprite_drawing.getDistance() > 4.5f) return;
     if (this.sprite_drawing.isLookedAt()) this.look_time += 1 * Time.deltaTime;
     if (this.look_time >= 1) {
-      this.kogasa.active = true;
+      this.kogasa.SetActive(true);
       this.waitForPlayer = true;
     }
   }
@@ -44,7 +44,7 @@ public class KogasaJumpscare : MonoBehaviour
       this.screen.displayWhiteScreen();
       this.screen.fadeFromWhite(6);
       this.jumpscare_sound.Stop();
-      this.kogasa.active = false;
+      this.kogasa.SetActive(false);
       this.enabled = false;
       return;
     }

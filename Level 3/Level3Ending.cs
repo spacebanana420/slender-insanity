@@ -20,7 +20,7 @@ public class Level3Ending : MonoBehaviour
     if (this.triggered) return;
     
     this.triggered = true;
-    this.easterEgg.active = false;
+    this.easterEgg.SetActive(false);
     StartCoroutine(ending());
   }
 

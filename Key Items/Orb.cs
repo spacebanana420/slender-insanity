@@ -22,7 +22,7 @@ public class Orb : MonoBehaviour
       return;
     }
     if (pos.y >= this.max_height) { //Disappear into the sky
-      this.gameObject.active = false;
+      this.gameObject.SetActive(false);
       return;
     }
     //Levitate

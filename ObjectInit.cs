@@ -9,7 +9,7 @@ public class ObjectInit : MonoBehaviour
   public GameObject[] o_disable;
   
   void Awake() {
-    foreach (GameObject o in o_enable) {o.active = true;}
-    foreach (GameObject o in o_disable) {o.active = false;}
+    foreach (GameObject o in o_enable) {o.SetActive(true);}
+    foreach (GameObject o in o_disable) {o.SetActive(false);}
   }
 }

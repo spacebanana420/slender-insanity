@@ -38,8 +38,8 @@ public class LevelExtra1Victory : MonoBehaviour
   IEnumerator victoryEvent() {
     //Slender vanishes
     this.slender_script.disable();
-    this.slender.active = false;
-    foreach (GameObject ghost in this.enemyGhosts) {ghost.active = false;}
+    this.slender.SetActive(true);
+    foreach (GameObject ghost in this.enemyGhosts) {ghost.SetActive(false);}
     this.static_script.stopFade(4);
     yield return new WaitForSeconds(15);
     //Slender re-appears
@@ -47,7 +47,7 @@ public class LevelExtra1Victory : MonoBehaviour
     this.static_script.setStatic_strong(1);
     yield return new WaitForSeconds(0.5f);
     this.static_script.stop();
-    this.slender.active = true;
+    this.slender.SetActive(true);
     this.slender_script.jumpscare_sound.Play();
     this.player_script.caught = true;
     emulateDeath(this.slender.transform, this.player, this.player_cam);
@@ -113,11 +113,11 @@ public class LevelExtra1Victory : MonoBehaviour
 
   //Replaces Slenderman with a pumpkin
   static void turnIntoAPumpkin(GameObject slender, GameObject pumpkin) {
-    slender.active = false;
+    slender.SetActive(false);
     Vector3 slender_pos = slender.transform.position;
     slender_pos.y = pumpkin.transform.position.y;
     pumpkin.transform.position = slender.transform.position + new Vector3(0, 0.25f, 0);
-    pumpkin.active = true;
+    pumpkin.SetActive(true);
   }
 
   IEnumerator rotatePumpkin() {

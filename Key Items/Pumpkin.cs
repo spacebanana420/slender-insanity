@@ -27,7 +27,7 @@ public class Pumpkin : MonoBehaviour
     if (this.sound != null) this.sound.Play();
     this.pumpkin_control.collectPumpkin();
     this.mesh.enabled = false;
-    this.light.active = false;
+    this.light.SetActive(false);
     this.enabled = false;
   }
 }

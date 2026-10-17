@@ -32,7 +32,7 @@ public class SoulsControl : MonoBehaviour
     foreach (Transform orb in this.orbs) {
       int i = Random.Range(0, this.orb_placements.Count);
       orb.position = this.orb_placements[i].position;
-      orb.gameObject.active = true;
+      orb.gameObject.SetActive(true);
       this.orb_placements.RemoveAt(i);
     }
   }
@@ -54,8 +54,8 @@ public class SoulsControl : MonoBehaviour
     
     if (this.souls_released == 10) {
       StartCoroutine(stopMusic());
-      this.slenderman.active = false;
-      this.ghost.active = false;
+      this.slenderman.SetActive(false);
+      this.ghost.SetActive(true);
       this.static_script.stopFade(4);
       this.victory.startVictoryEvent();
       return;
@@ -67,8 +67,8 @@ public class SoulsControl : MonoBehaviour
     
     switch (this.souls_released) {
       case 1:
-        this.slenderman.active = true;
-        this.ghost.active = true;
+        this.slenderman.SetActive(true);
+        this.ghost.SetActive(true);
         StartCoroutine(firstMusic(this.music[0]));
         return;
       case 3:

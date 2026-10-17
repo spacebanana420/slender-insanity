@@ -32,7 +32,7 @@ public class Level1Victory : MonoBehaviour
   IEnumerator victoryEvent() {
     //Slender vanishes
     this.slender_script.disable();
-    this.slender.active = false;
+    this.slender.SetActive(false);
     this.static_script.stopFade(4);
     yield return new WaitForSeconds(15);
     //Slender re-appears
@@ -40,7 +40,7 @@ public class Level1Victory : MonoBehaviour
     this.static_script.setStatic_strong(1);
     yield return new WaitForSeconds(0.5f);
     this.static_script.stop();
-    this.slender.active = true;
+    this.slender.SetActive(true);
     this.jumpscare.Play();
     this.player_script.caught = true;
     emulateDeath(this.slender.transform, this.player, this.player_cam);
@@ -122,10 +122,10 @@ public class Level1Victory : MonoBehaviour
 
   //Replaces Slenderman with a soul orb
   void releaseSoul(GameObject slender, GameObject orb) {
-    slender.active = false;
+    slender.SetActive(false);
     Vector3 slender_pos = slender.transform.position;
     slender_pos.y = orb.transform.position.y;
     orb.transform.position = slender_pos;
-    orb.active = true;
+    orb.SetActive(true);
   }
 }

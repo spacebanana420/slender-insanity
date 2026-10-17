@@ -31,15 +31,15 @@ public class Pause : MonoBehaviour
 
   //Also called from the settings UI
   public void unpauseGame() {
-    if (this.settings_menu.active) { //Leave settings menu instead
-      this.settings_menu.active = false;
-      this.pause_menu.active = true;
+    if (this.settings_menu.activeSelf) { //Leave settings menu instead
+      this.settings_menu.SetActive(false);
+      this.pause_menu.SetActive(true);
       return;
     }
     Cursor.lockState = CursorLockMode.Locked;
     Time.timeScale = 1;
     AudioListener.pause = false;
-    this.pause_menu.active = false;
+    this.pause_menu.SetActive(false);
     this.player.caught = false;
     this.paused = false;
   }
@@ -49,7 +49,7 @@ public class Pause : MonoBehaviour
     Time.timeScale = 0;
     AudioListener.pause = true;
     this.player.caught = true;
-    this.pause_menu.active = true;
+    this.pause_menu.SetActive(true);
     this.paused = true;
   }
 }

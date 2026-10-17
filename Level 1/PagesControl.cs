@@ -55,7 +55,7 @@ public class PagesControl : MonoBehaviour
     
     switch (this.pages_collected) {
       case 1:
-        this.slenderman.active = true;
+        this.slenderman.SetActive(true);
         StartCoroutine(firstMusic(this.music[0]));
         return;
       case 3:

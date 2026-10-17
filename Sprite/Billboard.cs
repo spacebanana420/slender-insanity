@@ -47,6 +47,6 @@ public class Billboard : MonoBehaviour
       if (allDone) break;
       yield return null;
     }
-    if (disableObject) this.gameObject.active = false;
+    if (disableObject) this.gameObject.SetActive(false);
   }
 }

@@ -53,7 +53,7 @@ public class Level2Victory : MonoBehaviour
     this.screen.fadeToBlack(0.3f);
     yield return new WaitForSeconds(10);
     //Wake up with the 10 orbs floating around a center
-    ghost_obj.active = false;
+    ghost_obj.SetActive(false);
     this.player_script.caught = false;
     this.player_controller.enabled = false;
     this.player.position = new Vector3(514.203f, 0.09f, 437.17f); //Close to the rotating orbs
@@ -65,7 +65,7 @@ public class Level2Victory : MonoBehaviour
     this.disappear = true;
     
     yield return new WaitForSeconds(11);
-    this.echoGhost.gameObject.active = true;
+    this.echoGhost.gameObject.SetActive(true);
     this.echoGhost.enableBillboard();
     this.echoGhost.fadeIn(4);
     yield return new WaitForSeconds(5);
@@ -115,7 +115,7 @@ public class Level2Victory : MonoBehaviour
   }
 
   void jumpscarePlayer(GameObject ghost_obj) {
-    ghost_obj.active = true;
+    ghost_obj.SetActive(true);
     this.ghost_sprite_api.setAlpha(1);
     this.ghost_sprite_api.toggleMesh(true);
     this.ghost_api.teleportForward(this.terrain, 1.8f);
@@ -152,7 +152,7 @@ public class Level2Victory : MonoBehaviour
     for (int i = 0; i < orbs.Length; i++) {
       this.orbs_t[i].position = getOrbPosition(angle);
       this.angles[i] = angle;
-      this.orbs[i].active = true;
+      this.orbs[i].SetActive(true);
       angle += angle_step;
     }
     this.rotate = true;

@@ -38,7 +38,7 @@ public class Level3Objective : MonoBehaviour
     yield return new WaitForSeconds(2);
     this.text.displayTemporaryText("Photograph 6 ghosts\nUse the left mouse button to take a picture", 10);
     yield return new WaitForSeconds(20);
-    this.slenderman.active = true; //Enable Slenderman from the start unlike in previous levels
+    this.slenderman.SetActive(true); //Enable Slenderman from the start unlike in previous levels
   }
 
   //Each page calls this function when it's collected
@@ -62,7 +62,7 @@ public class Level3Objective : MonoBehaviour
     
     switch (this.ghosts_captured) {
       case 1:
-        this.slenderman.active = true;
+        this.slenderman.SetActive(true);
         this.music[0].Play();
         return;
       case 3:
@@ -85,7 +85,7 @@ public class Level3Objective : MonoBehaviour
       if (!ghost.isLookedAt()) continue;
       if (ghost.getDistance() > 4.5f) continue;
       
-      ghost.gameObject.active = false;
+      ghost.gameObject.SetActive(false);
       this.ghosts.RemoveAt(i);
       return true;
     }
@@ -96,7 +96,7 @@ public class Level3Objective : MonoBehaviour
   //Unfinished
   public void triggerVictory() {
     StartCoroutine(stopMusic());
-    this.slenderman.active = false;
+    this.slenderman.SetActive(false);
     this.camera.enabled = false;
     this.player.caught = true;
     this.pause.can_pause = false;

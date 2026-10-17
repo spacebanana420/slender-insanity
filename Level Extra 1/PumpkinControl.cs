@@ -51,7 +51,7 @@ public class PumpkinControl : MonoBehaviour
     
     switch (this.collected) {
       case 1:
-        this.slenderman.active = true;
+        this.slenderman.SetActive(true);
         StartCoroutine(playThump(this.music[0]));
         break;
       case 2:
@@ -59,7 +59,7 @@ public class PumpkinControl : MonoBehaviour
         break;
       case 4:
         StartCoroutine(playGradual(this.music[1]));
-        this.ghost.gameObject.active = true;
+        this.ghost.gameObject.SetActive(true);
         break;
       case 6:
         this.thumpFrequency = 4;

@@ -99,7 +99,7 @@ public class Slenderman : MonoBehaviour
   }
 
   void Start() {
-    this.static_script.gameObject.active = true;
+    this.static_script.gameObject.SetActive(true);
     this.usewaypoints = this.terrain == null;
   }
 
@@ -236,7 +236,7 @@ public class Slenderman : MonoBehaviour
   }
 
   void kill() {
-    foreach (GameObject enemy in this.other_enemies) enemy.active = false; //Avoid conflicts
+    foreach (GameObject enemy in this.other_enemies) enemy.SetActive(false); //Avoid conflicts
     this.jumpscare_sound.Play();
     this.api.killPlayer();
     this.kill_script.kill(); //Initiates the game over event

@@ -68,7 +68,7 @@ public class Extra1Character : MonoBehaviour
       this.api.moveToDirection(3, fleeDirection);
       yield return null;
     }
-    this.gameObject.active = false;
+    this.gameObject.SetActive(false);
   }
 
   //Suwako gets surprised then jumps really high
@@ -83,6 +83,6 @@ public class Extra1Character : MonoBehaviour
       this.api.move(0, 15);
       yield return null;
     }
-    this.gameObject.active = false;
+    this.gameObject.SetActive(false);
   }
 }
